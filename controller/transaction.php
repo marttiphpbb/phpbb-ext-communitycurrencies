@@ -119,21 +119,14 @@ class transaction
 			$seconds = $amount * $this->config['cc_currency_rate'];
 		}		
 		
-		
-		
-		
-		
-		if ($this->request->is_set_post('submit'))
+
+		if ($this->request->is_set_post('create_transaction'))
 		{
 			if (!$this->auth->acl_get('u_cc_createtransactions'))
 			{
 				trigger_error('CC_NO_AUTH_CREATE_TRANSACTION');
 			}
-			
-
-			
-			
-						
+					
 			if (!check_form_key('new_transaction'))
 			{
 				$error[] = $this->user->lang('FORM_INVALID');
@@ -143,21 +136,68 @@ class transaction
 			{
 				if (utf8_clean_string($to_user) === '')
 				{
-					$error[] = $user->lang['CC_EMPTY_TO_USER'];
+					$error[] = $this->user->lang['CC_EMPTY_TO_USER'];
 				}						
 				if (utf8_clean_string($description) === '')
 				{
-					$error[] = $user->lang['CC_EMPTY_DESCRIPTION'];
+					$error[] = $this->user->lang['CC_EMPTY_DESCRIPTION'];
 				}
 				if ($seconds < 1)
 				{
-					$error[] = $user->lang['CC_AMOUNT_NOT_POSITIVE'];					
+					$error[] = $this->user->lang['CC_AMOUNT_NOT_POSITIVE'];					
 				}	
-					
-				
-				
-				
+
 			}
+			
+			if (empty($error))
+			{	
+				$sql_ary = array(
+					'SELECT'	=> 'u.user_id, u.username, u.user_colour',
+					'FROM'		=> array(
+						$this->users_table => 'u',
+					),
+					'WHERE'		=> 'u.username = \'' . $to_user . '\'',
+
+				);
+				
+				$sql = $this->db->sql_build_query('SELECT', $sql_ary);
+				$result = $this->db->sql_query($sql);
+				$to_user = $this->db->sql_fetchrow($result);
+				$this->db->sql_freeresult($result);
+				
+				if (!$to_user)
+				{
+					$error[] = $this->user->lang['CC_USER_NOT_EXISTING'];
+				}
+		
+			}
+		
+
+			if (empty($error))
+			{
+				$now = time();
+				
+				$sql_ary = array(
+					'transaction_uuid'	=> 'dfsfdsqdfqsfqsdfsdfsdfdqsdfqsfgrr',
+					'transaction_from_user_id'	=> $this->user->data['user_id'],
+					'transaction_from_username'	=> $this->user->data['username'],
+					'transaction_from_user_colour'	=> $this->user->data['user_colour'],
+					'transaction_to_user_id'	=> $to_user['user_id'],
+					'transaction_to_username'	=> $to_user['username'],
+					'transaction_to_user_colour'	=> $to_user['user_colour'],					
+					'transaction_description'	=> $description,					
+					'transaction_amount'	=> $seconds,					
+					'transaction_confirmed'			=> true,
+					'transaction_confirmed_at'		=> $now,
+					'transaction_created_by'		=> $this->user->data['user_id'],
+					'transaction_created_at'		=> $now,				
+				);
+				
+				
+				
+				$this->db->sql_query('INSERT INTO ' . $this->cc_transactions_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary));
+			}
+			
 			
 			$this->template->assign_var('S_DISPLAY_NEW_TRANSACTION', true);
 		}	
@@ -268,14 +308,14 @@ class transaction
 			$transaction_list[] = $row;
 			
 			
-			$template->assign_block_vars('transactionrow', array(
-				'FROM_USER' 	=> $row['transaction_from_user'],
+			$this->template->assign_block_vars('transactionrow', array(
+				'FROM_USER' 	=> $row['transaction_from_username'],
 				'U_FROM_USER'	=> '',
-				'TO_USER'		=> $row['transaction_to_user'],
+				'TO_USER'		=> $row['transaction_to_username'],
 				'U_TO_USER'		=> '',
-				'AMOUNT'		=> $this->transform->reverse($row['transaction_amount']),
-				'DESCRIPTION'	=> $row['description'],
-				'TIME'			=> $this->user->format_date($row['transaction_time']),
+				'AMOUNT'		=> round($row['transaction_amount'] / $this->config['cc_currency_rate']), 
+				'DESCRIPTION'	=> $row['transaction_description'],
+				'TIME'			=> $this->user->format_date($row['transaction_created_at']),
 				'U_TRANSACTION'	=> '',
 			));
 		}

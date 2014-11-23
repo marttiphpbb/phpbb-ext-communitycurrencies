@@ -101,6 +101,7 @@ $lang = array_merge($lang, array(
 	'CC_EMPTY_USER'				=> 'You must giva a user where you send the transaction to.',
 	'CC_AMOUNT_NOT_POSITIVE'	=> 'You must give a positive amount for the new transaction.',
 	'CC_EMPTY_DESCRIPTION'	 	=> 'You must give a description for the new transaction.',
+	'CC_USER_NOT_EXISTING'	 	=> 'You must give a existing username.',
 	
 
 	'CC_NO_AUTH_CREATE_TRANSACTION' => 'You are not authorised to create transactions.',
