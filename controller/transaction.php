@@ -103,6 +103,26 @@ class transaction
 		add_form_key('new_transaction');
 		$error = array();
 		
+		$to_user = utf8_normalize_nfc($this->request->variable('to_user', '', true));
+		$description = utf8_normalize_nfc($this->request->variable('description', '', true));
+		
+		if ($this->is_time_banking)
+		{
+			$hours = $this->request->variable('hours', 0);
+			$minutes = $this->request->variable('minutes', 0);
+			$seconds = ($hours * 3600) + ($minutes * 60);				
+			
+		}
+		else
+		{
+			$amount = $this->request->variable('amount', 0);
+			$seconds = $amount * $this->config['cc_currency_rate'];
+		}		
+		
+		
+		
+		
+		
 		if ($this->request->is_set_post('submit'))
 		{
 			if (!$this->auth->acl_get('u_cc_createtransactions'))
@@ -110,21 +130,7 @@ class transaction
 				trigger_error('CC_NO_AUTH_CREATE_TRANSACTION');
 			}
 			
-			$to_user = utf8_normalize_nfc($this->request->variable('to_user', '', true));
-			$description = utf8_normalize_nfc($this->request->variable('description', '', true));
-			
-			if ($this->is_time_banking)
-			{
-				$hours = $this->request->variable('hours', 0);
-				$minutes = $this->request->variable('minutes', 0);
-				$seconds = ($hours * 3600) + ($minutes * 60);				
-				
-			}
-			else
-			{
-				$amount = $this->request->variable('amount', 0);
-				$seconds = $amount * $this->config['cc_currency_rate'];
-			}
+
 			
 			
 						
@@ -212,19 +218,17 @@ class transaction
 				}
 			}
 			
+			$amount = 0;
+			
 		}
 		else
 		{
 			$amount = round($seconds / $this->config['cc_currency_rate']);
+			$hours = $minutes = 0;
+			$minutes_options = array();
 		}
 
 
-
-
-
-
-
-		
 		$this->template->assign_vars(array(
 			'ERROR'		=> (sizeof($error)) ? implode('<br />', $error) : '',
 			'U_ACTION'	=> $this->helper->route('marttiphpbb_cc_transactionlist_controller'),
