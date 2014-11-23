@@ -19,6 +19,8 @@ use phpbb\user;
 use phpbb\controller\helper;
 use Symfony\Component\HttpFoundation\Response;
 
+use marttiphpbb\ccurrency\util\uuid;
+
 
 class transaction
 {
@@ -105,6 +107,7 @@ class transaction
 		
 		$to_user = utf8_normalize_nfc($this->request->variable('to_user', '', true));
 		$description = utf8_normalize_nfc($this->request->variable('description', '', true));
+		$uuid = $this->request->variable('uuid', '');
 		
 		if ($this->is_time_banking)
 		{
@@ -131,6 +134,8 @@ class transaction
 			{
 				$error[] = $this->user->lang('FORM_INVALID');
 			}
+			
+			
 
 			if (empty($error))
 			{
@@ -178,7 +183,7 @@ class transaction
 				$now = time();
 				
 				$sql_ary = array(
-					'transaction_uuid'	=> 'dfsfdsqdfqsfqsdfsdfsdfdqsdfqsfgrr',
+					'transaction_uuid'	=> $uuid,
 					'transaction_from_user_id'	=> $this->user->data['user_id'],
 					'transaction_from_username'	=> $this->user->data['username'],
 					'transaction_from_user_colour'	=> $this->user->data['user_colour'],
@@ -269,6 +274,8 @@ class transaction
 		}
 
 
+		$uuid_generator = new uuid();
+
 		$this->template->assign_vars(array(
 			'ERROR'		=> (sizeof($error)) ? implode('<br />', $error) : '',
 			'U_ACTION'	=> $this->helper->route('marttiphpbb_cc_transactionlist_controller'),
@@ -280,7 +287,7 @@ class transaction
 			'AMOUNT'			=> $amount,
 			'TO_USER'			=> $to_user,
 			'DESCRIPTION'		=> $description,
-			
+			'UUID'				=> $uuid_generator->generate(),
 			
 			
 		));
