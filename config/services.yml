@@ -43,8 +43,8 @@ services:
             - @dbal.conn
             - %tables.cc_transactions%
 
-    marttiphpbb.ccurrency.uuid_generator:
-        class: marttiphpbb\ccurrency\util\uuid_generator
+    marttiphpbb.ccurrency.uuid:
+        class: marttiphpbb\ccurrency\util\uuid
         
     marttiphpbb.ccurrency.notification.type.transaction:
         class: marttiphpbb\calendar\notification\transaction

@@ -8,7 +8,7 @@
 namespace marttiphpbb\ccurrency\util;
 
 // uuid v4
-class uuid_generator
+class uuid
 {
     private $openssl_available;
 
@@ -42,4 +42,7 @@ class uuid_generator
 		
 		return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($bytes), 4));		
     }
+    
+    
+    
 }
