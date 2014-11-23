@@ -1,0 +1,28 @@
+.icon-cc-transactions { background-image: url("./images/icon_cc_transactions.gif"); }
+
+
+input.amount
+{
+	width: 40px;
+	text-align: right;
+}
+
+
+/* transactionlist column styles */
+
+table.transactionlist th, table transactionlist td
+{
+	width: 15%;
+	text-align: left;
+}
+
+table.transactionlist th.description
+{
+	width: 40%;
+}
+
+table.transactionlist td.amount
+{
+	text-align:center;
+}
+

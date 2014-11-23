@@ -1,0 +1,25 @@
+{
+	"name": "marttiphpbb/ccurrency",
+	"type": "phpbb-extension",
+	"description": "Community Currency Extension for phpBB 3.1",
+	"homepage": "https://github.com/marttiphpbb/phpbb-ext-ccurrency",
+	"version": "0.1.0",
+	"time": "2014-07-24",
+	"license": "MIT",
+	"authors": [{
+			"name": "martti",
+			"email": "info@martti.be",
+			"homepage": "https://github.com/marttiphpbb/",
+			"role": "Developer"
+		}],
+	"require": {
+		"php": ">=5.3.3"
+		
+	},
+	"extra": {
+		"display-name": "Community Currency",
+		"soft-require": {
+			"phpbb/phpbb": ">=3.1.0-RC2,<3.2.*@dev"
+		}
+	}
+}

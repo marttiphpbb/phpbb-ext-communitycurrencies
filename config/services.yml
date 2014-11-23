@@ -1,0 +1,69 @@
+imports:
+    - { resource: tables.yml }
+
+services:
+    marttiphpbb.ccurrency.listener:
+        class: marttiphpbb\ccurrency\event\main_listener
+        arguments:
+            - @auth
+            - @config
+            - @controller.helper
+            - %core.php_ext%
+            - @template
+            - @user
+        tags:
+            - { name: event.listener }
+    
+    marttiphpbb.ccurrency_transaction.controller:
+        class: marttiphpbb\ccurrency\controller\transaction
+        arguments:
+            - @auth
+            - @cache
+            - @config
+            - @content.visibility
+            - @dbal.conn
+            - %core.php_ext%
+            - @request
+            - @template
+            - @user
+            - @controller.helper
+            - %core.root_path%
+            - %tables.cc_transactions%
+            - %tables.topics%
+            - %tables.users%
+            
+    marttiphpbb.ccurrency_transformer:
+        class: marttiphpbb\ccurrency\datatransformer\currency_transformer
+        arguments:
+            - @config
+
+    marttiphpbb.ccurrency.transaction.entity:
+        class: marttiphpbb\ccurrency\entity\transaction
+        arguments:
+            - @dbal.conn
+            - %tables.cc_transactions%
+
+    marttiphpbb.ccurrency.uuid_generator:
+        class: marttiphpbb\ccurrency\util\uuid_generator
+        
+    marttiphpbb.ccurrency.notification.type.transaction:
+        class: marttiphpbb\calendar\notification\transaction
+        scope: prototype
+        arguments:
+            - @user_loader
+            - @dbal.conn
+            - @cache.driver
+            - @user
+            - @auth
+            - @config
+            - @controller.helper
+            - %core.root_path%
+            - %core.php_ext%
+            - %core.root_path%
+            - %tables.notification_types%
+            - %tables.notifications%
+            - %tables.user_notifications%           
+        tags:
+            - { name: notification.type }
+            
+                     

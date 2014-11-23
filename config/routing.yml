@@ -1,0 +1,18 @@
+marttiphpbb_cc_transactionlist_controller:
+    pattern: /transactions
+    defaults: { _controller: marttiphpbb.ccurrency_transaction.controller:listAction }
+    requirements:
+        _method: GET|POST
+    
+marttiphpbb_cc_transactionshow_controller:
+    pattern: /transactions/{transaction_id}
+    defaults: { _controller: marttiphpbb.ccurrency_transaction.controller:showAction }
+    requirements:
+        transaction_id:  \d+
+        _method: GET
+
+marttiphpbb_cc_transactioncreate_controller:
+    pattern: /transactions
+    defaults: { _controller: marttiphpbb.ccurrency_transaction.controller:createAction }
+    requirements:
+        _method: POST

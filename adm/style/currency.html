@@ -1,0 +1,37 @@
+<!-- INCLUDE overall_header.html -->
+
+<h1>{L_ACP_CC_CURRENCY} </h1>
+
+<form id="acp_board" method="post" action="{U_ACTION}">
+	<fieldset>
+					
+		<dl>
+			<dt><label for="cc_currency_name">{L_ACP_CC_CURRENCY_NAME}</label>
+			<br /><span>{L_ACP_CC_CURRENCY_NAME_EXPLAIN}</span></dt>
+			<dd><input type="text" name="cc_currency_name" value="{CC_CURRENCY_NAME}" size="20" maxlength="20" /></dd>
+		</dl>
+	
+		
+		
+		
+		<dl>
+			<dt><label for="cc_currency_rate">{L_ACP_CC_CURRENCY_RATE}</label>
+			<br /><span>{L_ACP_CC_CURRENCY_RATE_EXPLAIN}</span></dt>
+			<dd><input type="text" name="cc_currency_rate" value="{CC_CURRENCY_RATE}" size="4" maxlength="4" /></dd>
+		</dl>
+		<dl>
+			<dt><label for="cc_time_banking_granularity">{L_ACP_CC_TIME_BANKING_GRANULARITY}</label></dt>
+			<dd><select id="cc_time_banking_granularity" name="cc_time_banking_granularity" />
+			{S_CC_TB_GRANULARITY_OPTIONS}</select></dd>
+		</dl>					
+	</fieldset>
+	
+	<fieldset class="submit-buttons">
+		<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
+		<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
+		{S_FORM_TOKEN}
+	</fieldset>
+</form>
+
+
+<!-- INCLUDE overall_footer.html -->
