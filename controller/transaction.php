@@ -320,8 +320,7 @@ class transaction
 		// get transactions
 		
 		$start = $this->request->variable('start', 0);
-//		$limit = $this->config['transactions_per_page'];
-		$limit = 10;
+		$limit = $this->request->variable('limit', $this->config['cc_transactions_per_page']);
 		$order_by = 'created_at';
 		$descending = false;
 		
@@ -331,7 +330,8 @@ class transaction
 				$this->cc_transactions_table => 'tr',
 			),
 			'WHERE'		=> '1 = 1',
-			'ORDER_BY'	=> 'tr.transaction_' . $order_by . ' ' . ((!$descending) ? 'DESC' : 'ASC'),
+			'ORDER_BY'	=> 'tr.transaction_' . $order_by . ' ' . ((!$descending) ? 'DESC' : 'ASC'),	
+			'LIMIT'		=> $limit . ', ' . $start,
 		);
 		
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
