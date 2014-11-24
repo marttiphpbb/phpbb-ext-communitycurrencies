@@ -42,7 +42,7 @@ class v_0_1_0 extends migration
 				array(
 					'module_basename'	=> '\marttiphpbb\ccurrency\acp\main_module',
 					'modes'				=> array(
-						'links',
+						'rendering',
 						'currency',
 					),
 				),

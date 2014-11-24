@@ -21,9 +21,9 @@ class main_module
 		
 		switch ($mode)
 		{
-			case 'links': 
-				$this->tpl_name = 'links';
-				$this->page_title = $user->lang('ACP_CC_LINKS');
+			case 'rendering': 
+				$this->tpl_name = 'rendering';
+				$this->page_title = $user->lang('ACP_CC_RENDERING');
 				
 				if ($request->is_set_post('submit'))
 				{

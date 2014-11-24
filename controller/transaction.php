@@ -260,9 +260,6 @@ class transaction
 				
 			}	
 
-
-
-			
 			
 			$this->template->assign_var('S_DISPLAY_NEW_TRANSACTION', true);
 		}	

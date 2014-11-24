@@ -15,8 +15,8 @@ class main_info
 			'filename'	=> '\marttiphpbb\ccurrency\acp\main_module',
 			'title'		=> 'ACP_CCURRENCY',
 			'modes'		=> array(
-				'links'	=> array(
-					'title' => 'ACP_CC_LINKS', 
+				'rendering'	=> array(
+					'title' => 'ACP_CC_RENDERING', 
 					'auth' => 'ext_marttiphpbb/ccurrency && acl_a_board', 
 					'cat' => array('ACP_CCURRENCY'),
 				),			

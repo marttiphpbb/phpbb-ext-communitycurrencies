@@ -26,16 +26,20 @@ $lang = array_merge($lang, array(
 	'ACP_CCURRENCY'				=> 'Community Currency',
 	'ACP_CC_SETTING_SAVED'		=> 'Settings have been saved successfully!',
 
-// acp links	
+// acp rendering 
 
-	'ACP_CC_LINKS'						=> 'Links',
+	'ACP_CC_RENDERING'							=> 'Rendering',
+
+	'ACP_CC_LINKS'								=> 'Links',
 	'ACP_CC_TRANSACTIONS_MENU_LINK_QUICK'		=> 'Enable transactions link in Quick menu',
 	'ACP_CC_TRANSACTIONS_MENU_LINK_HEADER' 		=> 'Enable transactions link in header',
 	'ACP_CC_TRANSACTIONS_MENU_LINK_FOOTER'		=> 'Enable transactions link in footer',
 	'ACP_CC_HIDE_GITHUB_LINK'					=> 'Hide Github link in footer',
 	
+	'ACP_CC_TRANSACTIONS_PAGE'					=> 'Transactions page',
+	'ACP_CC_TRANSACTIONS_PER_PAGE'				=> 'Default number of transactions per page',
 
-// acp currency module
+// acp currency 
 
 	'ACP_CC_CURRENCY'				=> 'Currency',
 	'ACP_CC_CURRENCY_NAME' 			=> 'Currency name',	
