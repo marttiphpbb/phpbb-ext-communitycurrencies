@@ -162,7 +162,7 @@ class transaction
 					'FROM'		=> array(
 						$this->users_table => 'u',
 					),
-					'WHERE'		=> 'u.username = \'' . $to_user . '\'',
+					'WHERE'		=> 'u.username = \'' . $this->db->sql_escape($to_user) . '\'',
 
 				);
 				
@@ -191,7 +191,7 @@ class transaction
 					'FROM'		=> array(
 						$this->cc_transactions_table => 'tr',
 					),
-					'WHERE'		=> 'tr.transaction_uuid = \'' . $uuid . '\'',
+					'WHERE'		=> 'tr.transaction_uuid = \'' . $this->db->sql_escape($uuid) . '\'',
 				);
 				
 				$sql = $this->db->sql_build_query('SELECT', $sql_ary);
