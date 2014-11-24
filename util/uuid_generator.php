@@ -8,7 +8,7 @@
 namespace marttiphpbb\ccurrency\util;
 
 // uuid v4
-class uuid
+class uuid_generator
 {
     private $openssl_available;
 

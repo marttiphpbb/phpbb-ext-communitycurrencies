@@ -102,6 +102,8 @@ $lang = array_merge($lang, array(
 	'CC_AMOUNT_NOT_POSITIVE'	=> 'You must give a positive amount for the new transaction.',
 	'CC_EMPTY_DESCRIPTION'	 	=> 'You must give a description for the new transaction.',
 	'CC_USER_NOT_EXISTING'	 	=> 'You must give a existing username.',
+	'CC_NO_VALID_UUID'	 		=> 'The format of the uuid is not valid.',
+	'CC_UUID_NOT_UNIQUE'	 	=> 'Your transaction was already submitted.',
 	
 
 	'CC_NO_AUTH_CREATE_TRANSACTION' => 'You are not authorised to create transactions.',

@@ -19,7 +19,8 @@ use phpbb\user;
 use phpbb\controller\helper;
 use Symfony\Component\HttpFoundation\Response;
 
-use marttiphpbb\ccurrency\util\uuid;
+use marttiphpbb\ccurrency\util\uuid_generator;
+use marttiphpbb\ccurrency\util\uuid_validator;
 
 
 class transaction
@@ -174,9 +175,35 @@ class transaction
 				{
 					$error[] = $this->user->lang['CC_USER_NOT_EXISTING'];
 				}
-		
 			}
 		
+			if (empty($error))
+			{
+				$uuid_validator = new uuid_validator();
+				
+				if (!$uuid_validator->validate($uuid))
+				{
+					$error[] = $this->user->lang['CC_NO_VALID_UUID'];
+				}
+				
+				$sql_ary = array(
+					'SELECT'	=> 'tr.transaction_uuid',
+					'FROM'		=> array(
+						$this->cc_transactions_table => 'tr',
+					),
+					'WHERE'		=> 'tr.transaction_uuid = \'' . $uuid . '\'',
+				);
+				
+				$sql = $this->db->sql_build_query('SELECT', $sql_ary);
+				$result = $this->db->sql_query($sql);
+				
+				if ($this->db->sql_fetchfield('transaction_uuid') == $uuid)
+				{
+					$error[] = $this->user->lang['CC_UUID_NOT_UNIQUE'];
+				}
+				
+				$this->db->sql_freeresult($result);
+			}
 
 			if (empty($error))
 			{
@@ -274,7 +301,7 @@ class transaction
 		}
 
 
-		$uuid_generator = new uuid();
+		$uuid_generator = new uuid_generator();
 
 		$this->template->assign_vars(array(
 			'ERROR'		=> (sizeof($error)) ? implode('<br />', $error) : '',
