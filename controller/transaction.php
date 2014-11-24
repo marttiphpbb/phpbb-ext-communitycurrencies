@@ -168,10 +168,10 @@ class transaction
 				
 				$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 				$result = $this->db->sql_query($sql);
-				$to_user = $this->db->sql_fetchrow($result);
+				$to_user_ary = $this->db->sql_fetchrow($result);
 				$this->db->sql_freeresult($result);
 				
-				if (!$to_user)
+				if (!$to_user_ary)
 				{
 					$error[] = $this->user->lang['CC_USER_NOT_EXISTING'];
 				}
@@ -214,9 +214,9 @@ class transaction
 					'transaction_from_user_id'	=> $this->user->data['user_id'],
 					'transaction_from_username'	=> $this->user->data['username'],
 					'transaction_from_user_colour'	=> $this->user->data['user_colour'],
-					'transaction_to_user_id'	=> $to_user['user_id'],
-					'transaction_to_username'	=> $to_user['username'],
-					'transaction_to_user_colour'	=> $to_user['user_colour'],					
+					'transaction_to_user_id'	=> $to_user_ary['user_id'],
+					'transaction_to_username'	=> $to_user_ary['username'],
+					'transaction_to_user_colour'	=> $to_user_ary['user_colour'],					
 					'transaction_description'	=> $description,					
 					'transaction_amount'	=> $seconds,					
 					'transaction_confirmed'			=> true,
@@ -315,8 +315,6 @@ class transaction
 			'TO_USER'			=> $to_user,
 			'DESCRIPTION'		=> $description,
 			'UUID'				=> $uuid_generator->generate(),
-			
-			
 		));
 		
 		// get transactions
