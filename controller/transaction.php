@@ -322,6 +322,8 @@ class transaction
 		$start = $this->request->variable('start', 0);
 //		$limit = $this->config['transactions_per_page'];
 		$limit = 10;
+		$order_by = 'created_at';
+		$descending = false;
 		
 		$sql_ary = array(
 			'SELECT'	=> 'tr.*',
@@ -329,7 +331,7 @@ class transaction
 				$this->cc_transactions_table => 'tr',
 			),
 			'WHERE'		=> '1 = 1',
-//			'ORDER_BY'	=> 't.topic_type ' . ((!$store_reverse) ? 'DESC' : 'ASC') . ', ' . $sql_sort_order,
+			'ORDER_BY'	=> 'tr.transaction_' . $order_by . ' ' . ((!$descending) ? 'DESC' : 'ASC'),
 		);
 		
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
