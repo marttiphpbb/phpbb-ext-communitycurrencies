@@ -109,35 +109,24 @@ class transaction
 		$to_user = utf8_normalize_nfc($this->request->variable('to_user', '', true));
 		$description = utf8_normalize_nfc($this->request->variable('description', '', true));
 		$uuid = $this->request->variable('uuid', '');
-		
-		if ($this->is_time_banking)
-		{
-			$hours = $this->request->variable('hours', 0);
-			$minutes = $this->request->variable('minutes', 0);
-			$seconds = ($hours * 3600) + ($minutes * 60);				
+		$confirm = $this->request->variable('confirm_uid', 0);
+		$amount_seconds = $this->request->variable('amount_seconds', 0);
+		$hours = $this->request->variable('hours', 0);
+		$minutes = $this->request->variable('minutes', 0);		
+		$amount = $this->request->variable('amount', 0);
 			
-		}
-		else
+		if (!$confirm)
 		{
-			$amount = $this->request->variable('amount', 0);
-			$seconds = $amount * $this->config['cc_currency_rate'];
-		}		
+			$amount_seconds = ($this->is_time_banking) ? ($hours * 3600) + ($minutes * 60) : $amount * $this->config['cc_currency_rate'];
+		} 
 		
-
 		if ($this->request->is_set_post('create_transaction'))
 		{
 			if (!$this->auth->acl_get('u_cc_createtransactions'))
 			{
 				trigger_error('CC_NO_AUTH_CREATE_TRANSACTION');
 			}
-					
-			if (!check_form_key('new_transaction'))
-			{
-				$error[] = $this->user->lang('FORM_INVALID');
-			}
 			
-			
-
 			if (empty($error))
 			{
 				if (utf8_clean_string($to_user) === '')
@@ -148,11 +137,14 @@ class transaction
 				{
 					$error[] = $this->user->lang['CC_EMPTY_DESCRIPTION'];
 				}
-				if ($seconds < 1)
+				if ($amount_seconds < 1)
 				{
 					$error[] = $this->user->lang['CC_AMOUNT_NOT_POSITIVE'];					
 				}	
-
+				if ($to_user == $this->user->data['username'])
+				{
+					$error[] = $this->user->lang['CC_NO_TRANSACTION_TO_YOURSELF'];
+				}
 			}
 			
 			if (empty($error))
@@ -207,30 +199,59 @@ class transaction
 
 			if (empty($error))
 			{
-				$now = time();
+				if (confirm_box(true))
+				{
+					$now = time();
 				
-				$sql_ary = array(
-					'transaction_uuid'	=> $uuid,
-					'transaction_from_user_id'	=> $this->user->data['user_id'],
-					'transaction_from_username'	=> $this->user->data['username'],
-					'transaction_from_user_colour'	=> $this->user->data['user_colour'],
-					'transaction_to_user_id'	=> $to_user_ary['user_id'],
-					'transaction_to_username'	=> $to_user_ary['username'],
-					'transaction_to_user_colour'	=> $to_user_ary['user_colour'],					
-					'transaction_description'	=> $description,					
-					'transaction_amount'	=> $seconds,					
-					'transaction_confirmed'			=> true,
-					'transaction_confirmed_at'		=> $now,
-					'transaction_created_by'		=> $this->user->data['user_id'],
-					'transaction_created_at'		=> $now,				
-				);
-				
-				
-				
-				$this->db->sql_query('INSERT INTO ' . $this->cc_transactions_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary));
+					$sql_ary = array(
+						'transaction_uuid'	=> $uuid,
+						'transaction_from_user_id'	=> $this->user->data['user_id'],
+						'transaction_from_username'	=> $this->user->data['username'],
+						'transaction_from_user_colour'	=> $this->user->data['user_colour'],
+						'transaction_to_user_id'	=> $to_user_ary['user_id'],
+						'transaction_to_username'	=> $to_user_ary['username'],
+						'transaction_to_user_colour'	=> $to_user_ary['user_colour'],					
+						'transaction_description'	=> $description,					
+						'transaction_amount'	=> $amount_seconds,					
+						'transaction_confirmed'			=> true,
+						'transaction_confirmed_at'		=> $now,
+						'transaction_created_by'		=> $this->user->data['user_id'],
+						'transaction_created_at'		=> $now,				
+					);
+					
+					
+					
+					$r = $this->db->sql_query('INSERT INTO ' . $this->cc_transactions_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary));
+					
+					if ($r)
+					{
+						trigger_error('CC_TRANSACTION_CREATED');
+					}
+					else
+					{
+						trigger_error('CC_TRANSACTION_ERROR');
+					}			
+				}
+				else if (check_form_key('new_transaction'))
+				{
+					$s_hidden_fields = array(
+						'create_transaction'	=> 1,
+						'uuid'					=> $uuid,
+						'amount_seconds'		=> $amount_seconds,
+						'description'			=> $description,
+						'to_user'				=> $to_user,
+					);
+						
+					$confirm_msg = sprintf($this->user->lang('CC_CONFIRM_TRANSACTION', $amount, $this->config['cc_currency_name'], $to_user_ary['username'], $description));
+
+					confirm_box(false, $confirm_msg, build_hidden_fields($s_hidden_fields));
+				}
+				else
+				{
+					$error[] = $this->user->lang('FORM_INVALID');	
+				}
 			}
-			
-			
+
 			$this->template->assign_var('S_DISPLAY_NEW_TRANSACTION', true);
 		}	
 
@@ -269,7 +290,7 @@ class transaction
 		{
 			$granularity = $this->config['cc_time_banking_granularity'];
 						
-			$minutes = round($seconds / 60);
+			$minutes = round($amount_seconds / 60);
 			$hours = floor($minutes / 60);
 			$minutes = $minutes - $hours * 60;
 
@@ -292,7 +313,7 @@ class transaction
 		}
 		else
 		{
-			$amount = round($seconds / $this->config['cc_currency_rate']);
+			$amount = round($amount_seconds / $this->config['cc_currency_rate']);
 			$hours = $minutes = 0;
 			$minutes_options = array();
 		}

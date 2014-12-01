@@ -102,14 +102,22 @@ $lang = array_merge($lang, array(
 	'CC_TRANSACTION_TIME'		=> 'Created at', 
 	'CC_NO_TRANSACTIONS'		=> 'No transactions found for this search criterion.',
 	
-	'CC_EMPTY_USER'				=> 'You must giva a user where you send the transaction to.',
+	'CC_EMPTY_TO_USER'			=> 'You must fill in a user where you send the transaction to.',
 	'CC_AMOUNT_NOT_POSITIVE'	=> 'You must give a positive amount for the new transaction.',
 	'CC_EMPTY_DESCRIPTION'	 	=> 'You must give a description for the new transaction.',
-	'CC_USER_NOT_EXISTING'	 	=> 'You must give a existing username.',
+	'CC_USER_NOT_EXISTING'	 	=> 'You must give an existing username.',
 	'CC_NO_VALID_UUID'	 		=> 'The format of the uuid is not valid.',
 	'CC_UUID_NOT_UNIQUE'	 	=> 'Your transaction was already submitted.',
+	'CC_NO_TRANSACTION_TO_YOURSELF'	 	=> 'You cannot create a transaction to yourself.',
 	
-
+	'CC_CONFIRM_TRANSACTION'	=> array(
+		1 => 'Transfer %1s %2s to user %3s with description %4s ?', 
+	), 
+	
+	'CC_TRANSACTION_CREATED'	=> 'The transaction was successfully created.',
+	
+	
+	
 	'CC_NO_AUTH_CREATE_TRANSACTION' => 'You are not authorised to create transactions.',
 	'CC_NO_AUTH_VIEW_TRANSACTIONS'	=> 'You are not authorised to view transactions.',
 
