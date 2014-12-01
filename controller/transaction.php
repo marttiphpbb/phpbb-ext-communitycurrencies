@@ -127,6 +127,11 @@ class transaction
 				trigger_error('CC_NO_AUTH_CREATE_TRANSACTION');
 			}
 			
+			if (!$confirm && !check_form_key('new_transaction'))
+			{
+				$error[] = $this->user->lang('FORM_INVALID');	
+			}
+			
 			if (empty($error))
 			{
 				if (utf8_clean_string($to_user) === '')
@@ -232,7 +237,7 @@ class transaction
 						trigger_error('CC_TRANSACTION_ERROR');
 					}			
 				}
-				else if (check_form_key('new_transaction'))
+				else 
 				{
 					$s_hidden_fields = array(
 						'create_transaction'	=> 1,
@@ -245,10 +250,6 @@ class transaction
 					$confirm_msg = sprintf($this->user->lang('CC_CONFIRM_TRANSACTION', $amount, $this->config['cc_currency_name'], $to_user_ary['username'], $description));
 
 					confirm_box(false, $confirm_msg, build_hidden_fields($s_hidden_fields));
-				}
-				else
-				{
-					$error[] = $this->user->lang('FORM_INVALID');	
 				}
 			}
 
