@@ -114,8 +114,9 @@ $lang = array_merge($lang, array(
 		1 => 'Transfer %1s %2s to user %3s with description %4s ?', 
 	), 
 	
-	'CC_TRANSACTION_CREATED'	=> 'The transaction was successfully created.',
-	
+	'CC_TRANSACTION_CREATED'		=> 'The transaction was successfully created.',
+	'CC_RETURN_TRANSACTION'			=> 'Return to newly created %1s transaction %2s.',
+	'CC_RETURN_TRANSACTION_LIST'	=> 'Return to the %1s transaction list %2s.',
 	
 	
 	'CC_NO_AUTH_CREATE_TRANSACTION' => 'You are not authorised to create transactions.',

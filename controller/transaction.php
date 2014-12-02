@@ -223,20 +223,27 @@ class transaction
 						'transaction_created_by'		=> $this->user->data['user_id'],
 						'transaction_created_at'		=> $now,				
 					);
-					
-					
-					
+
 					$r = $this->db->sql_query('INSERT INTO ' . $this->cc_transactions_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary));
 					
+					$url_transactions = $this->helper->route('marttiphpbb_cc_transactionlist_controller');
+
 					if ($r)
 					{
-						meta_refresh(3, $this->helper->route('marttiphpbb_cc_transactionlist_controller'));
+						$transaction_id = $this->db->sql_nextid();
+						$url_transaction = $this->helper->route('marttiphpbb_cc_transactionshow_controller', array('transaction_id' => $transaction_id));
 						
+						meta_refresh(3, $url_transactions);
 						
-						trigger_error('CC_TRANSACTION_CREATED');
+						$message = $this->user->lang['CC_TRANSACTION_CREATED'] . '<br /><br />';
+						$message .= sprintf($this->user->lang['CC_RETURN_TRANSACTION_LIST'], '<a href="' . $url_transactions . '">', '</a>') . '<br /><br />';
+						$message .= sprintf($this->user->lang['CC_RETURN_TRANSACTION'], '<a href="' . $url_transaction . '">', '</a>');
+											
+						trigger_error($message);
 					}
 					else
 					{
+
 						trigger_error('CC_TRANSACTION_ERROR');
 					}			
 				}
