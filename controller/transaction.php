@@ -230,6 +230,9 @@ class transaction
 					
 					if ($r)
 					{
+						meta_refresh(3, $this->helper->route('marttiphpbb_cc_transactionlist_controller'));
+						
+						
 						trigger_error('CC_TRANSACTION_CREATED');
 					}
 					else
