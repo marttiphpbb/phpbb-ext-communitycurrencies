@@ -118,6 +118,10 @@ $lang = array_merge($lang, array(
 	'CC_RETURN_TRANSACTION'			=> 'Return to newly created %1s transaction %2s.',
 	'CC_RETURN_TRANSACTION_LIST'	=> 'Return to the %1s transaction list %2s.',
 	
+	'CC_TRANSACTIONS_COUNT'			=> array(
+		1 => '%s transaction',
+		2 => '%s transactions',
+	),
 	
 	'CC_NO_AUTH_CREATE_TRANSACTION' => 'You are not authorised to create transactions.',
 	'CC_NO_AUTH_VIEW_TRANSACTIONS'	=> 'You are not authorised to view transactions.',

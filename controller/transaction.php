@@ -13,6 +13,7 @@ use phpbb\cache\service as cache;
 use phpbb\config\db as config;
 use phpbb\content_visibility;
 use phpbb\db\driver\factory as db;
+use phpbb\pagination;
 use phpbb\request\request;
 use phpbb\template\twig\twig as template;
 use phpbb\user;
@@ -30,6 +31,7 @@ class transaction
 	protected $config;
 	protected $content_visibility;
 	protected $db;
+	protected $pagination;
 	protected $php_ext;
 	protected $request;
 	protected $template;
@@ -47,6 +49,7 @@ class transaction
    * @param config   $config
    * @param content_visibility $content_visibility 
    * @param db   $db
+   * @param pagination $pagination
    * @param string $php_ext 
    * @param request   $request
    * @param template   $template  
@@ -64,6 +67,7 @@ class transaction
 		config $config,
 		content_visibility $content_visibility, 
 		db $db,
+		pagination $pagination,
 		$php_ext, 
 		request $request, 
 		template $template, 
@@ -80,6 +84,7 @@ class transaction
 		$this->config = $config;
 		$this->content_visibility = $content_visibility;
 		$this->db = $db;
+		$this->pagination = $pagination;
 		$this->php_ext = $php_ext;
 		$this->request = $request;
 		$this->template = $template;
@@ -96,7 +101,7 @@ class transaction
 	/**  
 	* @return Response
 	*/
-	public function listAction()
+	public function listAction($page = 1)
 	{
 		if (!$this->auth->acl_get('u_cc_viewtransactions'))
 		{
@@ -114,6 +119,11 @@ class transaction
 		$hours = $this->request->variable('hours', 0);
 		$minutes = $this->request->variable('minutes', 0);		
 		$amount = $this->request->variable('amount', 0);
+
+		$sort_dir	= $this->request->variable('sd', 'd');
+		$start = $this->request->variable('start', 0);
+		$limit = $this->request->variable('limit', $this->config['cc_transactions_per_page']);
+
 			
 		if (!$confirm)
 		{
@@ -369,18 +379,44 @@ class transaction
 		
 		// get transactions
 		
-		$start = $this->request->variable('start', 0);
-		$limit = $this->request->variable('limit', $this->config['cc_transactions_per_page']);
+
 		$order_by = 'created_at';
-		$descending = false;
+		
+		
+		$sql = 'SELECT count(*) as num FROM ' . $this->cc_transactions_table;
+		$result = $this->db->sql_query($sql);
+		$transactions_count = $this->db->sql_fetchfield('num');
+		$this->db->sql_freeresult($result);
+		
+		$start = ($page - 1) * $limit;
+
+		$this->pagination->generate_template_pagination(array(
+			'routes' => array(
+				'marttiphpbb_cc_transactionlist_controller',
+				'marttiphpbb_cc_transactionlistpage_controller',
+			),
+			'params' => array(),
+			), 
+			'pagination', 
+			'page', 
+			$transactions_count, 
+			$limit, 
+			$start);
+
+		$this->template->assign_vars(array(
+			'PAGE_NUMBER'			=> $page,
+			'TOTAL_TRANSACTIONS'	=> $this->user->lang('CC_TRANSACTIONS_COUNT', $transactions_count),
+		));
+	
+		
 		
 		$sql_ary = array(
 			'SELECT'	=> 'tr.*',
 			'FROM'		=> array(
 				$this->cc_transactions_table => 'tr',
 			),
-			'WHERE'		=> '1 = 1',
-			'ORDER_BY'	=> 'tr.transaction_' . $order_by . ' ' . ((!$descending) ? 'DESC' : 'ASC'),	
+//			'WHERE'		=> '1 = 1',
+			'ORDER_BY'	=> 'tr.transaction_' . $order_by . ' ' . (($sort_dir == 'd') ? 'DESC' : 'ASC'),	
 			'LIMIT'		=> $limit . ', ' . $start,
 		);
 		

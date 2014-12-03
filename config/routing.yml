@@ -3,6 +3,13 @@ marttiphpbb_cc_transactionlist_controller:
     defaults: { _controller: marttiphpbb.ccurrency_transaction.controller:listAction }
     requirements:
         _method: GET|POST
+        
+marttiphpbb_cc_transactionlistpage_controller:
+    path: /transactions/page/{page}
+    defaults: { _controller: marttiphpbb.ccurrency_transaction.controller:listAction }
+    requirements:
+        _method: GET|POST
+        page: ^[2-9]|[1-9]\d+      
     
 marttiphpbb_cc_transactionshow_controller:
     path: /transactions/{transaction_id}
