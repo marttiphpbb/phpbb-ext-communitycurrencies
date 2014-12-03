@@ -225,7 +225,28 @@ class transaction
 					);
 
 					$r = $this->db->sql_query('INSERT INTO ' . $this->cc_transactions_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary));
+
+					$sql_ary = array(
+						'user_cc_balance'			=> 'user_cc_balance - ' . $amount_seconds,
+						'user_cc_transaction_count'	=> 'user_cc_transaction_count  + 1',
+					);
+
+					$sql = 'UPDATE ' . $this->users_table . '
+						SET user_cc_balance = user_cc_balance - ' . $amount_seconds . ',
+						user_cc_transaction_count = user_cc_transaction_count + 1
+						WHERE user_id = ' . $this->user->data['user_id'];
+					$this->db->sql_query($sql);
 					
+					$sql_ary = array(
+						'user_cc_balance'			=> 'user_cc_balance + ' . $amount_seconds,
+					);
+
+					$sql = 'UPDATE ' . $this->users_table . '
+						SET user_cc_balance = user_cc_balance + ' . $amount_seconds . '
+						WHERE user_id = ' . $to_user_ary['user_id'];
+					$this->db->sql_query($sql);					
+					
+
 					$url_transactions = $this->helper->route('marttiphpbb_cc_transactionlist_controller');
 
 					if ($r)
