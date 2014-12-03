@@ -419,26 +419,7 @@ class transaction
 		return $this->helper->render('transaction.html');
 	}   
 
-	/**
-	* @return Response
-	*/
-	public function newAction()
-	{
-	   
-		
-		
-		return $this->helper->render('transaction_new.html');
-	}
 
-	/**
-	* @return Response
-	*/
-	public function createAction()
-	{
-		
-		
-		return $this->helper->render('transaction_new.html');
-	}
 
 	private function find_user_by_username($username)
 	{
