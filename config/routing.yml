@@ -1,11 +1,11 @@
 marttiphpbb_cc_transactionlist_controller:
-    pattern: /transactions
+    path: /transactions
     defaults: { _controller: marttiphpbb.ccurrency_transaction.controller:listAction }
     requirements:
         _method: GET|POST
     
 marttiphpbb_cc_transactionshow_controller:
-    pattern: /transactions/{transaction_id}
+    path: /transactions/{transaction_id}
     defaults: { _controller: marttiphpbb.ccurrency_transaction.controller:showAction }
     requirements:
         transaction_id:  \d+
