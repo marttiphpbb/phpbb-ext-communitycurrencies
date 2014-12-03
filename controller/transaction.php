@@ -120,8 +120,9 @@ class transaction
 		$minutes = $this->request->variable('minutes', 0);		
 		$amount = $this->request->variable('amount', 0);
 
-		$sort_dir	= $this->request->variable('sd', 'd');
-		$start = $this->request->variable('start', 0);
+		$sort_dir = $this->request->variable('sort_dir', 'desc');
+		$sort_by = $this->request->variable('sort_by', 'created_at');
+		
 		$limit = $this->request->variable('limit', $this->config['cc_transactions_per_page']);
 
 			
@@ -363,6 +364,39 @@ class transaction
 
 		$uuid_generator = new uuid_generator();
 
+		$sort_keys = array(
+			'from_username',  
+			'to_username', 
+			'amount', 
+			'description', 
+			'created_at',
+		);
+
+		$route = ($page == 1) ? '' : 'page';
+		$route = 'marttiphpbb_cc_transactionlist' . $route . '_controller';
+		
+		foreach ($sort_keys as $sort_key)
+		{
+			$opposite_dir = ($sort_dir == 'asc') ? 'desc' : 'asc';
+			$dir = ($sort_key == $sort_by) ? $opposite_dir : 'asc';
+			
+			$sort = strtoupper($sort_key) . '_SORT';
+			$params = array(
+				'sort_dir' => $dir,
+				'sort_by' => $sort_key,
+			);
+			if ($page > 1)
+			{
+				$params['page'] = $page;
+			}
+
+			$this->template->assign_vars(array(
+				'U_' . $sort  => $this->helper->route($route, $params),
+				$sort => ($sort_key == $sort_by) ? strtoupper($sort_dir) : '',
+			));
+		}
+
+
 		$this->template->assign_vars(array(
 			'ERROR'		=> (sizeof($error)) ? implode('<br />', $error) : '',
 			'U_ACTION'	=> $this->helper->route('marttiphpbb_cc_transactionlist_controller'),
@@ -379,10 +413,6 @@ class transaction
 		
 		// get transactions
 		
-
-		$order_by = 'created_at';
-		
-		
 		$sql = 'SELECT count(*) as num FROM ' . $this->cc_transactions_table;
 		$result = $this->db->sql_query($sql);
 		$transactions_count = $this->db->sql_fetchfield('num');
@@ -390,12 +420,25 @@ class transaction
 		
 		$start = ($page - 1) * $limit;
 
+		$params = array();
+
+		if ($sort_by != 'created_at')
+		{
+			$params['sort_by'] = $sort_by;
+		}
+		
+		if ($sort_dir != 'desc')
+		{
+			$params['sort_dir'] = $sort_dir;
+		}
+
+
 		$this->pagination->generate_template_pagination(array(
 			'routes' => array(
 				'marttiphpbb_cc_transactionlist_controller',
 				'marttiphpbb_cc_transactionlistpage_controller',
 			),
-			'params' => array(),
+			'params' => $params,
 			), 
 			'pagination', 
 			'page', 
@@ -416,7 +459,7 @@ class transaction
 				$this->cc_transactions_table => 'tr',
 			),
 //			'WHERE'		=> '1 = 1',
-			'ORDER_BY'	=> 'tr.transaction_' . $order_by . ' ' . (($sort_dir == 'd') ? 'DESC' : 'ASC'),	
+			'ORDER_BY'	=> 'tr.transaction_' . $sort_by . ' ' . (($sort_dir == 'desc') ? 'DESC' : 'ASC'),	
 			'LIMIT'		=> $limit . ', ' . $start,
 		);
 		

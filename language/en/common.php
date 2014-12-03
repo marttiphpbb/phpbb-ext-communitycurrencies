@@ -97,9 +97,9 @@ $lang = array_merge($lang, array(
 	'CC_DESCRIPTION'			=> 'Description',
 	'CC_AMOUNT'					=> 'Amount', 
 	'CC_TIME'					=> 'Time',
+	'CC_CREATED_AT'				=> 'Created at',	
 	'CC_HOURS'					=> 'hours',
 	'CC_MINUTES'				=> 'minutes',
-	'CC_TRANSACTION_TIME'		=> 'Created at', 
 	'CC_NO_TRANSACTIONS'		=> 'No transactions found for this search criterion.',
 	
 	'CC_EMPTY_TO_USER'			=> 'You must fill in a user where you send the transaction to.',

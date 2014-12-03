@@ -113,15 +113,21 @@
 	<table class="table1 transactionlist">
 	<thead>
 	<tr>
-		<th class="from-user"><a href="{U_CC_SORT_FROM_USER}">{L_CC_FROM_USER}</a></th>
-		<th class="to-user"><a href="{U_CC_SORT_TO_USER}">{L_CC_TO_USER}</a></th>
-<!-- IF S_TIME_BANKING -->
-		<th class="amount"><a href="{U_CC_SORT_TRANSACTION_AMOUNT}">{L_CC_TIME}</a></th>
-<!-- ELSE -->
-		<th class="amount"><a href="{U_CC_SORT_TRANSACTION_AMOUNT}">{CC_CURRENCY_NAME}</a></th>
-<!-- ENDIF -->
-		<th class="description"><a href="{U_CC_SORT_DESCRIPTION}">{L_CC_DESCRIPTION}</a></th>
-		<th class="time"><a href="{U_CC_SORT_TRANSACTION_TIME}">{L_CC_TRANSACTION_TIME}</a></th>
+		<th class="from-user"><a href="{U_FROM_USERNAME_SORT}">{L_CC_FROM_USER}</a>
+		<!-- IF FROM_USERNAME_SORT == 'DESC' -->&#9660; <!-- ELSE IF FROM_USERNAME_SORT == 'ASC' -->&#9650;<!-- ENDIF -->
+		</th>
+		<th class="to-user"><a href="{U_TO_USERNAME_SORT}">{L_CC_TO_USER}</a>
+		<!-- IF TO_USERNAME_SORT == 'DESC' -->&#9660; <!-- ELSE IF TO_USERNAME_SORT == 'ASC' -->&#9650;<!-- ENDIF -->
+		</th>
+		<th class="amount"><a href="{U_AMOUNT_SORT}"><!-- IF S_TIME_BANKING -->{L_CC_TIME}<!-- ELSE -->{CC_CURRENCY_NAME}<!-- ENDIF --></a>
+		<!-- IF AMOUNT_SORT == 'DESC' -->&#9660; <!-- ELSE IF AMOUNT_SORT == 'ASC' -->&#9650;<!-- ENDIF -->
+		</th>
+		<th class="description"><a href="{U_DESCRIPTION_SORT}">{L_CC_DESCRIPTION}</a>
+		<!-- IF DESCRIPTION_SORT == 'DESC' -->&#9660; <!-- ELSE IF DESCRIPTION_SORT == 'ASC' -->&#9650;<!-- ENDIF -->
+		</th>
+		<th class="time"><a href="{U_CREATED_AT_SORT}">{L_CC_CREATED_AT}</a>
+		<!-- IF CREATED_AT_SORT == 'DESC' -->&#9660; <!-- ELSE IF CREATED_AT_SORT == 'ASC' -->&#9650;<!-- ENDIF -->
+		</th>
 	</tr>
 	</thead>
 	
