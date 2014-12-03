@@ -123,6 +123,8 @@ $lang = array_merge($lang, array(
 		2 => '%s transactions',
 	),
 	
+	'CC_SEARCH_TRANSACTIONS'		=> 'Search transactions ...',
+	
 	'CC_NO_AUTH_CREATE_TRANSACTION' => 'You are not authorised to create transactions.',
 	'CC_NO_AUTH_VIEW_TRANSACTIONS'	=> 'You are not authorised to view transactions.',
 

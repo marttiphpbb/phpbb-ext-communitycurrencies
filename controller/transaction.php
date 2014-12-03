@@ -398,17 +398,17 @@ class transaction
 
 
 		$this->template->assign_vars(array(
-			'ERROR'		=> (sizeof($error)) ? implode('<br />', $error) : '',
-			'U_ACTION'	=> $this->helper->route('marttiphpbb_cc_transactionlist_controller'),
+			'ERROR'					=> (sizeof($error)) ? implode('<br />', $error) : '',
+			'U_ACTION'				=> $this->helper->route('marttiphpbb_cc_transactionlist_controller'),
 			'S_AUTH_CREATE_TRANSACTION'	=> $this->auth->acl_get('u_cc_createtransactions'),
-			'S_TIME_BANKING'	=> $this->is_time_banking,
-			'S_MINUTES_OPTIONS' => $minutes_options,
-			'HOURS'				=> $hours,
-			'MINUTES'			=> $minutes,
-			'AMOUNT'			=> $amount,
-			'TO_USER'			=> $to_user,
-			'DESCRIPTION'		=> $description,
-			'UUID'				=> $uuid_generator->generate(),
+			'S_TIME_BANKING'		=> $this->is_time_banking,
+			'S_MINUTES_OPTIONS' 	=> $minutes_options,
+			'HOURS'					=> $hours,
+			'MINUTES'				=> $minutes,
+			'AMOUNT'				=> $amount,
+			'TO_USER'				=> $to_user,
+			'DESCRIPTION'			=> $description,
+			'UUID'					=> $uuid_generator->generate(),
 		));
 		
 		// get transactions
