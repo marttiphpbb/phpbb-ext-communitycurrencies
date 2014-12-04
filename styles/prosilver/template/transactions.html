@@ -84,10 +84,10 @@
 	<!-- ENDIF -->
 
 	<div class="search-box">
-		<form method="get" id="forum-search" action="{S_SEARCHBOX_ACTION}">
+		<form method="get" id="transactions-search" action="{U_ACTION}">
 		<fieldset>
-			<input class="inputbox search tiny" type="search" name="keywords" id="search_keywords" size="20" placeholder="{L_CC_SEARCH_TRANSACTIONS}" />
-			<a href="{U_SEARCH}" class="button icon-button search-icon" title="{L_SEARCH}">{L_SEARCH}</a>
+			<input class="inputbox search tiny" type="search" name="q" size="20" placeholder="{L_CC_SEARCH_TRANSACTIONS}" />
+			<button type="submit" class="button icon-button search-icon" title="{L_SEARCH}">{L_SEARCH}</a>
 		{S_SEARCH_LOCAL_HIDDEN_FIELDS}
 		</fieldset>
 		</form>

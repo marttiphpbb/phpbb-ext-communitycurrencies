@@ -8,7 +8,13 @@ input.amount
 }
 
 
-/* transactionlist column styles */
+/* transactions list */
+
+.search-box #transactions-search button.button
+{
+	border-radius: 0 4px 4px 0;
+}
+
 
 table.transactionlist th, table transactionlist td
 {

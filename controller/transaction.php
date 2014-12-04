@@ -119,6 +119,8 @@ class transaction
 		$hours = $this->request->variable('hours', 0);
 		$minutes = $this->request->variable('minutes', 0);		
 		$amount = $this->request->variable('amount', 0);
+		$search_query = $this->request->variable('q', '', true);
+
 
 		$sort_dir = $this->request->variable('sort_dir', 'desc');
 		$sort_by = $this->request->variable('sort_by', 'created_at');
@@ -389,6 +391,10 @@ class transaction
 			{
 				$params['page'] = $page;
 			}
+			if ($search_query)
+			{
+				$params['q'] = $search_query;
+			}
 
 			$this->template->assign_vars(array(
 				'U_' . $sort  => $this->helper->route($route, $params),
@@ -410,10 +416,26 @@ class transaction
 			'DESCRIPTION'			=> $description,
 			'UUID'					=> $uuid_generator->generate(),
 		));
+
+
+		$sql_where = '';
 		
+		if ($search_query)
+		{
+			$sql_where .= ' tr.transaction_description ' . $this->db->sql_like_expression(str_replace('*', $this->db->get_any_char(), utf8_clean_string($search_query)));
+		}
+
+
 		// get transactions
 		
-		$sql = 'SELECT count(*) as num FROM ' . $this->cc_transactions_table;
+		$sql_ary = array(
+			'SELECT' => 'count(*) as num', 
+			'FROM' => array(
+				$this->cc_transactions_table => 'tr',
+			),
+			'WHERE' => $sql_where,
+		);
+		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 		$result = $this->db->sql_query($sql);
 		$transactions_count = $this->db->sql_fetchfield('num');
 		$this->db->sql_freeresult($result);
@@ -430,6 +452,11 @@ class transaction
 		if ($sort_dir != 'desc')
 		{
 			$params['sort_dir'] = $sort_dir;
+		}
+		
+		if ($search_query)
+		{
+			$params['q'] = $search_query;
 		}
 
 
@@ -450,7 +477,6 @@ class transaction
 			'PAGE_NUMBER'			=> $page,
 			'TOTAL_TRANSACTIONS'	=> $this->user->lang('CC_TRANSACTIONS_COUNT', $transactions_count),
 		));
-	
 		
 		
 		$sql_ary = array(
@@ -458,7 +484,7 @@ class transaction
 			'FROM'		=> array(
 				$this->cc_transactions_table => 'tr',
 			),
-//			'WHERE'		=> '1 = 1',
+			'WHERE'		=> $sql_where,
 			'ORDER_BY'	=> 'tr.transaction_' . $sort_by . ' ' . (($sort_dir == 'desc') ? 'DESC' : 'ASC'),	
 			'LIMIT'		=> $limit . ', ' . $start,
 		);
