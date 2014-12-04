@@ -497,16 +497,20 @@ class transaction
 		{
 			$transaction_list[] = $row;
 			
-			
 			$this->template->assign_block_vars('transactionrow', array(
-				'FROM_USER' 	=> $row['transaction_from_username'],
-				'U_FROM_USER'	=> '',
-				'TO_USER'		=> $row['transaction_to_username'],
-				'U_TO_USER'		=> '',
-				'AMOUNT'		=> round($row['transaction_amount'] / $this->config['cc_currency_rate']), 
-				'DESCRIPTION'	=> $row['transaction_description'],
-				'TIME'			=> $this->user->format_date($row['transaction_created_at']),
-				'U_TRANSACTION'	=> '',
+				'FROM_USER_FULL'	=> get_username_string('full', $row['transaction_from_user_id'], $row['transaction_from_username'], $row['transaction_from_user_colour']),
+				'FROM_USER_COLOUR'	=> get_username_string('colour', $row['transaction_from_user_id'], $row['transaction_from_username'], $row['transaction_from_user_colour']),
+				'FROM_USER'			=> get_username_string('username', $row['transaction_from_user_id'], $row['transaction_from_username'], $row['transaction_from_user_colour']),
+				'U_FROM_USER'		=> get_username_string('profile', $row['transaction_from_user_id'], $row['transaction_from_username'], $row['transaction_from_user_colour']),
+				'TO_USER_FULL'		=> get_username_string('full', $row['transaction_to_user_id'], $row['transaction_to_username'], $row['transaction_to_user_colour']),
+				'TO_USER_COLOUR'	=> get_username_string('colour', $row['transaction_to_user_id'], $row['transaction_to_username'], $row['transaction_to_user_colour']),
+				'TO_USER'			=> get_username_string('username', $row['transaction_to_user_id'], $row['transaction_to_username'], $row['transaction_to_user_colour']),
+				'U_TO_USER'			=> get_username_string('profile', $row['transaction_to_user_id'], $row['transaction_to_username'], $row['transaction_to_user_colour']),
+				'AMOUNT'			=> round($row['transaction_amount'] / $this->config['cc_currency_rate']), 
+				'AMOUNT_SECONDS'	=> $row['transaction_amount'], 
+				'DESCRIPTION'		=> $row['transaction_description'],
+				'TIME'				=> $this->user->format_date($row['transaction_created_at']),
+				'U_TRANSACTION'		=> '',
 			));
 		}
 		$this->db->sql_freeresult($result);

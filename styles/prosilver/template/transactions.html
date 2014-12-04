@@ -133,8 +133,8 @@
 <!-- BEGIN transactionrow -->
 
 <tr class="<!-- IF transactionrow.S_ROW_COUNT is even -->bg1<!-- ELSE -->bg2<!-- ENDIF -->">
-	<td class="from-user"><a href="{transactionrow.U_FROM_USER}">{transactionrow.FROM_USER}</a></td>
-	<td class="to-user"><a href="{transactionrow.U_TO_USER}">{transactionrow.TO_USER}</a></td>
+	<td class="from-user">{transactionrow.FROM_USER_FULL}</td>
+	<td class="to-user">{transactionrow.TO_USER_FULL}</td>
 	<td class="amount"><a href="{transactionrow.U_TRANSACTION}">{transactionrow.AMOUNT}</a></td>
 	<td class="description"><a href="{transactionrow.U_TRANSACTION}">{transactionrow.DESCRIPTION}</a></td>
 	<td class="time"><a href="{transactionrow.U_TRANSACTION}">{transactionrow.TIME}</a></td>
