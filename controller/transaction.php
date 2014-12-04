@@ -415,6 +415,7 @@ class transaction
 			'TO_USER'				=> $to_user,
 			'DESCRIPTION'			=> $description,
 			'UUID'					=> $uuid_generator->generate(),
+			'SEARCH'				=> $search_query,
 		));
 
 

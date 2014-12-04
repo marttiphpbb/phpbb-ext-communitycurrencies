@@ -64,7 +64,8 @@
 </div>		
 <!-- ENDIF -->
 
-<h2><a href="{U_CC_TRANSACTIONS}">{L_CC_TRANSACTIONS}</a><!-- {L_COLON} <a href="{U_SEARCH_WORDS}">{SEARCH_WORDS}</a>--></h2>
+<h2><a href="{U_CC_TRANSACTIONS}">{L_CC_TRANSACTIONS}</a>
+<!-- IF SEARCH -->{L_COLON} {SEARCH}<!-- ENDIF --></h2>
 
 <div class="action-bar top">
 
@@ -86,7 +87,7 @@
 	<div class="search-box">
 		<form method="get" id="transactions-search" action="{U_ACTION}">
 		<fieldset>
-			<input class="inputbox search tiny" type="search" name="q" size="20" placeholder="{L_CC_SEARCH_TRANSACTIONS}" />
+			<input class="inputbox search tiny" type="search" name="q" size="20" value="{SEARCH}" placeholder="{L_CC_SEARCH_TRANSACTIONS}" />
 			<button type="submit" class="button icon-button search-icon" title="{L_SEARCH}">{L_SEARCH}</a>
 		{S_SEARCH_LOCAL_HIDDEN_FIELDS}
 		</fieldset>
