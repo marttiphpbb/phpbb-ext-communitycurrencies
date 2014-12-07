@@ -1,7 +1,7 @@
 .icon-cc-transactions { background-image: url("./images/icon_cc_transactions.gif"); }
 
 
-input.amount
+input.amount td
 {
 	width: 40px;
 	text-align: right;
