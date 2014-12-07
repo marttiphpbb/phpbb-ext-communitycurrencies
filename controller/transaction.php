@@ -529,18 +529,4 @@ class transaction
 		return $this->helper->render('transaction.html');
 	}   
 
-
-
-	private function find_user_by_username($username)
-	{
-		global $db;
-		$sql = 'SELECT *
-			FROM ' . USERS_TABLE . '
-			WHERE username_clean = \'' . $db->sql_escape(utf8_clean_string($username)) . '\'';
-		$result = $db->sql_query($sql);
-		$user = $db->sql_fetchrow($result);
-		$db->sql_freeresult($result);
-		return $member;
-	}  
-   	
 }
