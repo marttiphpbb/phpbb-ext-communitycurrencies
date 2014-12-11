@@ -1,0 +1,97 @@
+<!-- INCLUDE overall_header.html -->
+
+
+<h2>{L_CC_TRANSACTION} {L_COLON} {TRANSACTION_ID}</h2>
+
+<div class="action-bar top">
+
+
+	<!-- IF S_AUTH_CREATE_TRANSACTION -->
+		<div class="buttons">
+			<!-- IF S_DISPLAY_NEW_TRANSACTION -->
+			<a href="#new_transaction" id="new_transaction_button" class="button icon-button post-icon" data-alt-text="{L_CC_NEW_TRANSACTION}">
+				{L_CC_HIDE_NEW_TRANSACTION}
+			</a>
+			<!-- ELSE -->
+			<a href="#new_transaction" id="new_transaction_button" class="button icon-button post-icon" data-alt-text="{L_CC_HIDE_NEW_TRANSACTION}">
+				{L_CC_NEW_TRANSACTION}
+			</a>			
+			<!-- ENDIF -->
+		</div>
+	<!-- ENDIF -->
+
+	<div class="search-box">
+		<form method="get" id="transactions-search" action="{U_ACTION}">
+		<fieldset>
+			<input class="inputbox search tiny" type="search" name="q" size="20" value="{SEARCH}" placeholder="{L_CC_SEARCH_TRANSACTIONS}" />
+			<button type="submit" class="button icon-button search-icon" title="{L_SEARCH}">{L_SEARCH}</a>
+		{S_SEARCH_LOCAL_HIDDEN_FIELDS}
+		</fieldset>
+		</form>
+	</div>
+
+	
+	<div class="pagination">
+		{TOTAL_TRANSACTIONS}
+		<!-- IF .pagination --> 
+			<!-- INCLUDE pagination.html -->
+		<!-- ELSE --> 
+			 &bull; {PAGE_NUMBER}
+		<!-- ENDIF -->
+	</div>
+</div>
+
+
+<div class="forumbg forumbg-table">
+	<div class="inner">
+
+	<table class="table1 transactionlist">
+	<thead>
+	<tr>
+		<th class="from-user">{L_CC_FROM_USER}</th>
+		<th class="to-user">{L_CC_TO_USER}
+		</th>
+		<th class="amount"><!-- IF S_TIME_BANKING -->{L_CC_TIME}<!-- ELSE -->{CC_CURRENCY_NAME}<!-- ENDIF -->
+		</th>
+		<th class="description">{L_CC_DESCRIPTION}
+		</th>
+		<th class="time">{L_CC_CREATED_AT}
+		</th>
+	</tr>
+	</thead>
+	
+
+<tr>
+	<td class="from-user">{FROM_USER_FULL}</td>
+	<td class="to-user">{TO_USER_FULL}</td>
+	<td class="amount"><a href="{U_TRANSACTION}">{AMOUNT}</a></td>
+	<td class="description"><a href="{U_TRANSACTION}">{DESCRIPTION}</a></td>
+	<td class="created-at"><a href="{U_TRANSACTION}">{CREATED_AT}</a></td>
+</tr>
+
+
+</tbody>
+</table>
+
+</div>
+</div>
+
+<div class="action-bar bottom">
+	<div class="pagination">
+		{TOTAL_TRANSACTIONS}
+		<!-- IF .pagination --> 
+			<!-- INCLUDE pagination.html -->
+		<!-- ELSE --> 
+			 &bull; {PAGE_NUMBER}
+		<!-- ENDIF -->
+	</div>
+</div>
+
+
+
+<!-- INCLUDE jumpbox.html -->
+<!-- IF S_AUTH_CREATE_TRANSACTION -->
+	<!-- INCLUDEJS transactions.js -->
+<!-- ENDIF -->
+<!-- INCLUDE overall_footer.html -->
+

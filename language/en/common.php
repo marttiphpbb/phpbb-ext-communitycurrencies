@@ -107,7 +107,7 @@ $lang = array_merge($lang, array(
 	'CC_EMPTY_DESCRIPTION'	 	=> 'You must give a description for the new transaction.',
 	'CC_USER_NOT_EXISTING'	 	=> 'You must give an existing username.',
 	'CC_NO_VALID_UUID'	 		=> 'The format of the uuid is not valid.',
-	'CC_UUID_NOT_UNIQUE'	 	=> 'Your transaction was already submitted.',
+	'CC_TRANSACTION_NOT_UNIQUE'	 		=> 'Your transaction was already submitted.',
 	'CC_NO_TRANSACTION_TO_YOURSELF'	 	=> 'You cannot create a transaction to yourself.',
 	
 	'CC_CONFIRM_TRANSACTION'	=> array(

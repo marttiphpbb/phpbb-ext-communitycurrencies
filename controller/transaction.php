@@ -98,7 +98,8 @@ class transaction
 		$this->is_time_banking = ($this->config['cc_currency_rate'] > 0) ? false : true;
    }
 
-	/**  
+	/**
+	* @param int $page
 	* @return Response
 	*/
 	public function listAction($page = 1)
@@ -113,7 +114,7 @@ class transaction
 		
 		$to_user = utf8_normalize_nfc($this->request->variable('to_user', '', true));
 		$description = utf8_normalize_nfc($this->request->variable('description', '', true));
-		$uuid = $this->request->variable('uuid', '');
+		$unique_id = $this->request->variable('unique_id', '');
 		$confirm = $this->request->variable('confirm_uid', 0);
 		$amount_seconds = $this->request->variable('amount_seconds', 0);
 		$hours = $this->request->variable('hours', 0);
@@ -191,25 +192,25 @@ class transaction
 			{
 				$uuid_validator = new uuid_validator();
 				
-				if (!$uuid_validator->validate($uuid))
+				if (!$uuid_validator->validate($unique_id))
 				{
 					$error[] = $this->user->lang['CC_NO_VALID_UUID'];
 				}
 				
 				$sql_ary = array(
-					'SELECT'	=> 'tr.transaction_uuid',
+					'SELECT'	=> 'tr.transaction_unique_id',
 					'FROM'		=> array(
 						$this->cc_transactions_table => 'tr',
 					),
-					'WHERE'		=> 'tr.transaction_uuid = \'' . $this->db->sql_escape($uuid) . '\'',
+					'WHERE'		=> 'tr.transaction_unique_id = \'' . $this->db->sql_escape($unique_id) . '\'',
 				);
 				
 				$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 				$result = $this->db->sql_query($sql);
 				
-				if ($this->db->sql_fetchfield('transaction_uuid') == $uuid)
+				if ($this->db->sql_fetchfield('transaction_unique_id') == $unique_id)
 				{
-					$error[] = $this->user->lang['CC_UUID_NOT_UNIQUE'];
+					$error[] = $this->user->lang['CC_TRANSACTION_NOT_UNIQUE'];
 				}
 				
 				$this->db->sql_freeresult($result);
@@ -222,7 +223,7 @@ class transaction
 					$now = time();
 				
 					$sql_ary = array(
-						'transaction_uuid'	=> $uuid,
+						'transaction_unique_id'	=> $unique_id,
 						'transaction_from_user_id'	=> $this->user->data['user_id'],
 						'transaction_from_username'	=> $this->user->data['username'],
 						'transaction_from_user_colour'	=> $this->user->data['user_colour'],
@@ -285,7 +286,7 @@ class transaction
 				{
 					$s_hidden_fields = array(
 						'create_transaction'	=> 1,
-						'uuid'					=> $uuid,
+						'unique_id'					=> $unique_id,
 						'amount_seconds'		=> $amount_seconds,
 						'description'			=> $description,
 						'to_user'				=> $to_user,
@@ -414,10 +415,183 @@ class transaction
 			'AMOUNT'				=> $amount,
 			'TO_USER'				=> $to_user,
 			'DESCRIPTION'			=> $description,
-			'UUID'					=> $uuid_generator->generate(),
+			'UNIQUE_ID'				=> $uuid_generator->generate(),
 			'SEARCH'				=> $search_query,
 		));
 
+		// get transactions
+		
+		$sql_where = 'tr.transaction_parent_id IS NULL';
+		
+		if ($search_query)
+		{
+			$sql_where .= ' tr.transaction_description ' . $this->db->sql_like_expression(str_replace('*', $this->db->get_any_char(), utf8_clean_string($search_query)));
+		}
+
+		$sql_ary = array(
+			'SELECT' => 'count(*) as num', 
+			'FROM' => array(
+				$this->cc_transactions_table => 'tr',
+			),
+			'WHERE' => $sql_where,
+		);
+		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
+		$result = $this->db->sql_query($sql);
+		$transactions_count = $this->db->sql_fetchfield('num');
+		$this->db->sql_freeresult($result);
+		
+		$start = ($page - 1) * $limit;
+
+		$params = array();
+
+		if ($sort_by != 'created_at')
+		{
+			$params['sort_by'] = $sort_by;
+		}
+		
+		if ($sort_dir != 'desc')
+		{
+			$params['sort_dir'] = $sort_dir;
+		}
+		
+		if ($search_query)
+		{
+			$params['q'] = $search_query;
+		}
+
+
+		$this->pagination->generate_template_pagination(array(
+			'routes' => array(
+				'marttiphpbb_cc_transactionlist_controller',
+				'marttiphpbb_cc_transactionlistpage_controller',
+			),
+			'params' => $params,
+			), 
+			'pagination', 
+			'page', 
+			$transactions_count, 
+			$limit, 
+			$start);
+
+		$this->template->assign_vars(array(
+			'PAGE_NUMBER'			=> $page,
+			'TOTAL_TRANSACTIONS'	=> $this->user->lang('CC_TRANSACTIONS_COUNT', $transactions_count),
+		));
+		
+		
+		$sql_ary = array(
+			'SELECT'	=> 'tr.*',
+			'FROM'		=> array(
+				$this->cc_transactions_table => 'tr',
+			),
+			'WHERE'		=> $sql_where,
+			'ORDER_BY'	=> 'tr.transaction_' . $sort_by . ' ' . (($sort_dir == 'desc') ? 'DESC' : 'ASC'),	
+			'LIMIT'		=> $limit . ', ' . $start,
+		);
+		
+		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
+		$result = $this->db->sql_query_limit($sql, $limit, $start);
+
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$transaction_list[] = $row;
+			
+			$this->template->assign_block_vars('transactionrow', array(
+			'FROM_USER_FULL'	=> get_username_string('full', $row['transaction_from_user_id'], $row['transaction_from_username'], $row['transaction_from_user_colour']),
+				'FROM_USER_COLOUR'	=> get_username_string('colour', $row['transaction_from_user_id'], $row['transaction_from_username'], $row['transaction_from_user_colour']),
+				'FROM_USER'			=> get_username_string('username', $row['transaction_from_user_id'], $row['transaction_from_username'], $row['transaction_from_user_colour']),
+				'U_FROM_USER'		=> get_username_string('profile', $row['transaction_from_user_id'], $row['transaction_from_username'], $row['transaction_from_user_colour']),
+				'TO_USER_FULL'		=> get_username_string('full', $row['transaction_to_user_id'], $row['transaction_to_username'], $row['transaction_to_user_colour']),
+				'TO_USER_COLOUR'	=> get_username_string('colour', $row['transaction_to_user_id'], $row['transaction_to_username'], $row['transaction_to_user_colour']),
+				'TO_USER'			=> get_username_string('username', $row['transaction_to_user_id'], $row['transaction_to_username'], $row['transaction_to_user_colour']),
+				'U_TO_USER'			=> get_username_string('profile', $row['transaction_to_user_id'], $row['transaction_to_username'], $row['transaction_to_user_colour']),
+				'AMOUNT_CURRENCY'	=> round($row['transaction_amount'] / $this->config['cc_currency_rate']), 
+				'AMOUNT'			=> $row['transaction_amount'], 
+				'DESCRIPTION'		=> $row['transaction_description'],
+				'CREATED_AT'		=> $this->user->format_date($row['transaction_created_at']),
+				'CREATED_BY'		=> $row['transaction_created_by'],
+				'CONFIRMED'			=> ($row['transaction_confirmed']) ? true : false,
+				'CONFIRMDED_AT'		=> $this->user->format_date($row['transaction_confirmed_at']),
+				'U_TRANSACTION'		=> $this->helper->route('marttiphpbb_cc_transactionshow_controller', array('transaction_id' => $row['transaction_id'])),
+				'UNIQUE_ID'			=> $row['transaction_unique_id'],
+				'CHILDREN_COUNT'	=> $row['transaction_children_count'],
+			));
+		}
+		$this->db->sql_freeresult($result);
+
+		make_jumpbox(append_sid($this->root_path . 'viewforum.' . $this->php_ext));
+		return $this->helper->render('transactions.html');
+	}
+	
+
+	/** 
+	 * returns one transaction or all transactions from a mass-transaction
+	 * 
+	* @param int $transaction_id
+	* @param int $page
+	* @return Response
+	*/
+	public function showAction($transaction_id, $page = 1)
+	{
+		if (!$this->auth->acl_get('u_cc_viewtransactions'))
+		{
+			trigger_error('CC_NO_AUTH_VIEW_TRANSACTIONS');
+		}		
+
+		$sort_dir = $this->request->variable('sort_dir', 'desc');
+		$sort_by = $this->request->variable('sort_by', 'created_at');
+		
+		$limit = $this->request->variable('limit', $this->config['cc_transactions_per_page']);
+
+		// get transaction 
+		
+		$sql_ary = array(
+			'SELECT'	=> 'tr.*',
+			'FROM'		=> array(
+				$this->cc_transactions_table => 'tr',
+			),
+			'WHERE'		=> 'tr.transaction_id = ' . $transaction_id,
+		);		
+
+		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
+		$result = $this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
+		
+		if (!$row)
+		{
+			trigger_error('CC_TRANSACTION_NOT_FOUND');
+		}
+
+		if (!$row['transaction_children_count'])
+		{
+			// show transaction			
+			
+			
+
+
+			
+			
+			
+			$this->template->assign_vars(array(
+				'S_TIME_BANKING'		=> $this->is_time_banking,
+				'HOURS'					=> $row['amount'],
+				'MINUTES'				=> $minutes,
+				'AMOUNT'				=> $amount,
+				'TO_USER'				=> $to_user,
+				'DESCRIPTION'			=> $description,
+
+				'SEARCH'				=> $search_query,
+			));			
+			
+		}
+
+		// the transaction is a mass-transaction
+
+			if ($row['transaction_from_user_id'])
+			{
+				
+			}
 
 		$sql_where = '';
 		
@@ -434,7 +608,7 @@ class transaction
 			'FROM' => array(
 				$this->cc_transactions_table => 'tr',
 			),
-			'WHERE' => $sql_where,
+			'WHERE' => 'tr.transaction_parent_id = ' . $parent_id,
 		);
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 		$result = $this->db->sql_query($sql);
@@ -514,60 +688,12 @@ class transaction
 				'CONFIRMED'			=> ($row['transaction_confirmed']) ? true : false,
 				'CONFIRMDED_AT'		=> $this->user->format_date($row['transaction_confirmed_at']),
 				'U_TRANSACTION'		=> $this->helper->route('marttiphpbb_cc_transactionshow_controller', array('transaction_id' => $row['transaction_id'])),
-				'UUID'				=> $row['transaction_uuid'],
+				'UNIQUE_ID'				=> $row['transaction_unique_id'],
 			));
 		}
 		$this->db->sql_freeresult($result);
 
 		make_jumpbox(append_sid($this->root_path . 'viewforum.' . $this->php_ext));
 		return $this->helper->render('transactions.html');
-	}
-   
-	/**
-	* @param int   $id  
-	* @return Response
-	*/
-	public function showAction($transaction_id = 0)
-	{
-		$sql_ary = array(
-			'SELECT' => 'tr.*', 
-			'FROM' => array(
-				$this->cc_transactions_table => 'tr',
-			),
-			'WHERE' => 'tr.transaction_id = ' . $transaction_id,
-		);
-		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
-		$result = $this->db->sql_query($sql);
-		$row = $this->db->sql_fetchrow($result);
-		$this->db->sql_freeresult($result);		
-		
-		if (!$row)
-		{
-			trigger_error('CC_TRANSACTION_NOT_FOUND');
-		}
-		
-		$this->template->assign_vars(array(
-			'FROM_USER_FULL'	=> get_username_string('full', $row['transaction_from_user_id'], $row['transaction_from_username'], $row['transaction_from_user_colour']),
-			'FROM_USER_COLOUR'	=> get_username_string('colour', $row['transaction_from_user_id'], $row['transaction_from_username'], $row['transaction_from_user_colour']),
-			'FROM_USER'			=> get_username_string('username', $row['transaction_from_user_id'], $row['transaction_from_username'], $row['transaction_from_user_colour']),
-			'U_FROM_USER'		=> get_username_string('profile', $row['transaction_from_user_id'], $row['transaction_from_username'], $row['transaction_from_user_colour']),
-			'TO_USER_FULL'		=> get_username_string('full', $row['transaction_to_user_id'], $row['transaction_to_username'], $row['transaction_to_user_colour']),
-			'TO_USER_COLOUR'	=> get_username_string('colour', $row['transaction_to_user_id'], $row['transaction_to_username'], $row['transaction_to_user_colour']),
-			'TO_USER'			=> get_username_string('username', $row['transaction_to_user_id'], $row['transaction_to_username'], $row['transaction_to_user_colour']),
-			'U_TO_USER'			=> get_username_string('profile', $row['transaction_to_user_id'], $row['transaction_to_username'], $row['transaction_to_user_colour']),
-			'AMOUNT'			=> round($row['transaction_amount'] / $this->config['cc_currency_rate']), 
-			'AMOUNT_SECONDS'	=> $row['transaction_amount'], 
-			'DESCRIPTION'		=> $row['transaction_description'],
-			'CREATED_AT'		=> $this->user->format_date($row['transaction_created_at']),
-			'CREATED_BY'		=> $row['transaction_created_by'],
-			'CONFIRMED'			=> ($row['transaction_confirmed']) ? true : false,
-			'CONFIRMDED_AT'		=> $this->user->format_date($row['transaction_confirmed_at']),
-			'U_TRANSACTION'		=> $this->helper->route('marttiphpbb_cc_transactionshow_controller', array('transaction_id' => $row['transaction_id'])),
-			'UUID'				=> $row['transaction_uuid'],
-		));		
-		
-		make_jumpbox(append_sid($this->root_path . 'viewforum.' . $this->php_ext));	
-		return $this->helper->render('transaction.html');
-	}   
-
+	}	
 }

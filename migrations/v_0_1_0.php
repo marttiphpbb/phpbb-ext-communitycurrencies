@@ -75,7 +75,7 @@ class v_0_1_0 extends migration
 				$this->table_prefix . 'cc_transactions'        => array(
 					'COLUMNS'        => array(
 						'transaction_id'                => array('UINT', NULL, 'auto_increment'),
-						'transaction_uuid' 				=> array('VCHAR', ''),
+						'transaction_unique_id' 		=> array('VCHAR', ''),
 						'transaction_from_user_id'		=> array('UINT', NULL),
 						'transaction_from_username'		=> array('VCHAR_UNI', ''),
 						'transaction_from_user_colour'	=> array('VCHAR:6', ''),
@@ -87,11 +87,13 @@ class v_0_1_0 extends migration
 						'transaction_confirmed'			=> array('BOOL', 0),
 						'transaction_confirmed_at'		=> array('TIMESTAMP', NULL),
 						'transaction_created_by'		=> array('UINT', NULL),
-						'transaction_created_at'		=> array('TIMESTAMP', NULL),												
+						'transaction_created_at'		=> array('TIMESTAMP', NULL),
+						'transaction_parent_id'			=> array('UINT', NULL),												
+						'transaction_children_count'	=> array('UINT', 0),												
 					),
 					'PRIMARY_KEY'  	=> 'transaction_id',
 					'KEYS' 		=> array(
-						'tuuid' 	=> array('UNIQUE', 'transaction_uuid'),
+						'tuid' 		=> array('UNIQUE', 'transaction_unique_id'),
 						'ufid'		=> array('INDEX', 'transaction_from_user_id'),
 						'utid'		=> array('INDEX', 'transaction_to_user_id'),
 						'crby'		=> array('INDEX', 'transaction_created_by'),							
