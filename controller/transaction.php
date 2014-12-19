@@ -223,20 +223,22 @@ class transaction
 					$now = time();
 				
 					$sql_ary = array(
-						'transaction_unique_id'	=> $unique_id,
-						'transaction_from_user_id'	=> $this->user->data['user_id'],
-						'transaction_from_username'	=> $this->user->data['username'],
+						'transaction_unique_id'			=> $unique_id,
+						'transaction_from_user_id'		=> $this->user->data['user_id'],
+						'transaction_from_username'		=> $this->user->data['username'],
 						'transaction_from_user_colour'	=> $this->user->data['user_colour'],
-						'transaction_to_user_id'	=> $to_user_ary['user_id'],
-						'transaction_to_username'	=> $to_user_ary['username'],
+						'transaction_to_user_id'		=> $to_user_ary['user_id'],
+						'transaction_to_username'		=> $to_user_ary['username'],
 						'transaction_to_user_colour'	=> $to_user_ary['user_colour'],					
-						'transaction_description'	=> $description,					
-						'transaction_amount'	=> $amount_seconds,					
+						'transaction_description'		=> $description,					
+						'transaction_amount'			=> $amount_seconds,					
 						'transaction_confirmed'			=> true,
 						'transaction_confirmed_at'		=> $now,
 						'transaction_created_by'		=> $this->user->data['user_id'],
 						'transaction_created_at'		=> $now,				
 					);
+
+					$this->db->sql_transaction('begin');
 
 					$r = $this->db->sql_query('INSERT INTO ' . $this->cc_transactions_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary));
 
@@ -259,7 +261,8 @@ class transaction
 						SET user_cc_balance = user_cc_balance + ' . $amount_seconds . '
 						WHERE user_id = ' . $to_user_ary['user_id'];
 					$this->db->sql_query($sql);					
-					
+				
+					$this->db->sql_transaction('commit');
 
 					$url_transactions = $this->helper->route('marttiphpbb_cc_transactionlist_controller');
 
