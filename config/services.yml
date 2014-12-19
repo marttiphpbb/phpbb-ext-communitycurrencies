@@ -32,6 +32,22 @@ services:
             - %tables.cc_transactions%
             - %tables.topics%
             - %tables.users%
+
+    marttiphpbb.ccurrency_transaction.operator:
+        class: marttiphpbb\ccurrency\operators\transaction
+        arguments:
+            - @cache
+            - @config
+            - @content.visibility
+            - @dbal.conn
+            - @user
+            - @controller.helper
+            - %tables.cc_transactions%
+            - %tables.topics%
+            - %tables.users%
+
+
+
             
     marttiphpbb.ccurrency_transformer:
         class: marttiphpbb\ccurrency\datatransformer\currency_transformer
