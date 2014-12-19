@@ -493,14 +493,14 @@ class transaction
 		);
 		
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
-		$result = $this->db->sql_query_limit($sql, $limit, $start);
+		$result = $this->db->sql_query($sql);
 
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$transaction_list[] = $row;
 			
 			$this->template->assign_block_vars('transactionrow', array(
-			'FROM_USER_FULL'	=> get_username_string('full', $row['transaction_from_user_id'], $row['transaction_from_username'], $row['transaction_from_user_colour']),
+				'FROM_USER_FULL'	=> get_username_string('full', $row['transaction_from_user_id'], $row['transaction_from_username'], $row['transaction_from_user_colour']),
 				'FROM_USER_COLOUR'	=> get_username_string('colour', $row['transaction_from_user_id'], $row['transaction_from_username'], $row['transaction_from_user_colour']),
 				'FROM_USER'			=> get_username_string('username', $row['transaction_from_user_id'], $row['transaction_from_username'], $row['transaction_from_user_colour']),
 				'U_FROM_USER'		=> get_username_string('profile', $row['transaction_from_user_id'], $row['transaction_from_username'], $row['transaction_from_user_colour']),
@@ -569,13 +569,7 @@ class transaction
 		if (!$row['transaction_children_count'])
 		{
 			// show transaction			
-			
-			
 
-
-			
-			
-			
 			$this->template->assign_vars(array(
 				'S_TIME_BANKING'		=> $this->is_time_banking,
 				'HOURS'					=> $row['amount'],

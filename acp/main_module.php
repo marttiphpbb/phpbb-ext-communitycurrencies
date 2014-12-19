@@ -16,7 +16,7 @@ class main_module
 		global $db, $user, $auth, $template, $cache, $request;
 		global $config, $phpbb_root_path, $phpbb_admin_path, $phpEx;
 
-		$user->add_lang_ext('marttiphpbb/ccurrency', 'common');
+		$user->add_lang_ext('marttiphpbb/ccurrency', 'acp');
 		add_form_key('marttiphpbb/ccurrency');		
 		
 		switch ($mode)
