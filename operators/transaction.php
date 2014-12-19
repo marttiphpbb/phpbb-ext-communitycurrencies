@@ -109,19 +109,21 @@ class transaction
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 		$result = $this->db->sql_query($sql);
 		
-		return ($this->db->sql_fetchfield('transaction_unique_id') == $unique_id)) ? true : false;
+		return ($this->db->sql_fetchfield('transaction_unique_id') == $unique_id) ? true : false;
 	}
 
 	/**
 	* @param string $unique_id
 	* @param array $from_user_ary
 	* @param array $to_user_ary
+	* @param int $amount (seconds) 
 	* @param string $description
-	* @param int $amount (seconds)
 	* @return int|false transaction_id
 	*/
-	public function insert_transaction($unique_id, $from_user_ary, $to_user_ary, $description, $amount)
+	public function insert_transaction($unique_id, $from_user_ary, $to_user_ary, $amount, $description)
 	{
+		$now = time();
+		
 		$sql_ary = array(
 			'transaction_unique_id'			=> $unique_id,
 			'transaction_from_user_id'		=> $from_user_ary['user_id'],
@@ -131,7 +133,7 @@ class transaction
 			'transaction_to_username'		=> $to_user_ary['username'],
 			'transaction_to_user_colour'	=> $to_user_ary['user_colour'],					
 			'transaction_description'		=> $description,					
-			'transaction_amount'			=> $amount_seconds,					
+			'transaction_amount'			=> $amount,					
 			'transaction_confirmed'			=> true,
 			'transaction_confirmed_at'		=> $now,
 			'transaction_created_by'		=> $from_user_ary['user_id'],
@@ -142,25 +144,14 @@ class transaction
 
 		$r = $this->db->sql_query('INSERT INTO ' . $this->cc_transactions_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary));
 
-		
-
-		$sql_ary = array(
-			'user_cc_balance'			=> 'user_cc_balance - ' . $amount_seconds,
-			'user_cc_transaction_count'	=> 'user_cc_transaction_count  + 1',
-		);
-
 		$sql = 'UPDATE ' . $this->users_table . '
-			SET user_cc_balance = user_cc_balance - ' . $amount_seconds . ',
+			SET user_cc_balance = user_cc_balance - ' . $amount . ',
 			user_cc_transaction_count = user_cc_transaction_count + 1
 			WHERE user_id = ' . $from_user_ary['user_id'];
 		$this->db->sql_query($sql);
-					
-		$sql_ary = array(
-			'user_cc_balance'			=> 'user_cc_balance + ' . $amount_seconds,
-		);
 
 		$sql = 'UPDATE ' . $this->users_table . '
-			SET user_cc_balance = user_cc_balance + ' . $amount_seconds . '
+			SET user_cc_balance = user_cc_balance + ' . $amount . '
 			WHERE user_id = ' . $to_user_ary['user_id'];
 		$this->db->sql_query($sql);					
 	
@@ -185,7 +176,7 @@ class transaction
 		
 		if ($search_query)
 		{
-			$sql_where .= ' tr.transaction_description ' . $this->db->sql_like_expression(str_replace('*', $this->db->get_any_char(), utf8_clean_string($search_query)));
+			$sql_where .= ' AND tr.transaction_description ' . $this->db->sql_like_expression(str_replace('*', $this->db->get_any_char(), utf8_clean_string($search_query)));
 		}
 
 		$sql_ary = array(
@@ -220,6 +211,12 @@ class transaction
 		$limit = 25
 	)
 	{
+		$sql_where = 'tr.transaction_parent_id IS NULL';
+		
+		if ($search_query)
+		{
+			$sql_where .= ' AND tr.transaction_description ' . $this->db->sql_like_expression(str_replace('*', $this->db->get_any_char(), utf8_clean_string($search_query)));
+		}
 
 		$params = array();
 
@@ -250,7 +247,7 @@ class transaction
 		
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 		$result = $this->db->sql_query($sql);
-		$transactions = $this->db->sql_fetchrowset($result));
+		$transactions = $this->db->sql_fetchrowset($result);
 		$this->db->sql_freeresult($result);
 		return $transactions;
 	}

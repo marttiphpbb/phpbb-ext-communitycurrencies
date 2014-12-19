@@ -14,7 +14,7 @@ services:
         tags:
             - { name: event.listener }
     
-    marttiphpbb.ccurrency_transaction.controller:
+    marttiphpbb.ccurrency.transaction.controller:
         class: marttiphpbb\ccurrency\controller\transaction
         arguments:
             - @auth
@@ -28,12 +28,13 @@ services:
             - @template
             - @user
             - @controller.helper
+            - @marttiphpbb.ccurrency.transaction.operator
             - %core.root_path%
             - %tables.cc_transactions%
             - %tables.topics%
             - %tables.users%
 
-    marttiphpbb.ccurrency_transaction.operator:
+    marttiphpbb.ccurrency.transaction.operator:
         class: marttiphpbb\ccurrency\operators\transaction
         arguments:
             - @cache
@@ -46,10 +47,7 @@ services:
             - %tables.topics%
             - %tables.users%
 
-
-
-            
-    marttiphpbb.ccurrency_transformer:
+    marttiphpbb.ccurrency.transformer:
         class: marttiphpbb\ccurrency\datatransformer\currency_transformer
         arguments:
             - @config

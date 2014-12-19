@@ -18,7 +18,10 @@ use phpbb\request\request;
 use phpbb\template\twig\twig as template;
 use phpbb\user;
 use phpbb\controller\helper;
+
 use Symfony\Component\HttpFoundation\Response;
+
+use marttiphpbb\ccurrency\operators\transaction as transaction_operator;
 
 use marttiphpbb\ccurrency\util\uuid_generator;
 use marttiphpbb\ccurrency\util\uuid_validator;
@@ -37,6 +40,7 @@ class transaction
 	protected $template;
 	protected $user;
 	protected $helper;
+	protected $transaction_operator;
 	protected $root_path;
 	protected $cc_transactions_table;
 	protected $topics_table;
@@ -52,9 +56,10 @@ class transaction
    * @param pagination $pagination
    * @param string $php_ext 
    * @param request   $request
-   * @param template   $template  
+   * @param template   $template 
    * @param user   $user 
-   * @param helper $helper   
+   * @param helper $helper
+   * @param transaction_operator $transaction_operator   
    * @param string $root_path 
    * @param string $cc_transactions_table 
    * @param string $cc_topics_table 
@@ -72,7 +77,8 @@ class transaction
 		request $request, 
 		template $template, 
 		user $user, 
-		helper $helper, 
+		helper $helper,
+		transaction_operator $transaction_operator,			
 		$root_path,
 		$cc_transactions_table,
 		$topics_table,
@@ -90,6 +96,7 @@ class transaction
 		$this->template = $template;
 		$this->user = $user;
 		$this->helper = $helper;
+		$this->transaction_operator = $transaction_operator;			
 		$this->root_path = $root_path;
 		$this->cc_transactions_table = $cc_transactions_table;
 		$this->topics_table = $topics_table;
@@ -167,20 +174,8 @@ class transaction
 			}
 			
 			if (empty($error))
-			{	
-				$sql_ary = array(
-					'SELECT'	=> 'u.user_id, u.username, u.user_colour',
-					'FROM'		=> array(
-						$this->users_table => 'u',
-					),
-					'WHERE'		=> 'u.username = \'' . $this->db->sql_escape($to_user) . '\'',
-
-				);
-				
-				$sql = $this->db->sql_build_query('SELECT', $sql_ary);
-				$result = $this->db->sql_query($sql);
-				$to_user_ary = $this->db->sql_fetchrow($result);
-				$this->db->sql_freeresult($result);
+			{			
+				$to_user_ary = $this->transaction_operator->get_user_by_username($to_user);
 				
 				if (!$to_user_ary)
 				{
@@ -196,79 +191,23 @@ class transaction
 				{
 					$error[] = $this->user->lang['CC_NO_VALID_UUID'];
 				}
-				
-				$sql_ary = array(
-					'SELECT'	=> 'tr.transaction_unique_id',
-					'FROM'		=> array(
-						$this->cc_transactions_table => 'tr',
-					),
-					'WHERE'		=> 'tr.transaction_unique_id = \'' . $this->db->sql_escape($unique_id) . '\'',
-				);
-				
-				$sql = $this->db->sql_build_query('SELECT', $sql_ary);
-				$result = $this->db->sql_query($sql);
-				
-				if ($this->db->sql_fetchfield('transaction_unique_id') == $unique_id)
+
+				if ($this->transaction_operator->transaction_unique_id_exists($unique_id))
 				{
 					$error[] = $this->user->lang['CC_TRANSACTION_NOT_UNIQUE'];
 				}
-				
-				$this->db->sql_freeresult($result);
 			}
 
 			if (empty($error))
 			{
 				if (confirm_box(true))
 				{
-					$now = time();
-				
-					$sql_ary = array(
-						'transaction_unique_id'			=> $unique_id,
-						'transaction_from_user_id'		=> $this->user->data['user_id'],
-						'transaction_from_username'		=> $this->user->data['username'],
-						'transaction_from_user_colour'	=> $this->user->data['user_colour'],
-						'transaction_to_user_id'		=> $to_user_ary['user_id'],
-						'transaction_to_username'		=> $to_user_ary['username'],
-						'transaction_to_user_colour'	=> $to_user_ary['user_colour'],					
-						'transaction_description'		=> $description,					
-						'transaction_amount'			=> $amount_seconds,					
-						'transaction_confirmed'			=> true,
-						'transaction_confirmed_at'		=> $now,
-						'transaction_created_by'		=> $this->user->data['user_id'],
-						'transaction_created_at'		=> $now,				
-					);
-
-					$this->db->sql_transaction('begin');
-
-					$r = $this->db->sql_query('INSERT INTO ' . $this->cc_transactions_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary));
-
-					$sql_ary = array(
-						'user_cc_balance'			=> 'user_cc_balance - ' . $amount_seconds,
-						'user_cc_transaction_count'	=> 'user_cc_transaction_count  + 1',
-					);
-
-					$sql = 'UPDATE ' . $this->users_table . '
-						SET user_cc_balance = user_cc_balance - ' . $amount_seconds . ',
-						user_cc_transaction_count = user_cc_transaction_count + 1
-						WHERE user_id = ' . $this->user->data['user_id'];
-					$this->db->sql_query($sql);
-					
-					$sql_ary = array(
-						'user_cc_balance'			=> 'user_cc_balance + ' . $amount_seconds,
-					);
-
-					$sql = 'UPDATE ' . $this->users_table . '
-						SET user_cc_balance = user_cc_balance + ' . $amount_seconds . '
-						WHERE user_id = ' . $to_user_ary['user_id'];
-					$this->db->sql_query($sql);					
-				
-					$this->db->sql_transaction('commit');
+					$transaction_id = $this->transaction_operator->insert_transaction($unique_id, $this->user->data, $to_user_ary, $amount_seconds, $description);
 
 					$url_transactions = $this->helper->route('marttiphpbb_cc_transactionlist_controller');
 
-					if ($r)
+					if ($transaction_id)
 					{
-						$transaction_id = $this->db->sql_nextid();
 						$url_transaction = $this->helper->route('marttiphpbb_cc_transactionshow_controller', array('transaction_id' => $transaction_id));
 						
 						meta_refresh(3, $url_transactions);
@@ -281,7 +220,6 @@ class transaction
 					}
 					else
 					{
-
 						trigger_error('CC_TRANSACTION_ERROR');
 					}			
 				}
@@ -289,7 +227,7 @@ class transaction
 				{
 					$s_hidden_fields = array(
 						'create_transaction'	=> 1,
-						'unique_id'					=> $unique_id,
+						'unique_id'				=> $unique_id,
 						'amount_seconds'		=> $amount_seconds,
 						'description'			=> $description,
 						'to_user'				=> $to_user,
@@ -424,25 +362,8 @@ class transaction
 
 		// get transactions
 		
-		$sql_where = 'tr.transaction_parent_id IS NULL';
-		
-		if ($search_query)
-		{
-			$sql_where .= ' tr.transaction_description ' . $this->db->sql_like_expression(str_replace('*', $this->db->get_any_char(), utf8_clean_string($search_query)));
-		}
+		$transactions_count = $this->transaction_operator->get_transactions_count($search_query);
 
-		$sql_ary = array(
-			'SELECT' => 'count(*) as num', 
-			'FROM' => array(
-				$this->cc_transactions_table => 'tr',
-			),
-			'WHERE' => $sql_where,
-		);
-		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
-		$result = $this->db->sql_query($sql);
-		$transactions_count = $this->db->sql_fetchfield('num');
-		$this->db->sql_freeresult($result);
-		
 		$start = ($page - 1) * $limit;
 
 		$params = array();
@@ -461,44 +382,31 @@ class transaction
 		{
 			$params['q'] = $search_query;
 		}
-
-
-		$this->pagination->generate_template_pagination(array(
-			'routes' => array(
-				'marttiphpbb_cc_transactionlist_controller',
-				'marttiphpbb_cc_transactionlistpage_controller',
-			),
-			'params' => $params,
+		
+		$this->pagination->generate_template_pagination(
+			array(
+				'routes' => array(
+					'marttiphpbb_cc_transactionlist_controller',
+					'marttiphpbb_cc_transactionlistpage_controller',
+				),
+				'params' => $params,
 			), 
 			'pagination', 
 			'page', 
 			$transactions_count, 
 			$limit, 
-			$start);
+			$start
+		);
 
 		$this->template->assign_vars(array(
 			'PAGE_NUMBER'			=> $page,
 			'TOTAL_TRANSACTIONS'	=> $this->user->lang('CC_TRANSACTIONS_COUNT', $transactions_count),
 		));
 		
-		
-		$sql_ary = array(
-			'SELECT'	=> 'tr.*',
-			'FROM'		=> array(
-				$this->cc_transactions_table => 'tr',
-			),
-			'WHERE'		=> $sql_where,
-			'ORDER_BY'	=> 'tr.transaction_' . $sort_by . ' ' . (($sort_dir == 'desc') ? 'DESC' : 'ASC'),	
-			'LIMIT'		=> $limit . ', ' . $start,
-		);
-		
-		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
-		$result = $this->db->sql_query($sql);
+		$transactions = $this->transaction_operator->get_transactions($search_query, $sort_by, $sort_dir, $start, $limit);
 
-		while ($row = $this->db->sql_fetchrow($result))
+		foreach ($transactions as $row)
 		{
-			$transaction_list[] = $row;
-			
 			$this->template->assign_block_vars('transactionrow', array(
 				'FROM_USER_FULL'	=> get_username_string('full', $row['transaction_from_user_id'], $row['transaction_from_username'], $row['transaction_from_user_colour']),
 				'FROM_USER_COLOUR'	=> get_username_string('colour', $row['transaction_from_user_id'], $row['transaction_from_username'], $row['transaction_from_user_colour']),
@@ -520,8 +428,7 @@ class transaction
 				'CHILDREN_COUNT'	=> $row['transaction_children_count'],
 			));
 		}
-		$this->db->sql_freeresult($result);
-
+		
 		make_jumpbox(append_sid($this->root_path . 'viewforum.' . $this->php_ext));
 		return $this->helper->render('transactions.html');
 	}
@@ -548,18 +455,7 @@ class transaction
 
 		// get transaction 
 		
-		$sql_ary = array(
-			'SELECT'	=> 'tr.*',
-			'FROM'		=> array(
-				$this->cc_transactions_table => 'tr',
-			),
-			'WHERE'		=> 'tr.transaction_id = ' . $transaction_id,
-		);		
-
-		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
-		$result = $this->db->sql_query($sql);
-		$row = $this->db->sql_fetchrow($result);
-		$this->db->sql_freeresult($result);
+		$row = $this->transaction_operator->get_transaction($transaction_id);
 		
 		if (!$row)
 		{
@@ -572,13 +468,11 @@ class transaction
 
 			$this->template->assign_vars(array(
 				'S_TIME_BANKING'		=> $this->is_time_banking,
-				'HOURS'					=> $row['amount'],
+				'HOURS'					=> $row['transaction_amount'],
 				'MINUTES'				=> $minutes,
 				'AMOUNT'				=> $amount,
 				'TO_USER'				=> $to_user,
 				'DESCRIPTION'			=> $description,
-
-				'SEARCH'				=> $search_query,
 			));			
 			
 		}
@@ -589,15 +483,10 @@ class transaction
 			{
 				
 			}
-
-		$sql_where = '';
 		
-		if ($search_query)
-		{
-			$sql_where .= ' tr.transaction_description ' . $this->db->sql_like_expression(str_replace('*', $this->db->get_any_char(), utf8_clean_string($search_query)));
-		}
-
-
+		$count = $this->transaction_operator->get_children_transactions_count($transaction_id);
+		
+			
 		// get transactions
 		
 		$sql_ary = array(
