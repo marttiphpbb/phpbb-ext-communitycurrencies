@@ -232,8 +232,10 @@ class transaction
 						'description'			=> $description,
 						'to_user'				=> $to_user,
 					);
+					
+					$to_username_string = get_username_string('no_profile', $to_user_ary['user_id'], $to_user_ary['username'], $to_user_ary['user_colour']);
 						
-					$confirm_msg = sprintf($this->user->lang('CC_CONFIRM_TRANSACTION', $amount, $this->config['cc_currency_name'], $to_user_ary['username'], $description));
+					$confirm_msg = sprintf($this->user->lang('CC_CONFIRM_TRANSACTION', $amount, $this->config['cc_currency_name'], $to_username_string, $description));
 
 					confirm_box(false, $confirm_msg, build_hidden_fields($s_hidden_fields));
 				}

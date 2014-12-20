@@ -87,7 +87,7 @@ $lang = array_merge($lang, array(
 	'CC_NO_TRANSACTION_TO_YOURSELF'	 	=> 'You cannot create a transaction to yourself.',
 	
 	'CC_CONFIRM_TRANSACTION'	=> array(
-		1 => 'Transfer %1s %2s to user %3s with description %4s ?', 
+		1 => 'Transfer <strong>%1s</strong> %2s to %3s with description <strong>`%4s`</strong> ?', 
 	), 
 	
 	'CC_TRANSACTION_CREATED'		=> 'The transaction was successfully created.',
