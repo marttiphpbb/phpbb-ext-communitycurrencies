@@ -73,7 +73,8 @@ class main_listener implements EventSubscriberInterface
 		return array(
 			'core.user_setup'						=> 'core_user_setup',
 			'core.page_footer'						=> 'core_page_footer',
-			'core.viewonline_overwrite_location'	=> 'add_viewonline',
+			'core.viewonline_overwrite_location'	=> 'core_viewonline_overwrite_location',
+			'core.memberlist_view_profile'			=> 'core_memberlist_view_profile',		
 		);
 	}
 
@@ -101,12 +102,33 @@ class main_listener implements EventSubscriberInterface
 		));
 	}
 	
-	public function add_viewonline($event)
+	public function core_viewonline_overwrite_location($event)
 	{
 		if (strrpos($event['row']['session_page'], 'app.' . $this->php_ext . '/transactions') === 0)
 		{
 			$event['location'] = $this->user->lang('CC_VIEWING_TRANSACTIONS');
 			$event['location_url'] = $this->helper->route('marttiphpbb_cc_transactionlist_controller');
 		}		
-	}	
+	}
+	
+	public function core_memberlist_view_profile($event)
+	{
+		if (!$this->auth->acl_get('u_cc_viewtransactions'))
+		{
+			return;
+		}
+		
+		$member = $event['member'];
+
+		$memberdays = max(1, round((time() - $member['user_regdate']) / 86400));
+		$transactions_per_day = $member['user_cc_transaction_count'] / $memberdays;
+		$percentage = ($this->config['cc_transaction_count']) ? min(100, ($member['user_cc_transaction_count'] / $this->config['cc_transaction_count']) * 100) : 0;
+
+		$this->template->assign_vars(array(
+			'CC_USER_TRANSACTION_COUNT'	=> $member['user_cc_transaction_count'],
+			'CC_USER_TRANSACTIONS_PCT'	=> $this->user->lang('CC_USER_TRANSACTION_PCT', $percentage),
+			'CC_USER_TRANSACTIONS_PER_DAY' => $this->user->lang('CC_USER_TRANSACTION_PER_DAY', $transactions_per_day),
+			'U_CC_USER_TRANSACTIONS' => $this->helper->route('marttiphpbb_cc_transactionlist_controller', array('user_id' => $member['user_id'])),
+		));
+	}		
 }

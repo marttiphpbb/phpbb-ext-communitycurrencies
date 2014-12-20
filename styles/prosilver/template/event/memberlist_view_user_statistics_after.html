@@ -1,6 +1,6 @@
 <dt>{L_CC_TOTAL_TRANSACTIONS}{L_COLON}</dt>
-	<dd>{CC_TRANSACTIONS} <!-- IF S_DISPLAY_SEARCH -->| <strong><a href="{U_SEARCH_USER}">{L_CC_SEARCH_USER_TRANSACTIONS}</a></strong><!-- ENDIF -->
-		<!-- IF POSTS_PCT --><br />({POSTS_PCT} / {POSTS_DAY})<!-- ENDIF -->
-		<!-- IF POSTS_IN_QUEUE and U_MCP_QUEUE --><br />(<a href="{U_MCP_QUEUE}">{L_POSTS_IN_QUEUE}</a>)<!-- ELSEIF POSTS_IN_QUEUE --><br />({L_POSTS_IN_QUEUE})<!-- ENDIF -->
-	</dd>
+<dd>{CC_USER_TRANSACTION_COUNT} <!-- IF U_CC_USER_TRANSACTIONS -->| <strong><a href="{U_CC_USER_TRANSACTIONS}">{L_CC_SHOW_USER_TRANSACTIONS}</a></strong><!-- ENDIF -->
+	<!-- IF CC_USER_TRANSACTIONS_PCT --><br />({CC_USER_TRANSACTIONS_PCT} / {CC_USER_TRANSACTIONS_PER_DAY})<!-- ENDIF -->
+	<!-- IF POSTS_IN_QUEUE and U_MCP_QUEUE --><br />(<a href="{U_MCP_QUEUE}">{L_POSTS_IN_QUEUE}</a>)<!-- ELSEIF POSTS_IN_QUEUE --><br />({L_POSTS_IN_QUEUE})<!-- ENDIF -->
+</dd>
 

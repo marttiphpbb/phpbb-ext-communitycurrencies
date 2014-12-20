@@ -112,7 +112,8 @@ $lang = array_merge($lang, array(
 // Profile (memberlist)
 
 	'CC_TOTAL_TRANSACTIONS'			=> 'Total transactions',
-	'CC_SEARCH_USER_TRANSACTIONS'	=> 'Search user\'s transactions',
-	
+	'CC_SHOW_USER_TRANSACTIONS'		=> 'Show this user\'s transactions',
+	'CC_USER_TRANSACTION_PCT'		=> '%.2f%% of all transactions',
+	'CC_USER_TRANSACTION_PER_DAY'	=> '%.2f transactions per day',
 
 ));

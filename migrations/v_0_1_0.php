@@ -24,6 +24,8 @@ class v_0_1_0 extends migration
 			array('config.add', array('cc_currency_name', '')),
 			array('config.add', array('cc_currency_rate', 60)),
 			array('config.add', array('cc_time_banking_granularity', 900)),
+			
+			array('config.add', array('cc_transaction_count', 0, true)),
 
 			array('permission.add', array('u_cc_viewtransactions')),
 			array('permission.add', array('u_cc_createtransactions')),
