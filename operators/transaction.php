@@ -99,17 +99,17 @@ class transaction
 	public function transaction_unique_id_exists($unique_id = '')
 	{	
 		$sql_ary = array(
-			'SELECT'	=> 'tr.transaction_unique_id',
+			'SELECT'	=> 'tr.unique_id',
 			'FROM'		=> array(
 				$this->cc_transactions_table => 'tr',
 			),
-			'WHERE'		=> 'tr.transaction_unique_id = \'' . $this->db->sql_escape($unique_id) . '\'',
+			'WHERE'		=> 'tr.unique_id = \'' . $this->db->sql_escape($unique_id) . '\'',
 		);
 		
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 		$result = $this->db->sql_query($sql);
 		
-		return ($this->db->sql_fetchfield('transaction_unique_id') == $unique_id) ? true : false;
+		return ($this->db->sql_fetchfield('unique_id') == $unique_id) ? true : false;
 	}
 
 	/**
@@ -118,26 +118,26 @@ class transaction
 	* @param array $to_user_ary
 	* @param int $amount (seconds) 
 	* @param string $description
-	* @return int|false transaction_id
+	* @return int|false id
 	*/
 	public function insert_transaction($unique_id, $from_user_ary, $to_user_ary, $amount, $description)
 	{
 		$now = time();
 		
 		$sql_ary = array(
-			'transaction_unique_id'			=> $unique_id,
-			'transaction_from_user_id'		=> $from_user_ary['user_id'],
-			'transaction_from_username'		=> $from_user_ary['username'],
-			'transaction_from_user_colour'	=> $from_user_ary['user_colour'],
-			'transaction_to_user_id'		=> $to_user_ary['user_id'],
-			'transaction_to_username'		=> $to_user_ary['username'],
-			'transaction_to_user_colour'	=> $to_user_ary['user_colour'],					
-			'transaction_description'		=> $description,					
-			'transaction_amount'			=> $amount,					
-			'transaction_confirmed'			=> true,
-			'transaction_confirmed_at'		=> $now,
-			'transaction_created_by'		=> $from_user_ary['user_id'],
-			'transaction_created_at'		=> $now,				
+			'unique_id'			=> $unique_id,
+			'from_user_id'		=> $from_user_ary['user_id'],
+			'from_username'		=> $from_user_ary['username'],
+			'from_user_colour'	=> $from_user_ary['user_colour'],
+			'to_user_id'		=> $to_user_ary['user_id'],
+			'to_username'		=> $to_user_ary['username'],
+			'to_user_colour'	=> $to_user_ary['user_colour'],					
+			'description'		=> $description,					
+			'amount'			=> $amount,					
+			'confirmed'			=> true,
+			'confirmed_at'		=> $now,
+			'created_by'		=> $from_user_ary['user_id'],
+			'created_at'		=> $now,				
 		);
 
 		$this->db->sql_transaction('begin');
@@ -172,11 +172,11 @@ class transaction
 	*/
 	public function get_transactions_count($search_query)
 	{
-		$sql_where = 'tr.transaction_parent_id IS NULL';
+		$sql_where = 'tr.parent_id IS NULL';
 		
 		if ($search_query)
 		{
-			$sql_where .= ' AND tr.transaction_description ' . $this->db->sql_like_expression(str_replace('*', $this->db->get_any_char(), utf8_clean_string($search_query)));
+			$sql_where .= ' AND tr.description ' . $this->db->sql_like_expression(str_replace('*', $this->db->get_any_char(), utf8_clean_string($search_query)));
 		}
 
 		$sql_ary = array(
@@ -211,11 +211,11 @@ class transaction
 		$limit = 25
 	)
 	{
-		$sql_where = 'tr.transaction_parent_id IS NULL';
+		$sql_where = 'tr.parent_id IS NULL';
 		
 		if ($search_query)
 		{
-			$sql_where .= ' AND tr.transaction_description ' . $this->db->sql_like_expression(str_replace('*', $this->db->get_any_char(), utf8_clean_string($search_query)));
+			$sql_where .= ' AND tr.description ' . $this->db->sql_like_expression(str_replace('*', $this->db->get_any_char(), utf8_clean_string($search_query)));
 		}
 
 		$params = array();
@@ -241,7 +241,7 @@ class transaction
 				$this->cc_transactions_table => 'tr',
 			),
 			'WHERE'		=> $sql_where,
-			'ORDER_BY'	=> 'tr.transaction_' . $sort_by . ' ' . (($sort_dir == 'desc') ? 'DESC' : 'ASC'),	
+			'ORDER_BY'	=> 'tr.' . $sort_by . ' ' . (($sort_dir == 'desc') ? 'DESC' : 'ASC'),	
 			'LIMIT'		=> $limit . ', ' . $start,
 		);
 		
@@ -253,17 +253,17 @@ class transaction
 	}
 	
 	/**
-	 * @param int $transaction_id
+	 * @param int $id
 	 * @return array
 	*/
-	public function get_transaction($transaction_id)
+	public function get_transaction($id)
 	{
 		$sql_ary = array(
 			'SELECT'	=> 'tr.*',
 			'FROM'		=> array(
 				$this->cc_transactions_table => 'tr',
 			),
-			'WHERE'		=> 'tr.transaction_id = ' . $transaction_id,
+			'WHERE'		=> 'tr.id = ' . $id,
 		);		
 
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
@@ -274,17 +274,17 @@ class transaction
 	}
 		
 	/**
-	 * @param int $transaction_id
+	 * @param int $id
 	 * @return int
 	*/
-	public function get_children_transactions_count($transaction_id)
+	public function get_children_transactions_count($id)
 	{	
 		$sql_ary = array(
 			'SELECT' => 'count(*) as num', 
 			'FROM' => array(
 				$this->cc_transactions_table => 'tr',
 			),
-			'WHERE' => 'tr.transaction_parent_id = ' . $transaction_id,
+			'WHERE' => 'tr.parent_id = ' . $id,
 		);
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 		$result = $this->db->sql_query($sql);

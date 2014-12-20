@@ -202,13 +202,13 @@ class transaction
 			{
 				if (confirm_box(true))
 				{
-					$transaction_id = $this->transaction_operator->insert_transaction($unique_id, $this->user->data, $to_user_ary, $amount_seconds, $description);
+					$id = $this->transaction_operator->insert_transaction($unique_id, $this->user->data, $to_user_ary, $amount_seconds, $description);
 
 					$url_transactions = $this->helper->route('marttiphpbb_cc_transactionlist_controller');
 
-					if ($transaction_id)
+					if ($id)
 					{
-						$url_transaction = $this->helper->route('marttiphpbb_cc_transactionshow_controller', array('transaction_id' => $transaction_id));
+						$url_transaction = $this->helper->route('marttiphpbb_cc_transactionshow_controller', array('id' => $id));
 						
 						meta_refresh(3, $url_transactions);
 						
@@ -410,24 +410,24 @@ class transaction
 		foreach ($transactions as $row)
 		{
 			$this->template->assign_block_vars('transactionrow', array(
-				'FROM_USER_FULL'	=> get_username_string('full', $row['transaction_from_user_id'], $row['transaction_from_username'], $row['transaction_from_user_colour']),
-				'FROM_USER_COLOUR'	=> get_username_string('colour', $row['transaction_from_user_id'], $row['transaction_from_username'], $row['transaction_from_user_colour']),
-				'FROM_USER'			=> get_username_string('username', $row['transaction_from_user_id'], $row['transaction_from_username'], $row['transaction_from_user_colour']),
-				'U_FROM_USER'		=> get_username_string('profile', $row['transaction_from_user_id'], $row['transaction_from_username'], $row['transaction_from_user_colour']),
-				'TO_USER_FULL'		=> get_username_string('full', $row['transaction_to_user_id'], $row['transaction_to_username'], $row['transaction_to_user_colour']),
-				'TO_USER_COLOUR'	=> get_username_string('colour', $row['transaction_to_user_id'], $row['transaction_to_username'], $row['transaction_to_user_colour']),
-				'TO_USER'			=> get_username_string('username', $row['transaction_to_user_id'], $row['transaction_to_username'], $row['transaction_to_user_colour']),
-				'U_TO_USER'			=> get_username_string('profile', $row['transaction_to_user_id'], $row['transaction_to_username'], $row['transaction_to_user_colour']),
-				'AMOUNT_CURRENCY'	=> round($row['transaction_amount'] / $this->config['cc_currency_rate']), 
-				'AMOUNT'			=> $row['transaction_amount'], 
-				'DESCRIPTION'		=> $row['transaction_description'],
-				'CREATED_AT'		=> $this->user->format_date($row['transaction_created_at']),
-				'CREATED_BY'		=> $row['transaction_created_by'],
-				'CONFIRMED'			=> ($row['transaction_confirmed']) ? true : false,
-				'CONFIRMDED_AT'		=> $this->user->format_date($row['transaction_confirmed_at']),
-				'U_TRANSACTION'		=> $this->helper->route('marttiphpbb_cc_transactionshow_controller', array('transaction_id' => $row['transaction_id'])),
-				'UNIQUE_ID'			=> $row['transaction_unique_id'],
-				'CHILDREN_COUNT'	=> $row['transaction_children_count'],
+				'FROM_USER_FULL'	=> get_username_string('full', $row['from_user_id'], $row['from_username'], $row['from_user_colour']),
+				'FROM_USER_COLOUR'	=> get_username_string('colour', $row['from_user_id'], $row['from_username'], $row['from_user_colour']),
+				'FROM_USER'			=> get_username_string('username', $row['from_user_id'], $row['from_username'], $row['from_user_colour']),
+				'U_FROM_USER'		=> get_username_string('profile', $row['from_user_id'], $row['from_username'], $row['from_user_colour']),
+				'TO_USER_FULL'		=> get_username_string('full', $row['to_user_id'], $row['to_username'], $row['to_user_colour']),
+				'TO_USER_COLOUR'	=> get_username_string('colour', $row['to_user_id'], $row['to_username'], $row['to_user_colour']),
+				'TO_USER'			=> get_username_string('username', $row['to_user_id'], $row['to_username'], $row['to_user_colour']),
+				'U_TO_USER'			=> get_username_string('profile', $row['to_user_id'], $row['to_username'], $row['to_user_colour']),
+				'AMOUNT_CURRENCY'	=> round($row['amount'] / $this->config['cc_currency_rate']), 
+				'AMOUNT'			=> $row['amount'], 
+				'DESCRIPTION'		=> $row['description'],
+				'CREATED_AT'		=> $this->user->format_date($row['created_at']),
+				'CREATED_BY'		=> $row['created_by'],
+				'CONFIRMED'			=> ($row['confirmed']) ? true : false,
+				'CONFIRMDED_AT'		=> $this->user->format_date($row['confirmed_at']),
+				'U_TRANSACTION'		=> $this->helper->route('marttiphpbb_cc_transactionshow_controller', array('id' => $row['id'])),
+				'UNIQUE_ID'			=> $row['unique_id'],
+				'CHILDREN_COUNT'	=> $row['children_count'],
 			));
 		}
 		
@@ -439,11 +439,11 @@ class transaction
 	/** 
 	 * returns one transaction or all transactions from a mass-transaction
 	 * 
-	* @param int $transaction_id
+	* @param int $id
 	* @param int $page
 	* @return Response
 	*/
-	public function showAction($transaction_id, $page = 1)
+	public function showAction($id, $page = 1)
 	{
 		if (!$this->auth->acl_get('u_cc_viewtransactions'))
 		{
@@ -457,20 +457,20 @@ class transaction
 
 		// get transaction 
 		
-		$row = $this->transaction_operator->get_transaction($transaction_id);
+		$row = $this->transaction_operator->get_transaction($id);
 		
 		if (!$row)
 		{
 			trigger_error('CC_TRANSACTION_NOT_FOUND');
 		}
 
-		if (!$row['transaction_children_count'])
+		if (!$row['children_count'])
 		{
 			// show transaction			
 
 			$this->template->assign_vars(array(
 				'S_TIME_BANKING'		=> $this->is_time_banking,
-				'HOURS'					=> $row['transaction_amount'],
+				'HOURS'					=> $row['amount'],
 				'MINUTES'				=> $minutes,
 				'AMOUNT'				=> $amount,
 				'TO_USER'				=> $to_user,
@@ -481,12 +481,12 @@ class transaction
 
 		// the transaction is a mass-transaction
 
-			if ($row['transaction_from_user_id'])
+			if ($row['from_user_id'])
 			{
 				
 			}
 		
-		$count = $this->transaction_operator->get_children_transactions_count($transaction_id);
+		$count = $this->transaction_operator->get_children_transactions_count($id);
 		
 			
 		// get transactions
@@ -496,7 +496,7 @@ class transaction
 			'FROM' => array(
 				$this->cc_transactions_table => 'tr',
 			),
-			'WHERE' => 'tr.transaction_parent_id = ' . $parent_id,
+			'WHERE' => 'tr.parent_id = ' . $parent_id,
 		);
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 		$result = $this->db->sql_query($sql);
@@ -548,7 +548,7 @@ class transaction
 				$this->cc_transactions_table => 'tr',
 			),
 			'WHERE'		=> $sql_where,
-			'ORDER_BY'	=> 'tr.transaction_' . $sort_by . ' ' . (($sort_dir == 'desc') ? 'DESC' : 'ASC'),	
+			'ORDER_BY'	=> 'tr.' . $sort_by . ' ' . (($sort_dir == 'desc') ? 'DESC' : 'ASC'),	
 			'LIMIT'		=> $limit . ', ' . $start,
 		);
 		
@@ -560,23 +560,23 @@ class transaction
 			$transaction_list[] = $row;
 			
 			$this->template->assign_block_vars('transactionrow', array(
-				'FROM_USER_FULL'	=> get_username_string('full', $row['transaction_from_user_id'], $row['transaction_from_username'], $row['transaction_from_user_colour']),
-				'FROM_USER_COLOUR'	=> get_username_string('colour', $row['transaction_from_user_id'], $row['transaction_from_username'], $row['transaction_from_user_colour']),
-				'FROM_USER'			=> get_username_string('username', $row['transaction_from_user_id'], $row['transaction_from_username'], $row['transaction_from_user_colour']),
-				'U_FROM_USER'		=> get_username_string('profile', $row['transaction_from_user_id'], $row['transaction_from_username'], $row['transaction_from_user_colour']),
-				'TO_USER_FULL'		=> get_username_string('full', $row['transaction_to_user_id'], $row['transaction_to_username'], $row['transaction_to_user_colour']),
-				'TO_USER_COLOUR'	=> get_username_string('colour', $row['transaction_to_user_id'], $row['transaction_to_username'], $row['transaction_to_user_colour']),
-				'TO_USER'			=> get_username_string('username', $row['transaction_to_user_id'], $row['transaction_to_username'], $row['transaction_to_user_colour']),
-				'U_TO_USER'			=> get_username_string('profile', $row['transaction_to_user_id'], $row['transaction_to_username'], $row['transaction_to_user_colour']),
-				'AMOUNT'			=> round($row['transaction_amount'] / $this->config['cc_currency_rate']), 
-				'AMOUNT_SECONDS'	=> $row['transaction_amount'], 
-				'DESCRIPTION'		=> $row['transaction_description'],
-				'CREATED_AT'		=> $this->user->format_date($row['transaction_created_at']),
-				'CREATED_BY'		=> $row['transaction_created_by'],
-				'CONFIRMED'			=> ($row['transaction_confirmed']) ? true : false,
-				'CONFIRMDED_AT'		=> $this->user->format_date($row['transaction_confirmed_at']),
-				'U_TRANSACTION'		=> $this->helper->route('marttiphpbb_cc_transactionshow_controller', array('transaction_id' => $row['transaction_id'])),
-				'UNIQUE_ID'				=> $row['transaction_unique_id'],
+				'FROM_USER_FULL'	=> get_username_string('full', $row['from_user_id'], $row['from_username'], $row['from_user_colour']),
+				'FROM_USER_COLOUR'	=> get_username_string('colour', $row['from_user_id'], $row['from_username'], $row['from_user_colour']),
+				'FROM_USER'			=> get_username_string('username', $row['from_user_id'], $row['from_username'], $row['from_user_colour']),
+				'U_FROM_USER'		=> get_username_string('profile', $row['from_user_id'], $row['from_username'], $row['from_user_colour']),
+				'TO_USER_FULL'		=> get_username_string('full', $row['to_user_id'], $row['to_username'], $row['to_user_colour']),
+				'TO_USER_COLOUR'	=> get_username_string('colour', $row['to_user_id'], $row['to_username'], $row['to_user_colour']),
+				'TO_USER'			=> get_username_string('username', $row['to_user_id'], $row['to_username'], $row['to_user_colour']),
+				'U_TO_USER'			=> get_username_string('profile', $row['to_user_id'], $row['to_username'], $row['to_user_colour']),
+				'AMOUNT'			=> round($row['amount'] / $this->config['cc_currency_rate']), 
+				'AMOUNT_SECONDS'	=> $row['amount'], 
+				'DESCRIPTION'		=> $row['description'],
+				'CREATED_AT'		=> $this->user->format_date($row['created_at']),
+				'CREATED_BY'		=> $row['created_by'],
+				'CONFIRMED'			=> ($row['confirmed']) ? true : false,
+				'CONFIRMDED_AT'		=> $this->user->format_date($row['confirmed_at']),
+				'U_TRANSACTION'		=> $this->helper->route('marttiphpbb_cc_transactionshow_controller', array('id' => $row['id'])),
+				'UNIQUE_ID'				=> $row['unique_id'],
 			));
 		}
 		$this->db->sql_freeresult($result);

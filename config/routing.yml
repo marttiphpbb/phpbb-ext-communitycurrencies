@@ -12,8 +12,8 @@ marttiphpbb_cc_transactionlistpage_controller:
         page: ^[2-9]|[1-9]\d+      
     
 marttiphpbb_cc_transactionshow_controller:
-    path: /transactions/{transaction_id}
+    path: /transactions/{id}
     defaults: { _controller: marttiphpbb.ccurrency.transaction.controller:showAction }
     requirements:
-        transaction_id:  \d+
+        id:  \d+
         _method: GET
