@@ -64,8 +64,7 @@ class main_module
 						trigger_error('FORM_INVALID');
 					}
 					
-					$config->set('cc_currency_name', $request->variable('cc_currency_name', ''));
-					$config->set('cc_currency_rate', $request->variable('cc_currency_rate', 0));
+					$config->set('cc_currency_name', serialize($request->variable('cc_currency_name', array('' => ''))));
 					$config->set('cc_time_banking_granularity', $request->variable('cc_time_banking_granularity', 900));
 
 					trigger_error($user->lang('ACP_CC_SETTING_SAVED') . adm_back_link($this->u_action));
@@ -82,10 +81,24 @@ class main_module
 					$granularity_options .= '>'.$option.'</option>';
 				}
 	
+				$placeholder_ary = $user->lang['ACP_CC_CURRENCY_NAME_PLURAL_FORMS_PLACEHOLDERS'];
+				$plural_forms = $user->lang['ACP_CC_CURRENCY_NAME_PLURAL_FORMS'];
+				$currency_name_ary = unserialize($config['cc_currency_name']);
+				
+			
+				foreach ($plural_forms as $key => $name)
+				{
+					$template->assign_block_vars('plural_forms', array(
+						'KEY'			=> $key,
+						'NAME'			=> $name,
+						'VALUE'			=> isset($currency_name_ary[$key]) ? $currency_name_ary[$key] : '',
+						'PLACEHOLDER'	=> isset($placeholder_ary[$key]) ? $placeholder_ary[$key] : '',
+					));
+				}
+	
 				$template->assign_vars(array(
 					'U_ACTION'				=> $this->u_action,
 
-					'CC_CURRENCY_NAME'					=> $config['cc_currency_name'],	
 					'CC_CURRENCY_RATE'					=> $config['cc_currency_rate'],	
 					'S_CC_TB_GRANULARITY_OPTIONS'		=> $granularity_options,	
 				));			

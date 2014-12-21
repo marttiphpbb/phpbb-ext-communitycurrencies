@@ -54,9 +54,19 @@ $lang = array_merge($lang, array(
 
 // acp currency 
 
-	'ACP_CC_CURRENCY_NAME' 			=> 'Currency name',	
+	'ACP_CC_CURRENCY_NAME' 			=> 'Currency name',
+	'ACP_CC_CURRENCY_NAME_PLURAL_FORMS_PLACEHOLDERS'	=> array(
+		1 => '1 coin',
+		2 => '2 coins',
+	),
+	'ACP_CC_CURRENCY_NAME_PLURAL_FORMS'	=> array(
+		1 => 'Singular',
+		2 => 'Plural',
+	),
+
 	'ACP_CC_CURRENCY_NAME_EXPLAIN'	=> 'The currency name is not in use when Time Banking',
 	'ACP_CC_CURRENCY_RATE' 			=> 'Currency rate in seconds',
+	'ACP_CC_TIME_BANKING'			=> 'Time banking',
 	'ACP_CC_CURRENCY_RATE_EXPLAIN'	=> 'Set to zero when Time Banking',	
 	'ACP_CC_TIME_BANKING_GRANULARITY'	=> 'Time Banking granularity', 
 	'ACP_CC_TB_GRANULARITY_OPTIONS' => array(

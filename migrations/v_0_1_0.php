@@ -21,10 +21,13 @@ class v_0_1_0 extends migration
 			array('config.add', array('cc_hide_github_link', 0)),
 			array('config.add', array('cc_transactions_per_page', 25)),		
 				
-			array('config.add', array('cc_currency_name', '')),
-			
-			
-			
+			array('config.add', array('cc_currency_name_0', '')),
+			array('config.add', array('cc_currency_name_1', '')),
+			array('config.add', array('cc_currency_name_2', '')),
+			array('config.add', array('cc_currency_name_3', '')),
+			array('config.add', array('cc_currency_name_4', '')),
+			array('config.add', array('cc_currency_name_5', '')),
+
 			array('config.add', array('cc_currency_rate', 60)),
 			array('config.add', array('cc_time_banking_granularity', 900)),
 			

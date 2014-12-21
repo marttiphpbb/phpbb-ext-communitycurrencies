@@ -3,22 +3,24 @@
 <h1>{L_ACP_CC_CURRENCY} </h1>
 
 <form id="acp_board" method="post" action="{U_ACTION}">
-	<fieldset>
-					
+	<fieldset><legend>{L_ACP_CC_CURRENCY_NAME}</legend>
+		<p>{L_ACP_CC_CURRENCY_NAME_EXPLAIN}</p>	
+		<!-- BEGIN plural_forms -->				
 		<dl>
-			<dt><label for="cc_currency_name">{L_ACP_CC_CURRENCY_NAME}</label>
-			<br /><span>{L_ACP_CC_CURRENCY_NAME_EXPLAIN}</span></dt>
-			<dd><input type="text" name="cc_currency_name" value="{CC_CURRENCY_NAME}" size="20" maxlength="20" /></dd>
+			<dt><label for="cc_currency_name[{plural_forms.KEY}]">{plural_forms.NAME}</label></dt>	
+			<dd><input type="text" name="cc_currency_name[{plural_forms.KEY}]" value="{plural_forms.VALUE}" size="20" maxlength="20" placeholder="{plural_forms.PLACEHOLDER}" /></dd>
 		</dl>
-	
-		
-		
-		
+		<!-- END plural_forms -->	
+	</fieldset>
+	<fieldset>	
 		<dl>
 			<dt><label for="cc_currency_rate">{L_ACP_CC_CURRENCY_RATE}</label>
 			<br /><span>{L_ACP_CC_CURRENCY_RATE_EXPLAIN}</span></dt>
 			<dd><input type="text" name="cc_currency_rate" value="{CC_CURRENCY_RATE}" size="4" maxlength="4" /></dd>
 		</dl>
+	</fieldset>	
+	<fieldset><legend>{L_ACP_CC_TIME_BANKING}</legend>
+		
 		<dl>
 			<dt><label for="cc_time_banking_granularity">{L_ACP_CC_TIME_BANKING_GRANULARITY}</label></dt>
 			<dd><select id="cc_time_banking_granularity" name="cc_time_banking_granularity" />
