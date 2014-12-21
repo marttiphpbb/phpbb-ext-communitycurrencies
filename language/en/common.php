@@ -104,6 +104,11 @@ $lang = array_merge($lang, array(
 	'CC_NO_AUTH_CREATE_TRANSACTION' => 'You are not authorised to create transactions.',
 	'CC_NO_AUTH_VIEW_TRANSACTIONS'	=> 'You are not authorised to view transactions.',
 
+	'CC_TIME_HOURS_AND_MINUTES'		=> '%1s:%2s',
+	'CC_TIME_HOURS_ONLY'			=> '%sh',
+	
+	
+
 // show transaction
  
 	'CC_TRANSACTION_NOT_FOUND'		=> 'The transaction could not be found.',	

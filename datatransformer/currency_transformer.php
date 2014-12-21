@@ -14,9 +14,6 @@ class currency_transformer
 {
 
     private $config;
-    
-    private $transform_func;
-    private $reverse_transform_func;
     private $is_time_banking;
 
     /**
@@ -25,9 +22,7 @@ class currency_transformer
     public function __construct($config)
     {
         $this->config = $config;
-        $this->is_time_banking = ($this->config['cc_currency_rate'] && is_int($this->config['cc_currency_rate']) && $this->config['cc_currency_rate'] > 0) ? false : true;
-        $this->transform_func = ($this->is_time_banking) ? 'time_banking_transform' : 'custom_transform';
-        $this->reverse_transform_func = ($this->is_time_banking) ? 'time_banking_reverse_transform' : 'custom_reverse_transform';
+        $this->is_time_banking = ($this->config['cc_currency_rate'] && $this->config['cc_currency_rate'] > 0) ? false : true;
     }
 
     /**
@@ -50,7 +45,7 @@ class currency_transformer
     }
 
     /**
-     * Transforms local currency or time (hours + minutes) to seconds.
+     * Transforms local currency or time (hours + minutes) to internal amount (seconds).
      *
      * @param  integer $hours
      * @param  integer $minutes

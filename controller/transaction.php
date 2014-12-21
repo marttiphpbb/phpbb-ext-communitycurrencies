@@ -415,6 +415,8 @@ class transaction
 
 		foreach ($transactions as $row)
 		{
+			$amount = $this->currency_transformer->transform($row['amount']);
+			
 			$this->template->assign_block_vars('transactionrow', array(
 				'FROM_USER_FULL'	=> get_username_string('full', $row['from_user_id'], $row['from_username'], $row['from_user_colour']),
 				'FROM_USER_COLOUR'	=> get_username_string('colour', $row['from_user_id'], $row['from_username'], $row['from_user_colour']),
@@ -424,7 +426,9 @@ class transaction
 				'TO_USER_COLOUR'	=> get_username_string('colour', $row['to_user_id'], $row['to_username'], $row['to_user_colour']),
 				'TO_USER'			=> get_username_string('username', $row['to_user_id'], $row['to_username'], $row['to_user_colour']),
 				'U_TO_USER'			=> get_username_string('profile', $row['to_user_id'], $row['to_username'], $row['to_user_colour']),
-				'AMOUNT_CURRENCY'	=> round($row['amount'] / $this->config['cc_currency_rate']), 
+				'AMOUNT_LOCAL'		=> $amount['local'], 
+				'AMOUNT_HOURS'		=> $amount['hours'], 
+				'AMOUNT_MINUTES'	=> $amount['minutes'], 
 				'AMOUNT'			=> $row['amount'], 
 				'DESCRIPTION'		=> $row['description'],
 				'CREATED_AT'		=> $this->user->format_date($row['created_at']),
@@ -472,13 +476,15 @@ class transaction
 
 		if (!$row['children_count'])
 		{
-			// show transaction			
+			// show transaction
+			
+			$amount = $this->currency_transformer->transform($row['amount']);		
 
 			$this->template->assign_vars(array(
 				'S_TIME_BANKING'		=> $this->is_time_banking,
-				'HOURS'					=> $row['amount'],
-				'MINUTES'				=> $minutes,
-				'AMOUNT'				=> $amount,
+				'AMOUNT_HOURS'			=> $amount['hours'],
+				'AMOUNT_MINUTES'		=> $amount['minutes'],
+				'AMOUNT_LOCAL'			=> $amount['local'],
 				'TO_USER'				=> $to_user,
 				'DESCRIPTION'			=> $description,
 			));			

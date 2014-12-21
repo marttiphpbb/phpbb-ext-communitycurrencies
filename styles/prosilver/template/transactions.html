@@ -135,7 +135,7 @@
 <tr class="<!-- IF transactionrow.S_ROW_COUNT is even -->bg1<!-- ELSE -->bg2<!-- ENDIF -->">
 	<td class="from-user">{transactionrow.FROM_USER_FULL}</td>
 	<td class="to-user">{transactionrow.TO_USER_FULL}</td>
-	<td class="amount"><a href="{transactionrow.U_TRANSACTION}">{transactionrow.AMOUNT_CURRENCY}</a></td>
+	<td class="amount"><a href="{transactionrow.U_TRANSACTION}"><!-- IF S_TIME_BANKING -->{transactionrow.AMOUNT_TIME}<!-- ELSE -->{transactionrow.AMOUNT_LOCAL}<!-- ENDIF --></a></td>
 	<td class="description"><a href="{transactionrow.U_TRANSACTION}">{transactionrow.DESCRIPTION}</a></td>
 	<td class="created-at"><a href="{transactionrow.U_TRANSACTION}">{transactionrow.CREATED_AT}</a></td>
 </tr>
