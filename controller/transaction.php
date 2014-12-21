@@ -364,7 +364,7 @@ class transaction
 
 		// get transactions
 		
-		$transactions_count = $this->transaction_operator->get_transactions_count($search_query);
+		$transactions_count = ($search_query) ? $this->transaction_operator->get_transactions_count($search_query) : $this->config['cc_transaction_count'];
 
 		$start = ($page - 1) * $limit;
 

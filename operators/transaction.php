@@ -153,7 +153,9 @@ class transaction
 		$sql = 'UPDATE ' . $this->users_table . '
 			SET user_cc_balance = user_cc_balance + ' . $amount . '
 			WHERE user_id = ' . $to_user_ary['user_id'];
-		$this->db->sql_query($sql);					
+		$this->db->sql_query($sql);
+		
+		$this->config->increment('cc_transaction_count', 1);					
 	
 		$this->db->sql_transaction('commit');
 		
