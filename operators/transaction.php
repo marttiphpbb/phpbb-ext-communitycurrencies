@@ -169,7 +169,7 @@ class transaction
 
 
 	/**
-	 * @param string $q
+	 * @param string $search_query
 	 * @return int
 	*/
 	public function get_transactions_count($search_query)
@@ -279,7 +279,7 @@ class transaction
 	 * @param int $id
 	 * @return int
 	*/
-	public function get_children_transactions_count($id)
+	public function get_child_transactions_count($id)
 	{	
 		$sql_ary = array(
 			'SELECT' => 'count(*) as num', 

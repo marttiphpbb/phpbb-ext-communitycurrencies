@@ -21,7 +21,9 @@ use phpbb\controller\helper;
 
 use Symfony\Component\HttpFoundation\Response;
 
+use marttiphpbb\ccurrency\datatransformer\currency_transformer;
 use marttiphpbb\ccurrency\operators\transaction as transaction_operator;
+
 
 use marttiphpbb\ccurrency\util\uuid_generator;
 use marttiphpbb\ccurrency\util\uuid_validator;
@@ -40,6 +42,7 @@ class transaction
 	protected $template;
 	protected $user;
 	protected $helper;
+	protected $currency_transformer;
 	protected $transaction_operator;
 	protected $root_path;
 	protected $cc_transactions_table;
@@ -59,6 +62,7 @@ class transaction
    * @param template   $template 
    * @param user   $user 
    * @param helper $helper
+   * @param currency_transformer $currency_transformer
    * @param transaction_operator $transaction_operator   
    * @param string $root_path 
    * @param string $cc_transactions_table 
@@ -78,6 +82,7 @@ class transaction
 		template $template, 
 		user $user, 
 		helper $helper,
+		currency_transformer $currency_transformer,
 		transaction_operator $transaction_operator,			
 		$root_path,
 		$cc_transactions_table,
@@ -96,6 +101,7 @@ class transaction
 		$this->template = $template;
 		$this->user = $user;
 		$this->helper = $helper;
+		$this->currency_transformer = $currency_transformer;
 		$this->transaction_operator = $transaction_operator;			
 		$this->root_path = $root_path;
 		$this->cc_transactions_table = $cc_transactions_table;
@@ -485,23 +491,8 @@ class transaction
 			{
 				
 			}
-		
-		$count = $this->transaction_operator->get_children_transactions_count($id);
-		
 			
 		// get transactions
-		
-		$sql_ary = array(
-			'SELECT' => 'count(*) as num', 
-			'FROM' => array(
-				$this->cc_transactions_table => 'tr',
-			),
-			'WHERE' => 'tr.parent_id = ' . $parent_id,
-		);
-		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
-		$result = $this->db->sql_query($sql);
-		$transactions_count = $this->db->sql_fetchfield('num');
-		$this->db->sql_freeresult($result);
 		
 		$start = ($page - 1) * $limit;
 
@@ -515,11 +506,6 @@ class transaction
 		if ($sort_dir != 'desc')
 		{
 			$params['sort_dir'] = $sort_dir;
-		}
-		
-		if ($search_query)
-		{
-			$params['q'] = $search_query;
 		}
 
 

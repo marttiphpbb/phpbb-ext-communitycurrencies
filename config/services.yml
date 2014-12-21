@@ -28,6 +28,7 @@ services:
             - @template
             - @user
             - @controller.helper
+            - @marttiphpbb.ccurrency.datatransformer.currency_transformer
             - @marttiphpbb.ccurrency.transaction.operator
             - %core.root_path%
             - %tables.cc_transactions%
@@ -47,7 +48,7 @@ services:
             - %tables.topics%
             - %tables.users%
 
-    marttiphpbb.ccurrency.transformer:
+    marttiphpbb.ccurrency.datatransformer.currency_transformer:
         class: marttiphpbb\ccurrency\datatransformer\currency_transformer
         arguments:
             - @config
