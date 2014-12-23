@@ -32,9 +32,6 @@ if (empty($lang) || !is_array($lang))
 
 
 
-
-
-
 $lang = array_merge($lang, array(
 
 	'LOG_CC_TRANSACTION'	=> 'Transaction posted from to by',	
@@ -77,11 +74,4 @@ $lang = array_merge($lang, array(
 		1800	=> '30 min.',
 		3600	=> '1 hour',
 	),
-
-// acl 
-	
-	'ACL_M_CC_CREATETRANSACTIONS'	=> 'Can create transactions on behalf of users',
-	'ACL_U_CC_CREATETRANSACTIONS'	=> 'Can create transactions',
-	'ACL_U_CC_VIEWTRANSACTIONS'		=> 'Can view transactions',
-
 ));

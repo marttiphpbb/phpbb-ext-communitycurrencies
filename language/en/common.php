@@ -42,6 +42,13 @@ $lang = array_merge($lang, array(
 	'ACP_CC_RENDERING'			=> 'Rendering',
 	'ACP_CC_CURRENCY'			=> 'Currency',
 
+// acl 
+	
+	'ACL_M_CC_CREATETRANSACTIONS'	=> 'Can create transactions on behalf of users',
+	'ACL_U_CC_CREATETRANSACTIONS'	=> 'Can create transactions',
+	'ACL_U_CC_VIEWTRANSACTIONS'		=> 'Can view transactions',
+
+
 
 // notification
 

@@ -15,8 +15,8 @@ class v_0_1_0 extends migration
 	public function update_data()
 	{
 		return array(
-			array('config.add', array('cc_transactions_menu_quick', 1)),
-			array('config.add', array('cc_transactions_menu_header', 0)),
+			array('config.add', array('cc_transactions_menu_quick', 0)),
+			array('config.add', array('cc_transactions_menu_header', 1)),
 			array('config.add', array('cc_transactions_menu_footer', 0)),
 			array('config.add', array('cc_hide_github_link', 0)),
 			array('config.add', array('cc_transactions_per_page', 25)),		

@@ -32,8 +32,8 @@ class main_module
 						trigger_error('FORM_INVALID');
 					}
 					
-					$config->set('cc_transactions_menu_quick', $request->variable('cc_transactions_menu_quick', 1));
-					$config->set('cc_transactions_menu_header', $request->variable('cc_transactions_menu_header', 0));
+					$config->set('cc_transactions_menu_quick', $request->variable('cc_transactions_menu_quick', 0));
+					$config->set('cc_transactions_menu_header', $request->variable('cc_transactions_menu_header', 1));
 					$config->set('cc_transactions_menu_footer', $request->variable('cc_transactions_menu_footer', 0));	
 					$config->set('cc_hide_github_link', $request->variable('cc_hide_github_link', 0));	
 					$config->set('cc_transactions_per_page', $request->variable('cc_transactions_per_page', 25));	
