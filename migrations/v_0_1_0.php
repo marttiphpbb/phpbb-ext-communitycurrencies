@@ -21,12 +21,8 @@ class v_0_1_0 extends migration
 			array('config.add', array('cc_hide_github_link', 0)),
 			array('config.add', array('cc_transactions_per_page', 25)),		
 				
-			array('config.add', array('cc_currency_name_0', '')),
-			array('config.add', array('cc_currency_name_1', '')),
-			array('config.add', array('cc_currency_name_2', '')),
-			array('config.add', array('cc_currency_name_3', '')),
-			array('config.add', array('cc_currency_name_4', '')),
-			array('config.add', array('cc_currency_name_5', '')),
+			array('config.add', array('cc_currency_symbol', '')),
+			array('config.add', array('cc_currency_symbol_before', 1)),
 
 			array('config.add', array('cc_currency_rate', 60)),
 			array('config.add', array('cc_time_banking_granularity', 900)),
@@ -80,7 +76,20 @@ class v_0_1_0 extends migration
 		return array(
 		
 			'add_tables'    => array(
-				$this->table_prefix . 'cc_transactions'        => array(
+				$this->table_prefix . 'cc_currency_plurals'	=> array(
+					'COLUMNS'	=> array(
+						'id'		=> array('UINT', NULL, 'auto_increment'),
+						'lang_id'	=> array('UINT', NULL),
+						'lang_iso'	=> array('VCHAR:30', ''),
+						'form'		=> array('UINT', NULL),
+						'name'		=> array('VCHAR_UNI', ''), 
+					),
+					'PRIMARY_KEY'	=> 'id',
+					'KEYS'	=> array(
+						'lid'	=> array('INDEX', 'lang_id'),
+					),
+				),
+				$this->table_prefix . 'cc_transactions'		=> array(
 					'COLUMNS'        => array(
 						'id'                => array('UINT', NULL, 'auto_increment'),
 						'unique_id' 		=> array('VCHAR', ''),
@@ -138,6 +147,7 @@ class v_0_1_0 extends migration
 			),
 			'drop_tables'			=> array(
 				$this->table_prefix . 'cc_transactions',
+				$this->table_prefix . 'cc_currency_plurals',
 			),
 	   );
 	}	
