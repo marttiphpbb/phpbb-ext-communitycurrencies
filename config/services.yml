@@ -48,6 +48,16 @@ services:
             - %tables.topics%
             - %tables.users%
 
+    marttiphpbb.ccurrency.currency_plural.operator:
+        class: marttiphpbb\ccurrency\operators\currency_plural
+        arguments:
+            - @cache
+            - @config
+            - @dbal.conn
+            - @user
+            - @controller.helper
+            - %tables.cc_currency_plural%
+
     marttiphpbb.ccurrency.datatransformer.currency_transformer:
         class: marttiphpbb\ccurrency\datatransformer\currency_transformer
         arguments:

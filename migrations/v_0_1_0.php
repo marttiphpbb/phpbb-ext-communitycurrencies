@@ -76,7 +76,7 @@ class v_0_1_0 extends migration
 		return array(
 		
 			'add_tables'    => array(
-				$this->table_prefix . 'cc_currency_plurals'	=> array(
+				$this->table_prefix . 'cc_currency_plural'	=> array(
 					'COLUMNS'	=> array(
 						'id'		=> array('UINT', NULL, 'auto_increment'),
 						'lang_id'	=> array('UINT', NULL),
@@ -147,7 +147,7 @@ class v_0_1_0 extends migration
 			),
 			'drop_tables'			=> array(
 				$this->table_prefix . 'cc_transactions',
-				$this->table_prefix . 'cc_currency_plurals',
+				$this->table_prefix . 'cc_currency_plural',
 			),
 	   );
 	}	

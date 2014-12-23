@@ -15,6 +15,7 @@ class main_module
 	{
 		global $db, $user, $auth, $template, $cache, $request;
 		global $config, $phpbb_root_path, $phpbb_admin_path, $phpEx;
+		global $phpbb_container;
 
 		$user->add_lang_ext('marttiphpbb/ccurrency', 'acp');
 		add_form_key('marttiphpbb/ccurrency');		
@@ -55,6 +56,10 @@ class main_module
 			case 'currency': 
 				$this->tpl_name = 'currency';
 				$this->page_title = $user->lang('ACP_CC_CURRENCY');
+				
+				$currency_plural_operator = $phpbb_container->get('marttiphpbb.ccurrency.currency_plural.operator');
+
+				var_dump($currency_plural_operator->get_languages());
 
 				if ($request->is_set_post('submit'))
 				{

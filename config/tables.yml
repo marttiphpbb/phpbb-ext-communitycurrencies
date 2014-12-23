@@ -1,3 +1,4 @@
 parameters:
     tables.cc_transactions: %core.table_prefix%cc_transactions
+    tables.cc_currency_plural: %core.table_prefix%currency_plural
 
