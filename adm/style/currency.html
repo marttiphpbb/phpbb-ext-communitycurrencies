@@ -4,13 +4,16 @@
 
 <form id="acp_board" method="post" action="{U_ACTION}">
 	<fieldset><legend>{L_ACP_CC_CURRENCY_NAME}</legend>
-		<p>{L_ACP_CC_CURRENCY_NAME_EXPLAIN}</p>	
-		<!-- BEGIN plural_forms -->				
-		<dl>
-			<dt><label for="cc_currency_name[{plural_forms.KEY}]">{plural_forms.NAME}</label></dt>	
-			<dd><input type="text" name="cc_currency_name[{plural_forms.KEY}]" value="{plural_forms.VALUE}" size="20" maxlength="20" placeholder="{plural_forms.PLACEHOLDER}" /></dd>
-		</dl>
-		<!-- END plural_forms -->	
+		<p>{L_ACP_CC_CURRENCY_NAME_EXPLAIN}</p>
+		<!-- BEGIN lang -->
+			<h4>{lang.LANG_LOCAL_NAME}</h4><hr/>
+			<!-- BEGIN plural_forms -->				
+			<dl>
+				<dt><label for="cc_currency_name[{plural_forms.KEY}]">{plural_forms.NAME}</label></dt>	
+				<dd><input type="text" name="cc_currency_name[{plural_forms.KEY}]" value="{plural_forms.VALUE}" size="20" maxlength="20" placeholder="{plural_forms.PLACEHOLDER}" /></dd>
+			</dl>
+			<!-- END plural_forms -->
+		<!-- END lang -->	
 	</fieldset>
 	<fieldset>	
 		<dl>

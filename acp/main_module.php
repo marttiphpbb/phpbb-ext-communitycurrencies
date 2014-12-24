@@ -59,7 +59,7 @@ class main_module
 				
 				$currency_plural_operator = $phpbb_container->get('marttiphpbb.ccurrency.currency_plural.operator');
 
-				var_dump($currency_plural_operator->get_languages());
+				$language_ary = $currency_plural_operator->get_languages();
 
 				if ($request->is_set_post('submit'))
 				{
@@ -90,15 +90,22 @@ class main_module
 				$plural_forms = $user->lang['ACP_CC_CURRENCY_NAME_PLURAL_FORMS'];
 				$currency_name_ary = unserialize($config['cc_currency_name']);
 				
-			
-				foreach ($plural_forms as $key => $name)
+				foreach ($language_ary as $lang)
 				{
-					$template->assign_block_vars('plural_forms', array(
-						'KEY'			=> $key,
-						'NAME'			=> $name,
-						'VALUE'			=> isset($currency_name_ary[$key]) ? $currency_name_ary[$key] : '',
-						'PLACEHOLDER'	=> isset($placeholder_ary[$key]) ? $placeholder_ary[$key] : '',
+					$template->assign_block_vars('lang', array(
+						'LANG_LOCAL_NAME'	=> $lang['lang_local_name'],
 					));
+					
+					
+					foreach ($plural_forms as $key => $name)
+					{
+						$template->assign_block_vars('lang.plural_forms', array(
+							'KEY'			=> $key,
+							'NAME'			=> $name,
+							'VALUE'			=> isset($currency_name_ary[$key]) ? $currency_name_ary[$key] : '',
+							'PLACEHOLDER'	=> isset($placeholder_ary[$key]) ? $placeholder_ary[$key] : '',
+						));
+					}
 				}
 	
 				$template->assign_vars(array(

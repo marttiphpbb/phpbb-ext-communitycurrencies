@@ -61,7 +61,7 @@ class currency_plural
 			'FROM'		=> array(
 				$this->lang_table => 'l',
 			),
-			'SORT BY'		=> 'l.lang_englisch_name, ASC',
+			'SORT BY'		=> 'l.lang_iso, ASC',
 
 		);
 		
@@ -72,7 +72,26 @@ class currency_plural
 		return $lang_ary;			
 	}
 	
-
+	/**
+	 * @return array
+	 */
+	public function get_all_currency_plural()
+	{
+		$sl_ary = array(
+			'SELECT'	=> 'cp.*',
+			'FROM'		=> array(
+				$this->cc_currency_plural_table => 'cp',
+			),
+			'SORT BY'	=> 'cp.lang_iso, ASC',
+		);
 		
-
+		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
+		$result = $this->db->sql_query($sql);
+		$currency_plural_ary = $this->db->sql_fetchrowset($result);
+		$this->db->sql_freeresult($result);
+		return $currency_plural_ary;	
+	}
+	
+	
+	
 }
