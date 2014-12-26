@@ -60,9 +60,10 @@ $lang = array_merge($lang, array(
 		1 => 'Singular',
 		2 => 'Plural',
 	),
+	'ACP_CC_LANGUAGE_FILE_NOT_AVAILABLE' => 'Translation in this language is not available (yet). You can help the Community Currency extension by feeding back translation files.',
 
 	'ACP_CC_CURRENCY_NAME_EXPLAIN'	=> 'The currency name is not in use when Time Banking',
-	'ACP_CC_CURRENCY_RATE' 			=> 'Currency rate in seconds',
+	'ACP_CC_CURRENCY_RATE' 			=> 'Currency rate in seconds', 
 	'ACP_CC_TIME_BANKING'			=> 'Time banking',
 	'ACP_CC_CURRENCY_RATE_EXPLAIN'	=> 'Set to zero when Time Banking',	
 	'ACP_CC_TIME_BANKING_GRANULARITY'	=> 'Time Banking granularity', 

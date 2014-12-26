@@ -57,7 +57,7 @@ class currency_plural
 	public function get_languages()
 	{
 		$sql_ary = array(
-			'SELECT'	=> 'l.lang_id, l.lang_iso, l.lang_local_name',
+			'SELECT'	=> 'l.lang_id, l.lang_iso, l.lang_dir, l.lang_local_name',
 			'FROM'		=> array(
 				$this->lang_table => 'l',
 			),
