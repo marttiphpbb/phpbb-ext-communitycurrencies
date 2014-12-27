@@ -113,6 +113,7 @@ $lang = array_merge($lang, array(
 
 	'CC_TIME_HOURS_AND_MINUTES'		=> '%1s:%2s',
 	'CC_TIME_HOURS_ONLY'			=> '%sh',
+	'CC_BALANCE'					=> '%1s %2s',	
 	
 	
 
@@ -127,5 +128,7 @@ $lang = array_merge($lang, array(
 	'CC_SHOW_USER_TRANSACTIONS'		=> 'Show this user\'s transactions',
 	'CC_USER_TRANSACTION_PCT'		=> '%.2f%% of all transactions',
 	'CC_USER_TRANSACTION_PER_DAY'	=> '%.2f transactions per day',
+
+
 
 ));

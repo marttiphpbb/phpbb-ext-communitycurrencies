@@ -71,8 +71,11 @@ class main_module
 						trigger_error('FORM_INVALID');
 					}
 					
-					$config->set('cc_currency_name', serialize($request->variable('cc_currency_name', array('' => ''))));
 					$config->set('cc_time_banking_granularity', $request->variable('cc_time_banking_granularity', 900));
+
+					$currency_plural_ary = $request->variable('cc_currency_name', array('' => array('')), true);
+		
+					$currency_plural_operator->set($currency_plural_ary);
 
 					trigger_error($user->lang('ACP_CC_SETTING_SAVED') . adm_back_link($this->u_action));
 				}
@@ -90,13 +93,18 @@ class main_module
 	
 				$currency_name_ary = unserialize($config['cc_currency_name']);
 				
+				$currency_name_ary = $currency_plural_operator->get_all();
+				
 				foreach ($language_ary as $lang)
 				{
+					$lang_dir = $lang['lang_dir'];
+					
 					$template->assign_block_vars('lang', array(
 						'LANG_LOCAL_NAME'	=> $lang['lang_local_name'],
+						'LANG_DIR'			=> $lang_dir,
 					));
 					
-					$lang_file = $language_dir . '/' . $lang['lang_dir'] . '/acp.' . $phpEx;
+					$lang_file = $language_dir . '/' . $lang_dir . '/acp.' . $phpEx;
 					
 					if (!file_exists($lang_file))
 					{
@@ -107,15 +115,13 @@ class main_module
 
 					$placeholder_ary = $lang['ACP_CC_CURRENCY_NAME_PLURAL_FORMS_PLACEHOLDERS'];
 					$plural_forms = $lang['ACP_CC_CURRENCY_NAME_PLURAL_FORMS'];
-
-
-
+					
 					foreach ($plural_forms as $key => $name)
 					{
 						$template->assign_block_vars('lang.plural_forms', array(
 							'KEY'			=> $key,
 							'NAME'			=> $name,
-							'VALUE'			=> isset($currency_name_ary[$key]) ? $currency_name_ary[$key] : '',
+							'VALUE'			=> (isset($currency_name_ary[$lang_dir][$key])) ? $currency_name_ary[$lang_dir][$key] : '',
 							'PLACEHOLDER'	=> isset($placeholder_ary[$key]) ? $placeholder_ary[$key] : '',
 						));
 					}

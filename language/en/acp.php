@@ -53,8 +53,8 @@ $lang = array_merge($lang, array(
 
 	'ACP_CC_CURRENCY_NAME' 			=> 'Currency name',
 	'ACP_CC_CURRENCY_NAME_PLURAL_FORMS_PLACEHOLDERS'	=> array(
-		1 => '1 coin',
-		2 => '2 coins',
+		1 => 'carrot',
+		2 => 'carrots',
 	),
 	'ACP_CC_CURRENCY_NAME_PLURAL_FORMS'	=> array(
 		1 => 'Singular',

@@ -75,23 +75,64 @@ class currency_plural
 	/**
 	 * @return array
 	 */
-	public function get_all_currency_plural()
+	public function get_all()
 	{
-		$sl_ary = array(
+		$ary = array();
+		
+		$sql_ary = array(
 			'SELECT'	=> 'cp.*',
 			'FROM'		=> array(
 				$this->cc_currency_plural_table => 'cp',
 			),
 			'SORT BY'	=> 'cp.lang_iso, ASC',
 		);
-		
+
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 		$result = $this->db->sql_query($sql);
-		$currency_plural_ary = $this->db->sql_fetchrowset($result);
+		while($row = $this->db->sql_fetchrow($result))
+		{
+			$ary[$row['lang_dir']] = (isset($ary[$row['lang_dir']])) ? $ary[$row['lang_dir']] : array();
+			$ary[$row['lang_dir']][$row['form']] = $row['name'];
+		}
 		$this->db->sql_freeresult($result);
-		return $currency_plural_ary;	
+		return $ary;	
 	}
 	
-	
+	/**
+	 * @param array
+	 * @return currency_plural
+	 */
+	public function set($ary)
+	{
+		$select = $this->get_all();
+		foreach ($ary as $lang_dir => $forms)
+		{
+			foreach ($forms as $form => $name)
+			{
+				if (isset($select[$lang_dir][$form]))
+				{
+					if ($select[$lang_dir][$form] == $name)
+					{
+						continue;
+					}
+					$sql_ary = array('name'	=> $name);
+					$sql = 'UPDATE ' . $this->cc_currency_plural_table . '
+						SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . '
+						WHERE lang_dir = \'' . $this->db->sql_escape($lang_dir) . '\'
+							AND form = ' . $form;
+					$this->db->sql_query($sql);
+					continue;
+				}
+				$sql_ary = array(
+					'lang_dir'	=> $lang_dir,
+					'form'		=> $form,
+					'name'		=> $name,
+				);
+				$sql = 'INSERT INTO ' . $this->cc_currency_plural_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary);
+				$this->db->sql_query($sql);
+			}
+		}
+		return $this;
+	}
 	
 }

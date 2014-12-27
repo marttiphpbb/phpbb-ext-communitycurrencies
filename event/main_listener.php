@@ -129,6 +129,7 @@ class main_listener implements EventSubscriberInterface
 			'CC_USER_TRANSACTIONS_PCT'	=> $this->user->lang('CC_USER_TRANSACTION_PCT', $percentage),
 			'CC_USER_TRANSACTIONS_PER_DAY' => $this->user->lang('CC_USER_TRANSACTION_PER_DAY', $transactions_per_day),
 			'U_CC_USER_TRANSACTIONS' => $this->helper->route('marttiphpbb_cc_transactionlist_controller', array('user_id' => $member['user_id'])),
+			'CC_USER_BALANCE'	=> $this->user->lang('CC_BALANCE', $member['user_cc_balance'], $this->user->lang()),
 		));
 	}		
 }

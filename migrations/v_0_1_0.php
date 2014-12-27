@@ -79,15 +79,11 @@ class v_0_1_0 extends migration
 				$this->table_prefix . 'cc_currency_plural'	=> array(
 					'COLUMNS'	=> array(
 						'id'		=> array('UINT', NULL, 'auto_increment'),
-						'lang_id'	=> array('UINT', NULL),
-						'lang_iso'	=> array('VCHAR:30', ''),
+						'lang_dir'	=> array('VCHAR:30', ''),
 						'form'		=> array('UINT', NULL),
 						'name'		=> array('VCHAR_UNI', ''), 
 					),
 					'PRIMARY_KEY'	=> 'id',
-					'KEYS'	=> array(
-						'lid'	=> array('INDEX', 'lang_id'),
-					),
 				),
 				$this->table_prefix . 'cc_transactions'		=> array(
 					'COLUMNS'        => array(
