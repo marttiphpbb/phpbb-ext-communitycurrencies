@@ -93,7 +93,7 @@ class main_module
 	
 				$currency_name_ary = unserialize($config['cc_currency_name']);
 				
-				$currency_name_ary = $currency_plural_operator->get_all();
+				$currency_name_ary = $currency_plural_operator->get();
 				
 				foreach ($language_ary as $lang)
 				{

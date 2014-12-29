@@ -113,7 +113,11 @@ $lang = array_merge($lang, array(
 
 	'CC_TIME_HOURS_AND_MINUTES'		=> '%1s:%2s',
 	'CC_TIME_HOURS_ONLY'			=> '%sh',
-	'CC_BALANCE'					=> '%1s %2s',	
+	
+// profile
+	
+	'CC_BALANCE'					=> 'Balance',
+	'CC_AMOUNT_CURRENCY'			=> '%1s %2s',
 	
 	
 

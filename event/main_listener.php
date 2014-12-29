@@ -13,6 +13,8 @@ use phpbb\controller\helper;
 use phpbb\template\twig\twig as template;
 use phpbb\user;
 
+use marttiphpbb\ccurrency\datatransformer\currency_transformer;
+
 /**
 * @ignore
 */
@@ -42,6 +44,9 @@ class main_listener implements EventSubscriberInterface
 	/* @var user */
 	protected $user;
 	
+	/* @var currency_transformer */
+	protected $currency_transformer;
+	
 	/**
 	* @param auth				$auth
 	* @param config				$config
@@ -49,6 +54,7 @@ class main_listener implements EventSubscriberInterface
 	* @param string				$php_ext	
 	* @param template			$template
 	* @param user				$user
+	* @param currency_transformer				$currency_transformer
 	*/
 	public function __construct(
 			auth $auth,
@@ -56,7 +62,8 @@ class main_listener implements EventSubscriberInterface
 			helper $helper, 
 			$php_ext,
 			template $template,
-			user $user
+			user $user,
+			currency_transformer $currency_transformer
 		)
 	{
 		$this->auth = $auth;
@@ -65,6 +72,7 @@ class main_listener implements EventSubscriberInterface
 		$this->php_ext = $php_ext;
 		$this->template = $template;
 		$this->user = $user;
+		$this->currency_transformer = $currency_transformer;
 	}	
 	
 
@@ -83,11 +91,15 @@ class main_listener implements EventSubscriberInterface
 	public function core_user_setup($event)
 	{
 		$lang_set_ext = $event['lang_set_ext'];
+		
+		
 		$lang_set_ext[] = array(
 			'ext_name' => 'marttiphpbb/ccurrency',
 			'lang_set' => 'common',
 		);
 		$event['lang_set_ext'] = $lang_set_ext;
+		
+		
 	}
 	
 	public function core_page_footer($event)
@@ -98,7 +110,7 @@ class main_listener implements EventSubscriberInterface
 			'S_CC_TRANSACTIONS_MENU_HEADER'	=> $this->config['cc_transactions_menu_header'] && $this->auth->acl_get('u_cc_viewtransactions'),
 			'S_CC_TRANSACTIONS_MENU_FOOTER'	=> $this->config['cc_transactions_menu_footer'] && $this->auth->acl_get('u_cc_viewtransactions'), 
 			'S_CC_HIDE_GITHUB_LINK'			=> $this->config['cc_hide_github_link'],
-			'CC_CURRENCY_NAME'				=> $this->config['cc_currency_name'],
+//			'CC_CURRENCY_NAME'				=> $this->config['cc_currency_name'],
 		));
 	}
 	
@@ -124,12 +136,14 @@ class main_listener implements EventSubscriberInterface
 		$transactions_per_day = $member['user_cc_transaction_count'] / $memberdays;
 		$percentage = ($this->config['cc_transaction_count']) ? min(100, ($member['user_cc_transaction_count'] / $this->config['cc_transaction_count']) * 100) : 0;
 
+		$amount = $this->currency_transformer->transform($member['user_cc_balance']);
+
 		$this->template->assign_vars(array(
 			'CC_USER_TRANSACTION_COUNT'	=> $member['user_cc_transaction_count'],
 			'CC_USER_TRANSACTIONS_PCT'	=> $this->user->lang('CC_USER_TRANSACTION_PCT', $percentage),
 			'CC_USER_TRANSACTIONS_PER_DAY' => $this->user->lang('CC_USER_TRANSACTION_PER_DAY', $transactions_per_day),
 			'U_CC_USER_TRANSACTIONS' => $this->helper->route('marttiphpbb_cc_transactionlist_controller', array('user_id' => $member['user_id'])),
-			'CC_USER_BALANCE'	=> $this->user->lang('CC_BALANCE', $member['user_cc_balance'], $this->user->lang()),
+			'CC_USER_AMOUNT_CURRENCY'	=> $this->user->lang('CC_AMOUNT_CURRENCY', $amount['local']),
 		));
 	}		
 }

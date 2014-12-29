@@ -75,8 +75,13 @@ class currency_plural
 	/**
 	 * @return array
 	 */
-	public function get_all()
+	public function get()
 	{
+		if ($this->cache->_exists('ccurrency_plural'))
+		{
+			return $this->cache->get('ccurrency_plural');
+		}
+		
 		$ary = array();
 		
 		$sql_ary = array(
@@ -95,6 +100,7 @@ class currency_plural
 			$ary[$row['lang_dir']][$row['form']] = $row['name'];
 		}
 		$this->db->sql_freeresult($result);
+		$this->cache->put('ccurrency_plural', $ary);
 		return $ary;	
 	}
 	
@@ -104,6 +110,7 @@ class currency_plural
 	 */
 	public function set($ary)
 	{
+		$this->cache->destroy('ccurrency_plural');
 		$select = $this->get_all();
 		foreach ($ary as $lang_dir => $forms)
 		{
@@ -132,6 +139,7 @@ class currency_plural
 				$this->db->sql_query($sql);
 			}
 		}
+		$this->cache->put('ccurrency_plural', $ary);
 		return $this;
 	}
 	
