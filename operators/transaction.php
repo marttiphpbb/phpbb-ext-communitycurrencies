@@ -18,7 +18,6 @@ use phpbb\controller\helper;
 use marttiphpbb\ccurrency\util\uuid_generator;
 use marttiphpbb\ccurrency\util\uuid_validator;
 
-
 class transaction
 {
 
@@ -36,22 +35,22 @@ class transaction
    /**
    * @param cache $cache
    * @param config   $config
-   * @param content_visibility $content_visibility 
-   * @param db   $db  
-   * @param user   $user 
-   * @param helper $helper   
-   * @param string $cc_transactions_table 
-   * @param string $cc_topics_table 
-   * @param string $cc_users_table 
+   * @param content_visibility $content_visibility
+   * @param db   $db
+   * @param user   $user
+   * @param helper $helper
+   * @param string $cc_transactions_table
+   * @param string $cc_topics_table
+   * @param string $cc_users_table
    */
-   
+
    public function __construct(
-		cache $cache, 
+		cache $cache,
 		config $config,
-		content_visibility $content_visibility, 
+		content_visibility $content_visibility,
 		db $db,
-		user $user, 
-		helper $helper, 
+		user $user,
+		helper $helper,
 		$cc_transactions_table,
 		$topics_table,
 		$users_table
@@ -66,7 +65,7 @@ class transaction
 		$this->cc_transactions_table = $cc_transactions_table;
 		$this->topics_table = $topics_table;
 		$this->users_table = $users_table;
-		
+
 		$this->is_time_banking = ($this->config['cc_currency_rate'] > 0) ? false : true;
    }
 
@@ -84,20 +83,20 @@ class transaction
 			'WHERE'		=> 'u.username = \'' . $this->db->sql_escape($username) . '\'',
 
 		);
-		
+
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 		$result = $this->db->sql_query($sql);
 		$user_ary = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
-		return $user_ary;			
+		return $user_ary;
 	}
-				
+
 	/**
 	* @param string $unique_id
 	* @return array
 	*/
 	public function transaction_unique_id_exists($unique_id = '')
-	{	
+	{
 		$sql_ary = array(
 			'SELECT'	=> 'tr.unique_id',
 			'FROM'		=> array(
@@ -105,10 +104,10 @@ class transaction
 			),
 			'WHERE'		=> 'tr.unique_id = \'' . $this->db->sql_escape($unique_id) . '\'',
 		);
-		
+
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 		$result = $this->db->sql_query($sql);
-		
+
 		return ($this->db->sql_fetchfield('unique_id') == $unique_id) ? true : false;
 	}
 
@@ -116,14 +115,14 @@ class transaction
 	* @param string $unique_id
 	* @param array $from_user_ary
 	* @param array $to_user_ary
-	* @param int $amount (seconds) 
+	* @param int $amount (seconds)
 	* @param string $description
 	* @return int|false id
 	*/
 	public function insert_transaction($unique_id, $from_user_ary, $to_user_ary, $amount, $description)
 	{
 		$now = time();
-		
+
 		$sql_ary = array(
 			'unique_id'			=> $unique_id,
 			'from_user_id'		=> $from_user_ary['user_id'],
@@ -131,13 +130,13 @@ class transaction
 			'from_user_colour'	=> $from_user_ary['user_colour'],
 			'to_user_id'		=> $to_user_ary['user_id'],
 			'to_username'		=> $to_user_ary['username'],
-			'to_user_colour'	=> $to_user_ary['user_colour'],					
-			'description'		=> $description,					
-			'amount'			=> $amount,					
+			'to_user_colour'	=> $to_user_ary['user_colour'],
+			'description'		=> $description,
+			'amount'			=> $amount,
 			'confirmed'			=> true,
 			'confirmed_at'		=> $now,
 			'created_by'		=> $from_user_ary['user_id'],
-			'created_at'		=> $now,				
+			'created_at'		=> $now,
 		);
 
 		$this->db->sql_transaction('begin');
@@ -154,19 +153,18 @@ class transaction
 			SET user_cc_balance = user_cc_balance + ' . $amount . '
 			WHERE user_id = ' . $to_user_ary['user_id'];
 		$this->db->sql_query($sql);
-		
-		$this->config->increment('cc_transaction_count', 1);					
-	
+
+		$this->config->increment('cc_transaction_count', 1);
+
 		$this->db->sql_transaction('commit');
-		
+
 		if ($r)
 		{
 			return $this->db->sql_nextid();
 		}
-		
+
 		return false;
 	}
-
 
 	/**
 	 * @param string $search_query
@@ -175,14 +173,14 @@ class transaction
 	public function get_transactions_count($search_query)
 	{
 		$sql_where = 'tr.parent_id IS NULL';
-		
+
 		if ($search_query)
 		{
 			$sql_where .= ' AND tr.description ' . $this->db->sql_like_expression(str_replace('*', $this->db->get_any_char(), utf8_clean_string($search_query)));
 		}
 
 		$sql_ary = array(
-			'SELECT' => 'count(*) as num', 
+			'SELECT' => 'count(*) as num',
 			'FROM' => array(
 				$this->cc_transactions_table => 'tr',
 			),
@@ -192,11 +190,10 @@ class transaction
 		$result = $this->db->sql_query($sql);
 		$transactions_count = $this->db->sql_fetchfield('num');
 		$this->db->sql_freeresult($result);
-		
+
 		return $transactions_count;
 	}
-	
-	
+
 	/**
 	 * @param string $search_query
 	 * @param string $sort_by
@@ -206,15 +203,15 @@ class transaction
 	 * @return array
 	*/
 	public function get_transactions(
-		$search_query = '', 
-		$sort_by = 'created_at', 
+		$search_query = '',
+		$sort_by = 'created_at',
 		$sort_dir = 'desc',
 		$start = 0,
 		$limit = 25
 	)
 	{
 		$sql_where = 'tr.parent_id IS NULL';
-		
+
 		if ($search_query)
 		{
 			$sql_where .= ' AND tr.description ' . $this->db->sql_like_expression(str_replace('*', $this->db->get_any_char(), utf8_clean_string($search_query)));
@@ -226,34 +223,34 @@ class transaction
 		{
 			$params['sort_by'] = $sort_by;
 		}
-		
+
 		if ($sort_dir != 'desc')
 		{
 			$params['sort_dir'] = $sort_dir;
 		}
-		
+
 		if ($search_query)
 		{
 			$params['q'] = $search_query;
-		}		
-		
+		}
+
 		$sql_ary = array(
 			'SELECT'	=> 'tr.*',
 			'FROM'		=> array(
 				$this->cc_transactions_table => 'tr',
 			),
 			'WHERE'		=> $sql_where,
-			'ORDER_BY'	=> 'tr.' . $sort_by . ' ' . (($sort_dir == 'desc') ? 'DESC' : 'ASC'),	
+			'ORDER_BY'	=> 'tr.' . $sort_by . ' ' . (($sort_dir == 'desc') ? 'DESC' : 'ASC'),
 			'LIMIT'		=> $limit . ', ' . $start,
 		);
-		
+
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 		$result = $this->db->sql_query($sql);
 		$transactions = $this->db->sql_fetchrowset($result);
 		$this->db->sql_freeresult($result);
 		return $transactions;
 	}
-	
+
 	/**
 	 * @param int $id
 	 * @return array
@@ -266,7 +263,7 @@ class transaction
 				$this->cc_transactions_table => 'tr',
 			),
 			'WHERE'		=> 'tr.id = ' . $id,
-		);		
+		);
 
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 		$result = $this->db->sql_query($sql);
@@ -274,15 +271,15 @@ class transaction
 		$this->db->sql_freeresult($result);
 		return $row;
 	}
-		
+
 	/**
 	 * @param int $id
 	 * @return int
 	*/
 	public function get_child_transactions_count($id)
-	{	
+	{
 		$sql_ary = array(
-			'SELECT' => 'count(*) as num', 
+			'SELECT' => 'count(*) as num',
 			'FROM' => array(
 				$this->cc_transactions_table => 'tr',
 			),

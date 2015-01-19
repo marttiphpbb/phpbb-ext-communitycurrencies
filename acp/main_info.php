@@ -16,13 +16,13 @@ class main_info
 			'title'		=> 'ACP_CCURRENCY',
 			'modes'		=> array(
 				'rendering'	=> array(
-					'title' => 'ACP_CC_RENDERING', 
-					'auth' => 'ext_marttiphpbb/ccurrency && acl_a_board', 
+					'title' => 'ACP_CC_RENDERING',
+					'auth' => 'ext_marttiphpbb/ccurrency && acl_a_board',
 					'cat' => array('ACP_CCURRENCY'),
-				),			
+				),
 				'currency'	=> array(
-					'title' => 'ACP_CC_CURRENCY', 
-					'auth' => 'ext_marttiphpbb/ccurrency && acl_a_board', 
+					'title' => 'ACP_CC_CURRENCY',
+					'auth' => 'ext_marttiphpbb/ccurrency && acl_a_board',
 					'cat' => array('ACP_CCURRENCY'),
 				),
 			),

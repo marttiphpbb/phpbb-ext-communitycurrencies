@@ -1,11 +1,10 @@
-
 	<dl>
 		<dt><label for="amount">{L_CC_AMOUNT}{CURRENCY}</label></dt>
 		<dd>
-			
-	</dl>			
 
-<!-- IF S_TIME_BANKING -->		
+	</dl>
+
+<!-- IF S_TIME_BANKING -->
 
 	<input type="number" min="0" name="hours{DEST}" size="2" maxlength="2" value="{HOURS}" class="inputbox autowidth" />
 	<!-- IF S_MINUTES_OPTIONS -->
@@ -13,9 +12,7 @@
 	<select name="minutes{DEST}"><!-- S_MINUTES_OPTIONS --></select>
 	<!-- ENDIF -->
 
-<!-- ELSE -->	
-
-
+<!-- ELSE -->
 
 <input type="number" min="1" name="amount{DEST}" size="6" maxlength="6" value="{AMOUNT}" class="inputbox autowidth" /></dd>
-<!-- ENDIF --> 
+<!-- ENDIF -->

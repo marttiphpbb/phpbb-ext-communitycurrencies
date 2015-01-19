@@ -14,7 +14,7 @@ services:
             - @marttiphpbb.ccurrency.datatransformer.currency_transformer
         tags:
             - { name: event.listener }
-    
+
     marttiphpbb.ccurrency.transaction.controller:
         class: marttiphpbb\ccurrency\controller\transaction
         arguments:
@@ -69,7 +69,6 @@ services:
             - @dbal.conn
             - %tables.cc_transactions%
 
-        
     marttiphpbb.ccurrency.notification.type.transaction:
         class: marttiphpbb\calendar\notification\transaction
         scope: prototype
@@ -86,8 +85,6 @@ services:
             - %core.root_path%
             - %tables.notification_types%
             - %tables.notifications%
-            - %tables.user_notifications%           
+            - %tables.user_notifications%
         tags:
             - { name: notification.type }
-            
-                     

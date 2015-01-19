@@ -16,17 +16,15 @@
 		<dd><input type="text" tabindex="1" name="to_user" id="to_user" size="65" value="{TO_USER}" class="inputbox" /></dd>
 	</dl>
 
-
 	<dl>
 		<dt><label for="to_user">{L_CC_TO_USER}</label></dt>
 		<dd><input type="text" tabindex="2" name="to_user" id="to_user" size="65" value="{TO_USER}" class="inputbox" /></dd>
 	</dl>
-	
-	
+
 	<dl>
 		<!-- IF S_TIME_BANKING -->
 		<dt><label for="amount">{L_CC_TIME}</label></dt>
-		<dd>		
+		<dd>
 			<input type="number" min="<!-- IF S_MINUTES_OPTIONS-->0<!-- ELSE -->1<!-- ENDIF -->" name="hours" size="2" maxlength="2" tabindex="3" value="{HOURS}" class="inputbox autowidth" />
 			{L_CC_HOURS}
 			<!-- IF S_MINUTES_OPTIONS -->
@@ -35,20 +33,20 @@
 			<!-- ENDIF -->
 		<!-- ELSE -->
 		<dt><label for="amount">{L_CC_AMOUNT}</label></dt>
-		<dd>			
+		<dd>
 			<input type="number" min="1" name="amount" size="6" maxlength="6" tabindex="3" value="{AMOUNT}" class="inputbox amount" />
 			{CC_CURRENCY_NAME}
-		<!-- ENDIF --> 			
+		<!-- ENDIF -->
 		</dd>
 	</dl>
-	
+
 	<dl>
 		<dt><label for="description">{L_CC_DESCRIPTION}</label></dt>
 		<dd><input type="text" name="description" id="description" size="65" maxlength="120" tabindex="5" value="{DESCRIPTION}" class="inputbox" /></dd>
 	</dl>
-	
+
 	<!-- EVENT marttiphpbb_ccurrency_new_transaction_append -->
-	
+
 	<input type="hidden" name="show_panel" value="options-panel" />
 
 </fieldset>
@@ -61,13 +59,10 @@
 </fieldset>
 
 {S_FORM_TOKEN}
-</form>		
-<!-- </div>	-->	
-
-
+</form>
+<!-- </div>	-->
 
 <!-- IF S_AUTH_CREATE_TRANSACTION -->
 	<!-- INCLUDEJS transactions.js -->
 <!-- ENDIF -->
 <!-- INCLUDE mcp_footer.html -->
-

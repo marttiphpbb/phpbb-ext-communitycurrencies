@@ -12,32 +12,31 @@ use marttiphp\util\uuid_generator;
 
 class transaction
 {
-	/* @var array 
+	/* @var array
 			transaction_id
 			transaction_uuid
 			transaction_from_user_id
 			transaction_to_user_id
 			transaction_description
 			transaction_amount
-			transaction_created_at												
+			transaction_created_at
 			transaction_confirmed
 			transaction_confirmed_at
 			transaction_created_by
 	 */
 	protected $data;
-	
+
 	/* @var db */
 	protected $db;
-	
+
 	/* @var string */
 	protected $cc_transactions_table;
 
-
    /**
    * @param db   $db
-   * @param string $cc_transactions_table 
+   * @param string $cc_transactions_table
    */
-   
+
    public function __construct(
 		db $db,
 		uuid_generator $uuid_generator,
@@ -46,12 +45,8 @@ class transaction
 	{
 		$this->db = $db;
 		$this->cc_transactions_table = $cc_transactions_table;
-		
-		$this->data['transaction_uuid'] = $uuid_generator->generate();	
+
+		$this->data['transaction_uuid'] = $uuid_generator->generate();
 	}
-	
-	
-	
-	
-	
+
 }

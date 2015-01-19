@@ -16,12 +16,11 @@
 		<dt><label for="to_user">{L_CC_TO_USER}</label></dt>
 		<dd><input type="text" tabindex="1" name="to_user" id="to_user" size="65" value="{TO_USER}" class="inputbox" /></dd>
 	</dl>
-	
-	
+
 	<dl>
 		<!-- IF S_TIME_BANKING -->
 		<dt><label for="amount">{L_CC_TIME}</label></dt>
-		<dd>		
+		<dd>
 			<input type="number" min="<!-- IF S_MINUTES_OPTIONS-->0<!-- ELSE -->1<!-- ENDIF -->" name="hours" size="2" maxlength="2" tabindex="2" value="{HOURS}" class="inputbox autowidth" />
 			{L_CC_HOURS}
 			<!-- IF S_MINUTES_OPTIONS -->
@@ -30,20 +29,20 @@
 			<!-- ENDIF -->
 		<!-- ELSE -->
 		<dt><label for="amount">{L_CC_AMOUNT}</label></dt>
-		<dd>			
+		<dd>
 			<input type="number" min="1" name="amount" size="6" maxlength="6" tabindex="2" value="{AMOUNT}" class="inputbox amount" />
 			{CC_CURRENCY_NAME}
-		<!-- ENDIF --> 			
+		<!-- ENDIF -->
 		</dd>
 	</dl>
-	
+
 	<dl>
 		<dt><label for="description">{L_CC_DESCRIPTION}</label></dt>
 		<dd><input type="text" name="description" id="description" size="65" maxlength="120" tabindex="4" value="{DESCRIPTION}" class="inputbox" /></dd>
 	</dl>
-	
+
 	<!-- EVENT marttiphpbb_ccurrency_new_transaction_append -->
-	
+
 	<input type="hidden" name="show_panel" value="options-panel" />
 	<input type="hidden" name="unique_id" value="{UNIQUE_ID}" />
 
@@ -60,15 +59,14 @@
 </div>
 
 {S_FORM_TOKEN}
-</form>		
-</div>		
+</form>
+</div>
 <!-- ENDIF -->
 
 <h2><a href="{U_CC_TRANSACTIONS}">{L_CC_TRANSACTIONS}</a>
 <!-- IF SEARCH -->{L_COLON} {SEARCH}<!-- ENDIF --></h2>
 
 <div class="action-bar top">
-
 
 	<!-- IF S_AUTH_CREATE_TRANSACTION -->
 		<div class="buttons">
@@ -79,7 +77,7 @@
 			<!-- ELSE -->
 			<a href="#new_transaction" id="new_transaction_button" class="button icon-button post-icon" data-alt-text="{L_CC_HIDE_NEW_TRANSACTION}">
 				{L_CC_NEW_TRANSACTION}
-			</a>			
+			</a>
 			<!-- ENDIF -->
 		</div>
 	<!-- ENDIF -->
@@ -94,17 +92,15 @@
 		</form>
 	</div>
 
-	
 	<div class="pagination">
 		{TOTAL_TRANSACTIONS}
-		<!-- IF .pagination --> 
+		<!-- IF .pagination -->
 			<!-- INCLUDE pagination.html -->
-		<!-- ELSE --> 
+		<!-- ELSE -->
 			 &bull; {PAGE_NUMBER}
 		<!-- ENDIF -->
 	</div>
 </div>
-
 
 <div class="forumbg forumbg-table">
 	<div class="inner">
@@ -129,7 +125,7 @@
 		</th>
 	</tr>
 	</thead>
-	
+
 <!-- BEGIN transactionrow -->
 
 <tr class="<!-- IF transactionrow.S_ROW_COUNT is even -->bg1<!-- ELSE -->bg2<!-- ENDIF -->">
@@ -155,19 +151,16 @@
 <div class="action-bar bottom">
 	<div class="pagination">
 		{TOTAL_TRANSACTIONS}
-		<!-- IF .pagination --> 
+		<!-- IF .pagination -->
 			<!-- INCLUDE pagination.html -->
-		<!-- ELSE --> 
+		<!-- ELSE -->
 			 &bull; {PAGE_NUMBER}
 		<!-- ENDIF -->
 	</div>
 </div>
-
-
 
 <!-- INCLUDE jumpbox.html -->
 <!-- IF S_AUTH_CREATE_TRANSACTION -->
 	<!-- INCLUDEJS transactions.js -->
 <!-- ENDIF -->
 <!-- INCLUDE overall_footer.html -->
-

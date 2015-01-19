@@ -1,12 +1,10 @@
 .icon-cc-transactions { background-image: url("./images/icon_cc_transactions.gif"); }
 
-
 dl dd input.amount
 {
 	width: 40px;
 	text-align: right;
 }
-
 
 /* transactions list */
 
@@ -14,7 +12,6 @@ dl dd input.amount
 {
 	border-radius: 0 4px 4px 0;
 }
-
 
 table.transactionlist th, table transactionlist td
 {
@@ -31,4 +28,3 @@ table.transactionlist td.amount
 {
 	text-align:center;
 }
-

@@ -16,10 +16,10 @@ class transactions_info
 			'title'		=> 'MCP_CC_TRANSACTIONS',
 			'modes'		=> array(
 				'new_transaction'	=> array(
-					'title' => 'MCP_CC_NEW_TRANSACTION', 
-					'auth' => 'ext_marttiphpbb/ccurrency && acl_m_cc_createtransaction', 
+					'title' => 'MCP_CC_NEW_TRANSACTION',
+					'auth' => 'ext_marttiphpbb/ccurrency && acl_m_cc_createtransaction',
 					'cat' => array('ACP_CC_TRANSACTIONS'),
-				),			
+				),
 			),
 		);
 	}

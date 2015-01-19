@@ -8,12 +8,12 @@
 			<dt><label for="cc_transactions_menu_quick">{L_ACP_CC_TRANSACTIONS_MENU_LINK_QUICK}</label></dt>
 			<dd><input type="radio" class="radio" name="cc_transactions_menu_quick" value="1" <!-- IF S_CC_TRANSACTIONS_MENU_QUICK -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
 			<input type="radio" class="radio" name="cc_transactions_menu_quick" value="0" <!-- IF not S_CC_TRANSACTIONS_MENU_QUICK -->checked="checked"<!-- ENDIF --> /> {L_NO}</dd>
-		</dl>			
+		</dl>
 		<dl>
 			<dt><label for="cc_transactions_menu_header">{L_ACP_CC_TRANSACTIONS_MENU_LINK_HEADER}</label></dt>
 			<dd><input type="radio" class="radio" name="cc_transactions_menu_header" value="1" <!-- IF S_CC_TRANSACTIONS_MENU_HEADER -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
 			<input type="radio" class="radio" name="cc_transactions_menu_header" value="0" <!-- IF not S_CC_TRANSACTIONS_MENU_HEADER -->checked="checked"<!-- ENDIF --> /> {L_NO}</dd>
-		</dl>		
+		</dl>
 		<dl>
 			<dt><label for="cc_transactions_menu_footer">{L_ACP_CC_TRANSACTIONS_MENU_LINK_FOOTER}</label></dt>
 			<dd><input type="radio" class="radio" name="cc_transactions_menu_footer" value="1" <!-- IF S_CC_TRANSACTIONS_MENU_FOOTER -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
@@ -25,12 +25,12 @@
 			<input type="radio" class="radio" name="cc_hide_github_link" value="0" <!-- IF not S_CC_HIDE_GITHUB_LINK -->checked="checked"<!-- ENDIF --> /> {L_NO}</dd>
 		</dl>
 	</fieldset>
-	
+
 	<fieldset><legend>{L_ACP_CC_TRANSACTIONS_PAGE}</legend>
 		<dl>
 			<dt><label for="cc_transactions_per_page">{L_ACP_CC_TRANSACTIONS_PER_PAGE}</label></dt>
 			<dd><input type="number" name="cc_transactions_per_page" min="5" value="{CC_TRANSACTIONS_PER_PAGE}" /></dd>
-		</dl>	
+		</dl>
 	</fieldset>
 
 	<fieldset class="submit-buttons">
@@ -39,6 +39,5 @@
 		{S_FORM_TOKEN}
 	</fieldset>
 </form>
-
 
 <!-- INCLUDE overall_footer.html -->

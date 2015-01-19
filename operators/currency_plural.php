@@ -14,7 +14,6 @@ use phpbb\content_visibility;
 use phpbb\db\driver\factory as db;
 use phpbb\user;
 
-
 class currency_plural
 {
 
@@ -25,20 +24,19 @@ class currency_plural
 	protected $cc_currency_plural_table;
 	protected $lang_table;
 
-
    /**
    * @param cache $cache
    * @param config   $config
-   * @param db   $db  
-   * @param user   $user   
-   * @param string $cc_currency_plural_table 
+   * @param db   $db
+   * @param user   $user
+   * @param string $cc_currency_plural_table
    */
-   
+
    public function __construct(
-		cache $cache, 
+		cache $cache,
 		config $config,
 		db $db,
-		user $user, 
+		user $user,
 		$cc_currency_plural_table
 	)
 	{
@@ -64,14 +62,14 @@ class currency_plural
 			'SORT BY'		=> 'l.lang_iso, ASC',
 
 		);
-		
+
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 		$result = $this->db->sql_query($sql);
 		$lang_ary = $this->db->sql_fetchrowset($result);
 		$this->db->sql_freeresult($result);
-		return $lang_ary;			
+		return $lang_ary;
 	}
-	
+
 	/**
 	 * @return array
 	 */
@@ -81,9 +79,9 @@ class currency_plural
 		{
 			return $this->cache->get('ccurrency_plural');
 		}
-		
+
 		$ary = array();
-		
+
 		$sql_ary = array(
 			'SELECT'	=> 'cp.*',
 			'FROM'		=> array(
@@ -101,9 +99,9 @@ class currency_plural
 		}
 		$this->db->sql_freeresult($result);
 		$this->cache->put('ccurrency_plural', $ary);
-		return $ary;	
+		return $ary;
 	}
-	
+
 	/**
 	 * @param array
 	 * @return currency_plural
@@ -142,5 +140,5 @@ class currency_plural
 		$this->cache->put('ccurrency_plural', $ary);
 		return $this;
 	}
-	
+
 }

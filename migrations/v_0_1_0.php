@@ -19,21 +19,19 @@ class v_0_1_0 extends migration
 			array('config.add', array('cc_transactions_menu_header', 1)),
 			array('config.add', array('cc_transactions_menu_footer', 0)),
 			array('config.add', array('cc_hide_github_link', 0)),
-			array('config.add', array('cc_transactions_per_page', 25)),		
-				
+			array('config.add', array('cc_transactions_per_page', 25)),
+
 			array('config.add', array('cc_currency_symbol', '')),
 			array('config.add', array('cc_currency_symbol_before', 1)),
 
 			array('config.add', array('cc_currency_rate', 60)),
 			array('config.add', array('cc_time_banking_granularity', 900)),
-			
+
 			array('config.add', array('cc_transaction_count', 0, true)),
 
 			array('permission.add', array('u_cc_viewtransactions')),
 			array('permission.add', array('u_cc_createtransactions')),
 			array('permission.add', array('m_cc_createtransactions')),
-			
-
 
 			array('module.add', array(
 				'acp',
@@ -51,7 +49,7 @@ class v_0_1_0 extends migration
 					),
 				),
 			)),
-					
+
 			array('module.add', array(
 				'mcp',
 				'',
@@ -66,22 +64,22 @@ class v_0_1_0 extends migration
 						'new_transaction',
 					),
 				),
-			)),		
-	
+			)),
+
 		);
 	}
-	
+
 	public function update_schema()
 	{
 		return array(
-		
+
 			'add_tables'    => array(
 				$this->table_prefix . 'cc_currency_plural'	=> array(
 					'COLUMNS'	=> array(
 						'id'		=> array('UINT', NULL, 'auto_increment'),
 						'lang_dir'	=> array('VCHAR:30', ''),
 						'form'		=> array('UINT', NULL),
-						'name'		=> array('VCHAR_UNI', ''), 
+						'name'		=> array('VCHAR_UNI', ''),
 					),
 					'PRIMARY_KEY'	=> 'id',
 				),
@@ -96,24 +94,23 @@ class v_0_1_0 extends migration
 						'to_username'		=> array('VCHAR_UNI', ''),
 						'to_user_colour'	=> array('VCHAR:6', ''),
 						'description' 		=> array('VCHAR_UNI', ''),
-						'amount'			=> array('UINT', NULL),											
+						'amount'			=> array('UINT', NULL),
 						'confirmed'			=> array('BOOL', 0),
 						'confirmed_at'		=> array('TIMESTAMP', NULL),
 						'created_by'		=> array('UINT', NULL),
 						'created_at'		=> array('TIMESTAMP', NULL),
-						'parent_id'			=> array('UINT', NULL),												
-						'children_count'	=> array('UINT', 0),												
+						'parent_id'			=> array('UINT', NULL),
+						'children_count'	=> array('UINT', 0),
 					),
 					'PRIMARY_KEY'  	=> 'id',
 					'KEYS' 		=> array(
 						'tuid' 		=> array('UNIQUE', 'unique_id'),
 						'ufid'		=> array('INDEX', 'from_user_id'),
 						'utid'		=> array('INDEX', 'to_user_id'),
-						'crby'		=> array('INDEX', 'created_by'),							
+						'crby'		=> array('INDEX', 'created_by'),
 					),
-				),			
+				),
 			),
-
 
 			'add_columns'        => array(
 				$this->table_prefix . 'users'        => array(
@@ -122,23 +119,23 @@ class v_0_1_0 extends migration
 					'user_cc_status'					=> array('UINT', 0),
 					'user_cc_leaving_time'				=> array('TIMESTAMP', NULL),
 					'user_cc_active_time'				=> array('TIMESTAMP', NULL),
-					'user_cc_inactive_time'				=> array('TIMESTAMP', NULL),				
+					'user_cc_inactive_time'				=> array('TIMESTAMP', NULL),
 				),
-			),	
+			),
 		);
-	}	
-	
+	}
+
 	public function revert_schema()
 	{
 		return array(
 			'drop_columns'        => array(
-				$this->table_prefix . 'users'        => array(				
+				$this->table_prefix . 'users'        => array(
 					'user_cc_balance',
 					'user_cc_transaction_count',
 					'user_cc_status',
 					'user_cc_leaving_time',
 					'user_cc_active_time',
-					'user_cc_inactive_time',								
+					'user_cc_inactive_time',
 				),
 			),
 			'drop_tables'			=> array(
@@ -146,5 +143,5 @@ class v_0_1_0 extends migration
 				$this->table_prefix . 'cc_currency_plural',
 			),
 	   );
-	}	
+	}
 }

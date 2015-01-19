@@ -18,10 +18,9 @@ use phpbb\auth\auth;
 use phpbb\config\config;
 use phpbb\controller\helper;
 
-
 class transaction extends base
 {
-	
+
 	/**
 	* Language key used to output the text
 	*
@@ -38,8 +37,7 @@ class transaction extends base
 	public static $notification_option = array(
 		'lang'	=> 'NOTIFICATION_TYPE_TRANSACTION',
 		'group'	=> 'NOTIFICATION_GROUP_MISCELLANEOUS',
-	);	
-	
+	);
 
 	/**
 	* @param \phpbb\user_loader $user_loader
@@ -65,10 +63,10 @@ class transaction extends base
 		config $config,
 		helper $helper,
 		$phpbb_root_path,
-		$php_ext,				
+		$php_ext,
 		$notification_types_table,
 		$notifications_table,
-		$user_notifications_table	
+		$user_notifications_table
 	)
 	{
 		$this->user_loader = $user_loader;
@@ -80,12 +78,12 @@ class transaction extends base
 		$this->helper = $helper;
 
 		$this->phpbb_root_path = $phpbb_root_path;
-		$this->php_ext = $php_ext;		
-		
+		$this->php_ext = $php_ext;
+
 		$this->notification_types_table = $notification_types_table;
 		$this->notifications_table = $notifications_table;
-		$this->user_notifications_table = $user_notifications_table;		
-		
+		$this->user_notifications_table = $user_notifications_table;
+
 	}
 
 	/**
@@ -96,7 +94,6 @@ class transaction extends base
 		return 'marttiphpbb.ccurrency.notification.type.transaction';
 	}
 
-
 	/**
 	* Is this type available to the current user (defines whether or not it will be shown in the UCP Edit notification options)
 	*
@@ -106,7 +103,7 @@ class transaction extends base
 	{
 		return true;
 	}
-	
+
 	/**
 	* Get the id of the notification
 	*
@@ -117,18 +114,18 @@ class transaction extends base
 	{
 		return $data['transaction_id'];
 	}
-	
+
 	/**
 	* Get the id of the parent
 	*
-	* @param array $data 
+	* @param array $data
 	* @return int Id of the parent
 	*/
 	public static function get_item_parent_id($data)
 	{
 		// no parent
 		return 0;
-	}	
+	}
 
 	/**
 	* Find the users who will receive notifications
@@ -209,5 +206,5 @@ class transaction extends base
 
 		return parent::create_insert_array($data, $pre_create_data);
 	}
- 	
+
 }

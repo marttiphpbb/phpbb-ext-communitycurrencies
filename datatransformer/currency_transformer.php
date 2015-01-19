@@ -36,7 +36,7 @@ class currency_transformer
 		$minutes = round($amount / 60);
 		$hours = floor($minutes / 60);
 		$minutes = $minutes - ($hours * 60);
-		
+
 		return array(
 			'hours'		=> $hours,
 			'minutes' 	=> $minutes,
@@ -50,13 +50,13 @@ class currency_transformer
      * @param  integer $hours
      * @param  integer $minutes
      * @param  integer $local
-     * @return integer 
+     * @return integer
      */
     public function reverse_transform($hours = 0, $minutes = 0, $local = 0)
     {
 		return ($this->is_time_banking) ? ($hours * 3600) + ($minutes * 60) : $amount * $this->config['cc_currency_rate'];
     }
-    
+
     /*
      * @return bool
      */

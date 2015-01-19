@@ -16,7 +16,7 @@ class currency_converter
      * @var config
      */
     private $config;
-    
+
     private $transform_func;
     private $reverse_transform_func;
     private $is_time_banking;
@@ -27,7 +27,7 @@ class currency_converter
     public function __construct($config)
     {
         $this->config = $config;
-        if ($this->config['cc_currency_rate'] 
+        if ($this->config['cc_currency_rate']
 			&& is_int($config['cc_currency_rate'])
 			&& $config['cc_currency_rate'] > 0)
 		{
@@ -37,8 +37,8 @@ class currency_converter
 		else
 		{
 			$this->transform_func = 'time_banking_transform';
-			$this->reverse_transform_func = 'time_banking_reverse_transform';        
-		} 
+			$this->reverse_transform_func = 'time_banking_reverse_transform';
+		}
     }
 
     /**
@@ -62,7 +62,7 @@ class currency_converter
     {
 		return $this->reverse_transform_func($amount);
     }
-    
+
     private function custom_transform($seconds)
     {
         if (null === $seconds) {
@@ -71,13 +71,13 @@ class currency_converter
 
         return round($seconds / $this->config['cc_currency_rate'];
 	}
-	
+
     private function custom_reverse_transform($amount)
     {
         if (!$amount) {
-			$amount = 0; 
-        }		
-        return $amount * $this->config['cc_currency_rate'];		
-	}	
-	
+			$amount = 0;
+        }
+        return $amount * $this->config['cc_currency_rate'];
+	}
+
 }

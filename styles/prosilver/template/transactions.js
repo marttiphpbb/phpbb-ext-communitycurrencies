@@ -4,7 +4,7 @@
 
 		$newTransaction.slideToggle('fast');
 		phpbb.ajaxCallbacks.alt_text.call(this);
-		
+
 		if ($newTransaction.is(':visible')) {
 			$('#to_user').focus();
 		}

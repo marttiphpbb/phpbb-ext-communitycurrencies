@@ -10,7 +10,6 @@ namespace marttiphpbb\ccurrency\exception;
 
 use phpbb\user;
 
-
 class out_of_bounds extends base
 {
 	/**
