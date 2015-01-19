@@ -2,4 +2,4 @@
 
 ### License
 
-[MIT](LICENCE)
+[GPL-2.0](license.txt)

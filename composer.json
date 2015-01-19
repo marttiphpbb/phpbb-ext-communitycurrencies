@@ -5,7 +5,7 @@
 	"homepage": "https://github.com/marttiphpbb/phpbb-ext-ccurrency",
 	"version": "0.1.0",
 	"time": "2014-07-24",
-	"license": "MIT",
+	"license": "GPL-2.0",
 	"authors": [{
 			"name": "martti",
 			"email": "info@martti.be",
