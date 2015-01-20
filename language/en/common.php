@@ -30,12 +30,6 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 
-// acp module / modes
-
-	'ACP_CCURRENCY'				=> 'Community Currency',
-	'ACP_CC_RENDERING'			=> 'Rendering',
-	'ACP_CC_CURRENCY'			=> 'Currency',
-
 // acl
 
 	'ACL_M_CC_CREATETRANSACTIONS'	=> 'Can create transactions on behalf of users',
