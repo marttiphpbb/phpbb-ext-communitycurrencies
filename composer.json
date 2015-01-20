@@ -4,7 +4,7 @@
 	"description": "Community Currency Extension for phpBB 3.1",
 	"homepage": "https://github.com/marttiphpbb/phpbb-ext-ccurrency",
 	"version": "0.1.0",
-	"time": "2014-07-24",
+	"time": "2015-07-24",
 	"license": "GPL-2.0",
 	"authors": [{
 			"name": "martti",
