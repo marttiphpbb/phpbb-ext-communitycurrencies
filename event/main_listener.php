@@ -81,7 +81,6 @@ class main_listener implements EventSubscriberInterface
 			'core.user_setup'						=> 'core_user_setup',
 			'core.page_footer'						=> 'core_page_footer',
 			'core.viewonline_overwrite_location'	=> 'core_viewonline_overwrite_location',
-			'core.memberlist_view_profile'			=> 'core_memberlist_view_profile',
 		);
 	}
 
@@ -94,7 +93,6 @@ class main_listener implements EventSubscriberInterface
 			'lang_set' => 'common',
 		);
 		$event['lang_set_ext'] = $lang_set_ext;
-
 	}
 
 	public function core_page_footer($event)
@@ -105,7 +103,6 @@ class main_listener implements EventSubscriberInterface
 			'S_CC_TRANSACTIONS_MENU_HEADER'	=> $this->config['cc_transactions_menu_header'] && $this->auth->acl_get('u_cc_viewtransactions'),
 			'S_CC_TRANSACTIONS_MENU_FOOTER'	=> $this->config['cc_transactions_menu_footer'] && $this->auth->acl_get('u_cc_viewtransactions'),
 			'S_CC_HIDE_GITHUB_LINK'			=> $this->config['cc_hide_github_link'],
-//			'CC_CURRENCY_NAME'				=> $this->config['cc_currency_name'],
 		));
 	}
 
@@ -116,29 +113,5 @@ class main_listener implements EventSubscriberInterface
 			$event['location'] = $this->user->lang('CC_VIEWING_TRANSACTIONS');
 			$event['location_url'] = $this->helper->route('marttiphpbb_cc_transactionlist_controller');
 		}
-	}
-
-	public function core_memberlist_view_profile($event)
-	{
-		if (!$this->auth->acl_get('u_cc_viewtransactions'))
-		{
-			return;
-		}
-
-		$member = $event['member'];
-
-		$memberdays = max(1, round((time() - $member['user_regdate']) / 86400));
-		$transactions_per_day = $member['user_cc_transaction_count'] / $memberdays;
-		$percentage = ($this->config['cc_transaction_count']) ? min(100, ($member['user_cc_transaction_count'] / $this->config['cc_transaction_count']) * 100) : 0;
-
-		$amount = $this->currency_transformer->transform($member['user_cc_balance']);
-
-		$this->template->assign_vars(array(
-			'CC_USER_TRANSACTION_COUNT'	=> $member['user_cc_transaction_count'],
-			'CC_USER_TRANSACTIONS_PCT'	=> $this->user->lang('CC_USER_TRANSACTION_PCT', $percentage),
-			'CC_USER_TRANSACTIONS_PER_DAY' => $this->user->lang('CC_USER_TRANSACTION_PER_DAY', $transactions_per_day),
-			'U_CC_USER_TRANSACTIONS' => $this->helper->route('marttiphpbb_cc_transactionlist_controller', array('user_id' => $member['user_id'])),
-			'CC_USER_AMOUNT_CURRENCY'	=> $this->user->lang('CC_AMOUNT_CURRENCY', $amount['local']),
-		));
 	}
 }

@@ -2,8 +2,21 @@ imports:
     - { resource: tables.yml }
 
 services:
-    marttiphpbb.ccurrency.listener:
+    marttiphpbb.ccurrency.main_listener:
         class: marttiphpbb\ccurrency\event\main_listener
+        arguments:
+            - @auth
+            - @config
+            - @controller.helper
+            - %core.php_ext%
+            - @template
+            - @user
+            - @marttiphpbb.ccurrency.datatransformer.currency_transformer
+        tags:
+            - { name: event.listener }
+
+    marttiphpbb.ccurrency.show_balance_listener:
+        class: marttiphpbb\ccurrency\event\show_balance_listener
         arguments:
             - @auth
             - @config
