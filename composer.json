@@ -20,6 +20,11 @@
 		"display-name": "Community Currency",
 		"soft-require": {
 			"phpbb/phpbb": ">=3.1.0-RC2,<3.2.*@dev"
+		},
+			"version-check": {
+			"host": "marttiphpbb.github.io",
+			"directory": "/version",
+			"filename": "ccurrency.json"
 		}
 	}
 }
