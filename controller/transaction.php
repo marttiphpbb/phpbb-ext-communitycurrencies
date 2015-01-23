@@ -361,7 +361,7 @@ class transaction
 
 		// get transactions
 
-		$transactions_count = ($search_query) ? $this->transaction_operator->get_transactions_count($search_query) : $this->config['cc_transaction_count'];
+		$transaction_count = ($search_query) ? $this->transaction_operator->get_transaction_count($search_query) : $this->config['cc_transaction_count'];
 
 		$start = ($page - 1) * $limit;
 
@@ -392,14 +392,14 @@ class transaction
 			),
 			'pagination',
 			'page',
-			$transactions_count,
+			$transaction_count,
 			$limit,
 			$start
 		);
 
 		$this->template->assign_vars(array(
 			'PAGE_NUMBER'			=> $page,
-			'TOTAL_TRANSACTIONS'	=> $this->user->lang('CC_TRANSACTIONS_COUNT', $transactions_count),
+			'TOTAL_TRANSACTIONS'	=> $this->user->lang('CC_TRANSACTION_COUNT', $transaction_count),
 		));
 
 		$transactions = $this->transaction_operator->get_transactions($search_query, $sort_by, $sort_dir, $start, $limit);
@@ -513,13 +513,13 @@ class transaction
 			),
 			'pagination',
 			'page',
-			$transactions_count,
+			$transaction_count,
 			$limit,
 			$start);
 
 		$this->template->assign_vars(array(
 			'PAGE_NUMBER'			=> $page,
-			'TOTAL_TRANSACTIONS'	=> $this->user->lang('CC_TRANSACTIONS_COUNT', $transactions_count),
+			'TOTAL_TRANSACTIONS'	=> $this->user->lang('CC_TRANSACTION_COUNT', $transaction_count),
 		));
 
 		$sql_ary = array(

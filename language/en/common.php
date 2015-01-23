@@ -81,7 +81,7 @@ $lang = array_merge($lang, array(
 	'CC_RETURN_TRANSACTION'			=> 'Return to newly created %1s transaction %2s.',
 	'CC_RETURN_TRANSACTION_LIST'	=> 'Return to the %1s transaction list %2s.',
 
-	'CC_TRANSACTIONS_COUNT'			=> array(
+	'CC_TRANSACTION_COUNT'			=> array(
 		1 => '%s transaction',
 		2 => '%s transactions',
 	),

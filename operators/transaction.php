@@ -170,7 +170,7 @@ class transaction
 	 * @param string $search_query
 	 * @return int
 	*/
-	public function get_transactions_count($search_query)
+	public function get_transaction_count($search_query)
 	{
 		$sql_where = 'tr.parent_id IS NULL';
 
@@ -188,10 +188,10 @@ class transaction
 		);
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 		$result = $this->db->sql_query($sql);
-		$transactions_count = $this->db->sql_fetchfield('num');
+		$transaction_count = $this->db->sql_fetchfield('num');
 		$this->db->sql_freeresult($result);
 
-		return $transactions_count;
+		return $transaction_count;
 	}
 
 	/**
@@ -276,7 +276,7 @@ class transaction
 	 * @param int $id
 	 * @return int
 	*/
-	public function get_child_transactions_count($id)
+	public function get_child_transaction_count($id)
 	{
 		$sql_ary = array(
 			'SELECT' => 'count(*) as num',
@@ -287,8 +287,8 @@ class transaction
 		);
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 		$result = $this->db->sql_query($sql);
-		$transactions_count = $this->db->sql_fetchfield('num');
+		$transaction_count = $this->db->sql_fetchfield('num');
 		$this->db->sql_freeresult($result);
-		return $transactions_count;
+		return $transaction_count;
 	}
 }
