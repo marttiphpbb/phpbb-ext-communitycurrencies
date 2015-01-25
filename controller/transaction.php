@@ -204,7 +204,7 @@ class transaction
 			{
 				if (confirm_box(true))
 				{
-					$id = $this->transaction_operator->insert_transaction($unique_id, $this->user->data, $to_user_ary, $amount_seconds, $description);
+					$id = $this->transaction_operator->insert_transaction($unique_id, $this->user->data['user_id'], $to_user_ary['user_id'], $amount_seconds, $description);
 
 					$url_transactions = $this->helper->route('marttiphpbb_cc_transactionlist_controller');
 
@@ -424,11 +424,11 @@ class transaction
 				'DESCRIPTION'		=> $row['description'],
 				'CREATED_AT'		=> $this->user->format_date($row['created_at']),
 				'CREATED_BY'		=> $row['created_by'],
-				'CONFIRMED'			=> ($row['confirmed']) ? true : false,
+				'CONFIRMED'			=> ($row['confirmed_at']) ? true : false,
 				'CONFIRMDED_AT'		=> $this->user->format_date($row['confirmed_at']),
 				'U_TRANSACTION'		=> $this->helper->route('marttiphpbb_cc_transactionshow_controller', array('id' => $row['id'])),
 				'UNIQUE_ID'			=> $row['unique_id'],
-				'CHILDREN_COUNT'	=> $row['children_count'],
+				'CHILD_COUNT'		=> $row['child_count'],
 			));
 		}
 

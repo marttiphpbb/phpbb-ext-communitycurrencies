@@ -113,27 +113,22 @@ class transaction
 
 	/**
 	* @param string $unique_id
-	* @param array $from_user_ary
-	* @param array $to_user_ary
+	* @param int $from_user_id
+	* @param int $to_user_id
 	* @param int $amount (seconds)
 	* @param string $description
 	* @return int|false id
 	*/
-	public function insert_transaction($unique_id, $from_user_ary, $to_user_ary, $amount, $description)
+	public function insert_transaction($unique_id, $from_user_id, $to_user_id, $amount, $description)
 	{
 		$now = time();
 
 		$sql_ary = array(
 			'unique_id'			=> $unique_id,
-			'from_user_id'		=> $from_user_ary['user_id'],
-			'from_username'		=> $from_user_ary['username'],
-			'from_user_colour'	=> $from_user_ary['user_colour'],
-			'to_user_id'		=> $to_user_ary['user_id'],
-			'to_username'		=> $to_user_ary['username'],
-			'to_user_colour'	=> $to_user_ary['user_colour'],
+			'from_user_id'		=> $from_user_id,
+			'to_user_id'		=> $to_user_id,
 			'description'		=> $description,
 			'amount'			=> $amount,
-			'confirmed'			=> true,
 			'confirmed_at'		=> $now,
 			'created_by'		=> $from_user_ary['user_id'],
 			'created_at'		=> $now,
@@ -146,12 +141,12 @@ class transaction
 		$sql = 'UPDATE ' . $this->users_table . '
 			SET user_cc_balance = user_cc_balance - ' . $amount . ',
 			user_cc_transaction_count = user_cc_transaction_count + 1
-			WHERE user_id = ' . $from_user_ary['user_id'];
+			WHERE user_id = ' . $from_user_id;
 		$this->db->sql_query($sql);
 
 		$sql = 'UPDATE ' . $this->users_table . '
 			SET user_cc_balance = user_cc_balance + ' . $amount . '
-			WHERE user_id = ' . $to_user_ary['user_id'];
+			WHERE user_id = ' . $to_user_id;
 		$this->db->sql_query($sql);
 
 		$this->config->increment('cc_transaction_count', 1);
@@ -210,6 +205,14 @@ class transaction
 		$limit = 25
 	)
 	{
+		$sort_map = array(
+			'from_username' => 'uf.username',
+			'to_username'	=> 'ut.username',
+			'description'	=> 'tr.description',
+			'amount'		=> 'tr.amount',
+			'created_at'	=> 'tr.created_at',
+		);
+
 		$sql_where = 'tr.parent_id IS NULL';
 
 		if ($search_query)
@@ -217,35 +220,18 @@ class transaction
 			$sql_where .= ' AND tr.description ' . $this->db->sql_like_expression(str_replace('*', $this->db->get_any_char(), utf8_clean_string($search_query)));
 		}
 
-		$params = array();
+		$sql = 'SELECT tr.*,
+				uf.username as from_username, uf.user_colour as from_user_colour,
+				ut.username as to_username, ut.user_colour as to_user_colour
+			FROM ' . $this->cc_transactions_table . ' tr,
+				' . $this->users_table . ' uf,
+				' . $this->users_table . ' ut
+			WHERE ' . $sql_where . '
+				AND uf.user_id = tr.from_user_id
+				AND ut.user_id = tr.to_user_id
+			ORDER BY ' . $sort_map[$sort_by] . ' ' . (($sort_dir == 'desc') ? 'DESC' : 'ASC');
 
-		if ($sort_by != 'created_at')
-		{
-			$params['sort_by'] = $sort_by;
-		}
-
-		if ($sort_dir != 'desc')
-		{
-			$params['sort_dir'] = $sort_dir;
-		}
-
-		if ($search_query)
-		{
-			$params['q'] = $search_query;
-		}
-
-		$sql_ary = array(
-			'SELECT'	=> 'tr.*',
-			'FROM'		=> array(
-				$this->cc_transactions_table => 'tr',
-			),
-			'WHERE'		=> $sql_where,
-			'ORDER_BY'	=> 'tr.' . $sort_by . ' ' . (($sort_dir == 'desc') ? 'DESC' : 'ASC'),
-			'LIMIT'		=> $limit . ', ' . $start,
-		);
-
-		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
-		$result = $this->db->sql_query($sql);
+		$result = $this->db->sql_query_limit($sql, $limit, $start);
 		$transactions = $this->db->sql_fetchrowset($result);
 		$this->db->sql_freeresult($result);
 		return $transactions;
@@ -257,15 +243,15 @@ class transaction
 	*/
 	public function get_transaction($id)
 	{
-		$sql_ary = array(
-			'SELECT'	=> 'tr.*',
-			'FROM'		=> array(
-				$this->cc_transactions_table => 'tr',
-			),
-			'WHERE'		=> 'tr.id = ' . $id,
-		);
-
-		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
+		$sql = 'SELECT tr.*,
+				uf.username as from_username, uf.user_colour as from_user_colour,
+				ut.username as to_username, ut.user_colour as to_user_colour
+			FROM ' . $this->cc_transactions_table . ' tr,
+				' . $this->users_table . ' uf,
+				' . $this->users_table . ' ut
+			WHERE tr.id = ' . $id . '
+				AND uf.user_id = tr.from_user_id
+				AND ut.user_id = tr.to_user_id';
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
