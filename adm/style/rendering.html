@@ -3,26 +3,18 @@
 <h1>{L_ACP_CC_RENDERING} </h1>
 
 <form id="acp_board" method="post" action="{U_ACTION}">
-	<fieldset><legend>{L_ACP_CC_LINKS}</legend>
+	<fieldset><legend>{L_ACP_CCURRENCY_LINKS}</legend>
 		<dl>
-			<dt><label for="cc_transactions_menu_quick">{L_ACP_CC_TRANSACTIONS_MENU_LINK_QUICK}</label></dt>
-			<dd><input type="radio" class="radio" name="cc_transactions_menu_quick" value="1" <!-- IF S_CC_TRANSACTIONS_MENU_QUICK -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
-			<input type="radio" class="radio" name="cc_transactions_menu_quick" value="0" <!-- IF not S_CC_TRANSACTIONS_MENU_QUICK -->checked="checked"<!-- ENDIF --> /> {L_NO}</dd>
-		</dl>
-		<dl>
-			<dt><label for="cc_transactions_menu_header">{L_ACP_CC_TRANSACTIONS_MENU_LINK_HEADER}</label></dt>
-			<dd><input type="radio" class="radio" name="cc_transactions_menu_header" value="1" <!-- IF S_CC_TRANSACTIONS_MENU_HEADER -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
-			<input type="radio" class="radio" name="cc_transactions_menu_header" value="0" <!-- IF not S_CC_TRANSACTIONS_MENU_HEADER -->checked="checked"<!-- ENDIF --> /> {L_NO}</dd>
-		</dl>
-		<dl>
-			<dt><label for="cc_transactions_menu_footer">{L_ACP_CC_TRANSACTIONS_MENU_LINK_FOOTER}</label></dt>
-			<dd><input type="radio" class="radio" name="cc_transactions_menu_footer" value="1" <!-- IF S_CC_TRANSACTIONS_MENU_FOOTER -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
-			<input type="radio" class="radio" name="cc_transactions_menu_footer" value="0" <!-- IF not S_CC_TRANSACTIONS_MENU_FOOTER -->checked="checked"<!-- ENDIF --> /> {L_NO}</dd>
-		</dl>
-		<dl>
-			<dt><label for="cc_hide_github_link">{L_ACP_CC_HIDE_GITHUB_LINK}</label></dt>
-			<dd><input type="radio" class="radio" name="cc_hide_github_link" value="1" <!-- IF S_CC_HIDE_GITHUB_LINK -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
-			<input type="radio" class="radio" name="cc_hide_github_link" value="0" <!-- IF not S_CC_HIDE_GITHUB_LINK -->checked="checked"<!-- ENDIF --> /> {L_NO}</dd>
+			<dt><label for="links">{L_ACP_CCURRENCY_LINK_LOCATIONS}</label></dt>
+			</dt>
+			<dd><select name="links[]" id="links" size="10" multiple="multiple">
+				<!-- BEGIN links -->
+					<option value="{links.VALUE}"<!-- IF links.S_SELECTED --> selected="selected"<!-- ENDIF -->>
+						{links.LANG}
+					</option>
+				<!-- END links -->
+				</select>
+			</dd>
 		</dl>
 	</fieldset>
 

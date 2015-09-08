@@ -110,4 +110,8 @@ $lang = array_merge($lang, array(
 	'CC_USER_TRANSACTION_PCT'		=> '%.2f%% of all transactions',
 	'CC_USER_TRANSACTION_PER_DAY'	=> '%.2f transactions per day',
 
+// Github link
+
+	'CCURRENCY_EXTENSION'			=> '%1$sCommunity Currency%2$s for phpBB',
+
 ));

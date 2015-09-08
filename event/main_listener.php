@@ -14,6 +14,7 @@ use phpbb\template\twig\twig as template;
 use phpbb\user;
 
 use marttiphpbb\ccurrency\datatransformer\currency_transformer;
+use marttiphpbb\calendar\model\links;
 
 /**
 * @ignore
@@ -47,6 +48,9 @@ class main_listener implements EventSubscriberInterface
 	/* @var currency_transformer */
 	protected $currency_transformer;
 
+	/* @var links */
+	protected $links;
+
 	/**
 	* @param auth				$auth
 	* @param config				$config
@@ -55,6 +59,7 @@ class main_listener implements EventSubscriberInterface
 	* @param template			$template
 	* @param user				$user
 	* @param currency_transformer				$currency_transformer
+	* @param links				$links
 	*/
 	public function __construct(
 			auth $auth,
@@ -63,7 +68,8 @@ class main_listener implements EventSubscriberInterface
 			$php_ext,
 			template $template,
 			user $user,
-			currency_transformer $currency_transformer
+			currency_transformer $currency_transformer,
+			links $links
 		)
 	{
 		$this->auth = $auth;
@@ -73,6 +79,7 @@ class main_listener implements EventSubscriberInterface
 		$this->template = $template;
 		$this->user = $user;
 		$this->currency_transformer = $currency_transformer;
+		$this->links = $links;
 	}
 
 	static public function getSubscribedEvents()
@@ -80,6 +87,7 @@ class main_listener implements EventSubscriberInterface
 		return array(
 			'core.user_setup'						=> 'core_user_setup',
 			'core.page_footer'						=> 'core_page_footer',
+			'core.page_header'						=> 'core_page_header',
 			'core.viewonline_overwrite_location'	=> 'core_viewonline_overwrite_location',
 		);
 	}
@@ -103,6 +111,15 @@ class main_listener implements EventSubscriberInterface
 			'S_CC_TRANSACTIONS_MENU_HEADER'	=> $this->config['cc_transactions_menu_header'] && $this->auth->acl_get('u_cc_viewtransactions'),
 			'S_CC_TRANSACTIONS_MENU_FOOTER'	=> $this->config['cc_transactions_menu_footer'] && $this->auth->acl_get('u_cc_viewtransactions'),
 			'S_CC_HIDE_GITHUB_LINK'			=> $this->config['cc_hide_github_link'],
+		));
+	}
+
+	public function core_page_header($event)
+	{
+		$this->links->assign_template_vars();
+		$this->template->assign_vars(array(
+			'U_CCURRENCY_TRANSACTIONS'	=> $this->helper->route('marttiphpbb_cc_transactionlist_controller'),
+			'CCURRENCY_EXTENSION'		=> sprintf($this->user->lang['CCURRENCY_EXTENSION'], '<a href="http://github.com/marttiphpbb/phpbb-ext-ccurrency">', '</a>'),
 		));
 	}
 

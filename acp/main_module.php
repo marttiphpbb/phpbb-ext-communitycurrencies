@@ -7,6 +7,8 @@
 
 namespace marttiphpbb\ccurrency\acp;
 
+use marttiphpbb\ccurrency\model\links;
+
 class main_module
 {
 	var $u_action;
@@ -19,6 +21,8 @@ class main_module
 
 		$user->add_lang_ext('marttiphpbb/ccurrency', 'acp');
 		add_form_key('marttiphpbb/ccurrency');
+
+		$links = new links($config, $template, $user);
 
 		switch ($mode)
 		{
@@ -33,10 +37,7 @@ class main_module
 						trigger_error('FORM_INVALID');
 					}
 
-					$config->set('cc_transactions_menu_quick', $request->variable('cc_transactions_menu_quick', 0));
-					$config->set('cc_transactions_menu_header', $request->variable('cc_transactions_menu_header', 1));
-					$config->set('cc_transactions_menu_footer', $request->variable('cc_transactions_menu_footer', 0));
-					$config->set('cc_hide_github_link', $request->variable('cc_hide_github_link', 0));
+					$links->set($request->variable('links', array(0 => 0)), $request->variable('ccurrency_repo_link', 0));
 					$config->set('cc_transactions_per_page', $request->variable('cc_transactions_per_page', 25));
 
 					trigger_error($user->lang('ACP_CC_SETTING_SAVED') . adm_back_link($this->u_action));
@@ -44,10 +45,6 @@ class main_module
 
 				$template->assign_vars(array(
 					'U_ACTION'							=> $this->u_action,
-					'S_CC_TRANSACTIONS_MENU_QUICK'		=> $config['cc_transactions_menu_quick'],
-					'S_CC_TRANSACTIONS_MENU_HEADER'		=> $config['cc_transactions_menu_header'],
-					'S_CC_TRANSACTIONS_MENU_FOOTER'		=> $config['cc_transactions_menu_footer'],
-					'S_CC_HIDE_GITHUB_LINK'				=> $config['cc_hide_github_link'],
 					'CC_TRANSACTIONS_PER_PAGE'			=> $config['cc_transactions_per_page'],
 				));
 

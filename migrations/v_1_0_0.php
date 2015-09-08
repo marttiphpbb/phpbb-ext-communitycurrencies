@@ -15,12 +15,11 @@ class v_1_0_0 extends migration
 	public function update_data()
 	{
 		return array(
-			array('config.add', array('cc_transactions_menu_quick', 0)),
-			array('config.add', array('cc_transactions_menu_header', 1)),
-			array('config.add', array('cc_transactions_menu_footer', 0)),
-			array('config.add', array('cc_hide_github_link', 0)),
-			array('config.add', array('cc_transactions_per_page', 25)),
+			array('config_text.add', array('marttiphpbb_ccurrency_plural_forms', '')),
 
+			array('config.add', array('ccurrency_links', 3)),			
+
+			array('config.add', array('cc_transactions_per_page', 25)),
 			array('config.add', array('cc_currency_symbol', '')),
 			array('config.add', array('cc_currency_symbol_before', 1)),
 
@@ -65,7 +64,6 @@ class v_1_0_0 extends migration
 					),
 				),
 			)),
-
 		);
 	}
 
@@ -74,15 +72,6 @@ class v_1_0_0 extends migration
 		return array(
 
 			'add_tables'    => array(
-				$this->table_prefix . 'cc_currency_plural'	=> array(
-					'COLUMNS'	=> array(
-						'id'		=> array('UINT', NULL, 'auto_increment'),
-						'lang_dir'	=> array('VCHAR:30', ''),
-						'form'		=> array('UINT', NULL),
-						'name'		=> array('VCHAR_UNI', ''),
-					),
-					'PRIMARY_KEY'	=> 'id',
-				),
 				$this->table_prefix . 'cc_transactions'		=> array(
 					'COLUMNS'        => array(
 						'id'                => array('UINT', NULL, 'auto_increment'),
@@ -135,7 +124,6 @@ class v_1_0_0 extends migration
 			),
 			'drop_tables'			=> array(
 				$this->table_prefix . 'cc_transactions',
-				$this->table_prefix . 'cc_currency_plural',
 			),
 	   );
 	}

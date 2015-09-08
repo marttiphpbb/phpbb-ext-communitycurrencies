@@ -36,11 +36,21 @@ $lang = array_merge($lang, array(
 
 // acp rendering
 
-	'ACP_CC_LINKS'								=> 'Links',
-	'ACP_CC_TRANSACTIONS_MENU_LINK_QUICK'		=> 'Enable transactions link in Quick menu',
-	'ACP_CC_TRANSACTIONS_MENU_LINK_HEADER' 		=> 'Enable transactions link in header',
-	'ACP_CC_TRANSACTIONS_MENU_LINK_FOOTER'		=> 'Enable transactions link in footer',
-	'ACP_CC_HIDE_GITHUB_LINK'					=> 'Hide Github link in footer',
+	'ACP_CCURRENCY_LINKS'								=> 'Links',
+	'ACP_CCURRENCY_LINK_LOCATIONS' 						=> 'Enable Link locations to the transactions page',
+	'ACP_CCURRENCY_REPO_LINK'							=> 'Enable link to the Community Currency extension repository in copyright footer',
+
+	'ACP_CCURRENCY_OVERALL_HEADER_NAVIGATION_PREPEND'	=> 'Overall header navigation prepend',
+	'ACP_CCURRENCY_OVERALL_HEADER_NAVIGATION_APPEND'	=> 'Overall header navigation append',
+	'ACP_CCURRENCY_NAVBAR_HEADER_QUICK_LINKS_BEFORE'	=> 'Navbar header quick links before',
+	'ACP_CCURRENCY_NAVBAR_HEADER_QUICK_LINKS_AFTER'		=> 'Navbar header quick links after',
+	'ACP_CCURRENCY_OVERALL_HEADER_BREADCRUMBS_BEFORE'	=> 'Overall header breadcrumbs before',
+	'ACP_CCURRENCY_OVERALL_HEADER_BREADCRUMBS_AFTER'	=> 'Overall header breadcrumbs after',
+	'ACP_CCURRENCY_OVERALL_FOOTER_TIMEZONE_BEFORE'		=> 'Overall footer timezone before',
+	'ACP_CCURRENCY_OVERALL_FOOTER_TIMEZONE_AFTER'		=> 'Overall footer timezone after',
+	'ACP_CCURRENCY_OVERALL_FOOTER_TEAMLINK_BEFORE'		=> 'Overall footer teamlink before',
+	'ACP_CCURRENCY_OVERALL_FOOTER_TEAMLINK_AFTER'		=> 'Overall footer teamlink after',
+
 
 	'ACP_CC_TRANSACTIONS_PAGE'					=> 'Transactions page',
 	'ACP_CC_TRANSACTIONS_PER_PAGE'				=> 'Default number of transactions per page',

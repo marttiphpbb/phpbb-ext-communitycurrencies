@@ -12,6 +12,7 @@ services:
             - @template
             - @user
             - @marttiphpbb.ccurrency.datatransformer.currency_transformer
+            - @marttiphpbb.ccurrency.model.links
         tags:
             - { name: event.listener }
 
@@ -101,3 +102,10 @@ services:
             - %tables.user_notifications%
         tags:
             - { name: notification.type }
+
+    marttiphpbb.ccurrency.model.links:
+        class: marttiphpbb\calendar\model\links
+        arguments:
+            - @config
+            - @template
+            - @user
