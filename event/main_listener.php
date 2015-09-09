@@ -109,7 +109,7 @@ class main_listener implements EventSubscriberInterface
 			$this->links->assign_template_vars();
 			$this->template->assign_vars(array(
 				'U_CCURRENCY_TRANSACTIONS'		=> $this->helper->route('marttiphpbb_cc_transactionlist_controller'),
-				'CCURRENCY_EXTENSION'			=> sprintf($this->user->lang['CCURRENCY_EXTENSION'], '<a href="http://github.com/marttiphpbb/phpbb-ext-ccurrency">', '</a>'),
+				'CCURRENCY_REPO_LINK'			=> sprintf($this->user->lang['CCURRENCY_EXTENSION'], '<a href="http://github.com/marttiphpbb/phpbb-ext-ccurrency">', '</a>'),
 			));
 		}
 	}
