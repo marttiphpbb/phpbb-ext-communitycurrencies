@@ -28,7 +28,7 @@ class main_module
 		{
 			case 'rendering':
 				$this->tpl_name = 'rendering';
-				$this->page_title = $user->lang('ACP_CC_RENDERING');
+				$this->page_title = $user->lang('ACP_CCURRENCY_RENDERING');
 
 				if ($request->is_set_post('submit'))
 				{
@@ -40,19 +40,20 @@ class main_module
 					$links->set($request->variable('links', array(0 => 0)), $request->variable('ccurrency_repo_link', 0));
 					$config->set('cc_transactions_per_page', $request->variable('cc_transactions_per_page', 25));
 
-					trigger_error($user->lang('ACP_CC_SETTING_SAVED') . adm_back_link($this->u_action));
+					trigger_error($user->lang('ACP_CCURRENCY_SETTING_SAVED') . adm_back_link($this->u_action));
 				}
 
+				$links->assign_acp_select_template_vars();
 				$template->assign_vars(array(
 					'U_ACTION'							=> $this->u_action,
-					'CC_TRANSACTIONS_PER_PAGE'			=> $config['cc_transactions_per_page'],
+					'CCURRENCY_TRANSACTIONS_PER_PAGE'			=> $config['cc_transactions_per_page'],
 				));
 
 				break;
 
 			case 'currency':
 				$this->tpl_name = 'currency';
-				$this->page_title = $user->lang('ACP_CC_CURRENCY');
+				$this->page_title = $user->lang('ACP_CCURRENCY_CURRENCY');
 
 				$currency_plural_operator = $phpbb_container->get('marttiphpbb.ccurrency.currency_plural.operator');
 				$ext_manager = $phpbb_container->get('ext.manager');
@@ -74,10 +75,10 @@ class main_module
 
 					$currency_plural_operator->set($currency_plural_ary);
 
-					trigger_error($user->lang('ACP_CC_SETTING_SAVED') . adm_back_link($this->u_action));
+					trigger_error($user->lang('ACP_CCURRENCY_SETTING_SAVED') . adm_back_link($this->u_action));
 				}
 
-				$granularity_ary = $user->lang['ACP_CC_TB_GRANULARITY_OPTIONS'];
+				$granularity_ary = $user->lang['ACP_CCURRENCY_TB_GRANULARITY_OPTIONS'];
 				$granularity_ary = (is_array($granularity_ary)) ? $granularity_ary : array();
 				$granularity_options = '';
 
@@ -110,8 +111,8 @@ class main_module
 
 					include $lang_file;
 
-					$placeholder_ary = $lang['ACP_CC_CURRENCY_NAME_PLURAL_FORMS_PLACEHOLDERS'];
-					$plural_forms = $lang['ACP_CC_CURRENCY_NAME_PLURAL_FORMS'];
+					$placeholder_ary = $lang['ACP_CCURRENCY_NAME_PLURAL_FORMS_PLACEHOLDERS'];
+					$plural_forms = $lang['ACP_CCURRENCY_NAME_PLURAL_FORMS'];
 
 					foreach ($plural_forms as $key => $name)
 					{
@@ -129,8 +130,8 @@ class main_module
 				$template->assign_vars(array(
 					'U_ACTION'				=> $this->u_action,
 
-					'CC_CURRENCY_RATE'					=> $config['cc_currency_rate'],
-					'S_CC_TB_GRANULARITY_OPTIONS'		=> $granularity_options,
+					'CCURRENCY_RATE'							=> $config['ccurrency_rate'],
+					'S_CCURRENCY_TB_GRANULARITY_OPTIONS'		=> $granularity_options,
 				));
 
 				break;

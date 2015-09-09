@@ -30,14 +30,14 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 
-	'LOG_CC_TRANSACTION'	=> 'Transaction posted from to by',
+	'LOG_CCURRENCY_TRANSACTION'	=> 'Transaction posted from to by',
 
-	'ACP_CC_SETTING_SAVED'		=> 'Settings have been saved successfully!',
+	'ACP_CCURRENCY_SETTING_SAVED'		=> 'Settings have been saved successfully!',
 
 // acp rendering
 
 	'ACP_CCURRENCY_LINKS'								=> 'Links',
-	'ACP_CCURRENCY_LINK_LOCATIONS' 						=> 'Enable Link locations to the transactions page',
+	'ACP_CCURRENCY_LINK_LOCATIONS' 						=> 'Enable Link locations to the transaction page',
 	'ACP_CCURRENCY_REPO_LINK'							=> 'Enable link to the Community Currency extension repository in copyright footer',
 
 	'ACP_CCURRENCY_OVERALL_HEADER_NAVIGATION_PREPEND'	=> 'Overall header navigation prepend',
@@ -51,29 +51,28 @@ $lang = array_merge($lang, array(
 	'ACP_CCURRENCY_OVERALL_FOOTER_TEAMLINK_BEFORE'		=> 'Overall footer teamlink before',
 	'ACP_CCURRENCY_OVERALL_FOOTER_TEAMLINK_AFTER'		=> 'Overall footer teamlink after',
 
-
-	'ACP_CC_TRANSACTIONS_PAGE'					=> 'Transactions page',
-	'ACP_CC_TRANSACTIONS_PER_PAGE'				=> 'Default number of transactions per page',
+	'ACP_CCURRENCY_TRANSACTIONS_PAGE'					=> 'Transactions page',
+	'ACP_CCURRENCY_TRANSACTIONS_PER_PAGE'				=> 'Default number of transactions per page',
 
 // acp currency
 
-	'ACP_CC_CURRENCY_NAME' 			=> 'Currency name',
-	'ACP_CC_CURRENCY_NAME_PLURAL_FORMS_PLACEHOLDERS'	=> array(
+	'ACP_CCURRENCY_CURRENCY_NAME' 			=> 'Currency name',
+	'ACP_CCURRENCY_CURRENCY_NAME_PLURAL_FORMS_PLACEHOLDERS'	=> array(
 		1 => 'bean',
 		2 => 'beans',
 	),
-	'ACP_CC_CURRENCY_NAME_PLURAL_FORMS'	=> array(
+	'ACP_CCURRENCY_CURRENCY_NAME_PLURAL_FORMS'	=> array(
 		1 => 'Singular',
 		2 => 'Plural',
 	),
-	'ACP_CC_LANGUAGE_FILE_NOT_AVAILABLE' => 'Translation in this language is not available (yet). You can help the Community Currency extension by feeding back translation files.',
+	'ACP_CCURRENCY_LANGUAGE_FILE_NOT_AVAILABLE' => 'Translation in this language is not available (yet). You can help the Community Currency extension by feeding back translation files.',
 
-	'ACP_CC_CURRENCY_NAME_EXPLAIN'	=> 'The currency name is not in use when Time Banking',
-	'ACP_CC_CURRENCY_RATE' 			=> 'Currency rate in seconds',
-	'ACP_CC_TIME_BANKING'			=> 'Time banking',
-	'ACP_CC_CURRENCY_RATE_EXPLAIN'	=> 'Set to zero when Time Banking',
-	'ACP_CC_TIME_BANKING_GRANULARITY'	=> 'Time Banking granularity',
-	'ACP_CC_TB_GRANULARITY_OPTIONS' => array(
+	'ACP_CCURRENCY_CURRENCY_NAME_EXPLAIN'	=> 'The currency name is not in use when Time Banking',
+	'ACP_CCURRENCY_CURRENCY_RATE' 			=> 'Currency rate in seconds',
+	'ACP_CCURRENCY_TIME_BANKING'			=> 'Time banking',
+	'ACP_CCURRENCY_CURRENCY_RATE_EXPLAIN'	=> 'Set to zero when Time Banking',
+	'ACP_CCURRENCY_TIME_BANKING_GRANULARITY'	=> 'Time Banking granularity',
+	'ACP_CCURRENCY_TB_GRANULARITY_OPTIONS' => array(
 		60		=> '1 min.',
 		300		=> '5 min.',
 		600		=> '10 min.',

@@ -103,9 +103,9 @@ class links
 	 * @param int		$repo_link
 	 * @return links
 	 */
-	public function set($links, $calendar_repo_link)
+	public function set($links, $ccurrency_repo_link)
 	{
-		$this->config->set('ccurrency_links', array_sum($links) + $calendar_repo_link);
+		$this->config->set('ccurrency_links', array_sum($links) + $ccurrency_repo_link);
 		return $this;
 	}
 }

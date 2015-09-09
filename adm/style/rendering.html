@@ -1,6 +1,6 @@
 <!-- INCLUDE overall_header.html -->
 
-<h1>{L_ACP_CC_RENDERING} </h1>
+<h1>{L_ACP_CCURRENCY_RENDERING} </h1>
 
 <form id="acp_board" method="post" action="{U_ACTION}">
 	<fieldset><legend>{L_ACP_CCURRENCY_LINKS}</legend>
@@ -16,12 +16,19 @@
 				</select>
 			</dd>
 		</dl>
+		<dl>
+			<dt><label for="ccurrency_repo_link">{L_ACP_CCURRENCY_REPO_LINK}</label></dt>
+			<dd>
+				<input type="radio" class="radio" name="ccurrency_repo_link" value="1" <!-- IF S_CCURRENCY_REPO_LINK -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
+				<input type="radio" class="radio" name="ccurrency_repo_link" value="0" <!-- IF not S_CCURRENCY_REPO_LINK -->checked="checked"<!-- ENDIF --> /> {L_NO}</dd>
+			</dd>
+		</dl>
 	</fieldset>
 
-	<fieldset><legend>{L_ACP_CC_TRANSACTIONS_PAGE}</legend>
+	<fieldset><legend>{L_ACP_CCURRENCY_TRANSACTIONS_PAGE}</legend>
 		<dl>
-			<dt><label for="cc_transactions_per_page">{L_ACP_CC_TRANSACTIONS_PER_PAGE}</label></dt>
-			<dd><input type="number" name="cc_transactions_per_page" min="5" value="{CC_TRANSACTIONS_PER_PAGE}" /></dd>
+			<dt><label for="cc_transactions_per_page">{L_ACP_CCURRENCY_TRANSACTIONS_PER_PAGE}</label></dt>
+			<dd><input type="number" name="cc_transactions_per_page" min="5" value="{CCURRENCY_TRANSACTIONS_PER_PAGE}" /></dd>
 		</dl>
 	</fieldset>
 

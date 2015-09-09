@@ -399,7 +399,7 @@ class transaction
 
 		$this->template->assign_vars(array(
 			'PAGE_NUMBER'			=> $page,
-			'TOTAL_TRANSACTIONS'	=> $this->user->lang('CC_TRANSACTION_COUNT', $transaction_count),
+			'TOTAL_TRANSACTIONS'	=> $this->user->lang('CCURRENCY_TRANSACTION_COUNT', $transaction_count),
 		));
 
 		$transactions = $this->transaction_operator->get_transactions($search_query, $sort_by, $sort_dir, $start, $limit);
@@ -519,7 +519,7 @@ class transaction
 
 		$this->template->assign_vars(array(
 			'PAGE_NUMBER'			=> $page,
-			'TOTAL_TRANSACTIONS'	=> $this->user->lang('CC_TRANSACTION_COUNT', $transaction_count),
+			'TOTAL_TRANSACTIONS'	=> $this->user->lang('CCURRENCY_TRANSACTION_COUNT', $transaction_count),
 		));
 
 		$sql_ary = array(

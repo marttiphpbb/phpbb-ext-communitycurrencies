@@ -84,7 +84,7 @@ services:
             - %tables.cc_transactions%
 
     marttiphpbb.ccurrency.notification.type.transaction:
-        class: marttiphpbb\calendar\notification\transaction
+        class: marttiphpbb\ccurrency\notification\transaction
         scope: prototype
         arguments:
             - @user_loader
@@ -104,7 +104,7 @@ services:
             - { name: notification.type }
 
     marttiphpbb.ccurrency.model.links:
-        class: marttiphpbb\calendar\model\links
+        class: marttiphpbb\ccurrency\model\links
         arguments:
             - @config
             - @template

@@ -30,7 +30,7 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 
-	'ACP_CCURRENCY'				=> 'Community Currency',
-	'ACP_CC_RENDERING'			=> 'Rendering',
-	'ACP_CC_CURRENCY'			=> 'Currency',
+	'ACP_CCURRENCY'					=> 'Community Currency',
+	'ACP_CCURRENCY_RENDERING'		=> 'Rendering',
+	'ACP_CCURRENCY_CURRENCY'		=> 'Currency',
 ));

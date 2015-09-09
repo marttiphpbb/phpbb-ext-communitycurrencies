@@ -14,7 +14,7 @@ use phpbb\template\twig\twig as template;
 use phpbb\user;
 
 use marttiphpbb\ccurrency\datatransformer\currency_transformer;
-use marttiphpbb\calendar\model\links;
+use marttiphpbb\ccurrency\model\links;
 
 /**
 * @ignore
@@ -86,7 +86,6 @@ class main_listener implements EventSubscriberInterface
 	{
 		return array(
 			'core.user_setup'						=> 'core_user_setup',
-			'core.page_footer'						=> 'core_page_footer',
 			'core.page_header'						=> 'core_page_header',
 			'core.viewonline_overwrite_location'	=> 'core_viewonline_overwrite_location',
 		);
@@ -103,24 +102,16 @@ class main_listener implements EventSubscriberInterface
 		$event['lang_set_ext'] = $lang_set_ext;
 	}
 
-	public function core_page_footer($event)
-	{
-		$this->template->assign_vars(array(
-			'U_CC_TRANSACTIONS'				=> $this->helper->route('marttiphpbb_cc_transactionlist_controller'),
-			'S_CC_TRANSACTIONS_MENU_QUICK'	=> $this->config['cc_transactions_menu_quick'] && $this->auth->acl_get('u_cc_viewtransactions'),
-			'S_CC_TRANSACTIONS_MENU_HEADER'	=> $this->config['cc_transactions_menu_header'] && $this->auth->acl_get('u_cc_viewtransactions'),
-			'S_CC_TRANSACTIONS_MENU_FOOTER'	=> $this->config['cc_transactions_menu_footer'] && $this->auth->acl_get('u_cc_viewtransactions'),
-			'S_CC_HIDE_GITHUB_LINK'			=> $this->config['cc_hide_github_link'],
-		));
-	}
-
 	public function core_page_header($event)
 	{
-		$this->links->assign_template_vars();
-		$this->template->assign_vars(array(
-			'U_CCURRENCY_TRANSACTIONS'	=> $this->helper->route('marttiphpbb_cc_transactionlist_controller'),
-			'CCURRENCY_EXTENSION'		=> sprintf($this->user->lang['CCURRENCY_EXTENSION'], '<a href="http://github.com/marttiphpbb/phpbb-ext-ccurrency">', '</a>'),
-		));
+		if (true || $this->auth->acl_get('u_cc_viewtransactions'))
+		{
+			$this->links->assign_template_vars();
+			$this->template->assign_vars(array(
+				'U_CCURRENCY_TRANSACTIONS'		=> $this->helper->route('marttiphpbb_cc_transactionlist_controller'),
+				'CCURRENCY_EXTENSION'			=> sprintf($this->user->lang['CCURRENCY_EXTENSION'], '<a href="http://github.com/marttiphpbb/phpbb-ext-ccurrency">', '</a>'),
+			));
+		}
 	}
 
 	public function core_viewonline_overwrite_location($event)

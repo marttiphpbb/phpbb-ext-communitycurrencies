@@ -20,10 +20,10 @@ class v_1_0_0 extends migration
 			array('config.add', array('ccurrency_links', 3)),			
 
 			array('config.add', array('cc_transactions_per_page', 25)),
-			array('config.add', array('cc_currency_symbol', '')),
-			array('config.add', array('cc_currency_symbol_before', 1)),
+			array('config.add', array('ccurrency_symbol', '')),
+			array('config.add', array('ccurrency_symbol_before', 1)),
 
-			array('config.add', array('cc_currency_rate', 60)),
+			array('config.add', array('ccurrency_rate', 60)),
 			array('config.add', array('cc_time_banking_granularity', 900)),
 
 			array('config.add', array('cc_transaction_count', 0, true)),
@@ -52,11 +52,11 @@ class v_1_0_0 extends migration
 			array('module.add', array(
 				'mcp',
 				'',
-				'MCP_CC_TRANSACTIONS'
+				'MCP_CCURRENCY_TRANSACTIONS'
 			)),
 			array('module.add', array(
 				'mcp',
-				'MCP_CC_TRANSACTIONS',
+				'MCP_CCURRENCY_TRANSACTIONS',
 				array(
 					'module_basename'	=> '\marttiphpbb\ccurrency\mcp\transactions_module',
 					'modes'				=> array(
