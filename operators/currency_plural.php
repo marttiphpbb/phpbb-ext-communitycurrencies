@@ -10,6 +10,7 @@ namespace marttiphpbb\ccurrency\operators;
 
 use phpbb\cache\service as cache;
 use phpbb\config\db as config;
+use phpbb\config\db_text as config_text;
 use phpbb\content_visibility;
 use phpbb\db\driver\factory as db;
 use phpbb\user;
@@ -19,32 +20,35 @@ class currency_plural
 
 	protected $cache;
 	protected $config;
+	protected $config_text;
 	protected $db;
 	protected $user;
-	protected $cc_currency_plural_table;
 	protected $lang_table;
+
+	/* @var array */
+	protected $local_cache;
 
    /**
    * @param cache $cache
    * @param config   $config
+   * @param config_text   $config_text
    * @param db   $db
    * @param user   $user
-   * @param string $cc_currency_plural_table
    */
 
    public function __construct(
 		cache $cache,
 		config $config,
+		config_text $config_text,
 		db $db,
-		user $user,
-		$cc_currency_plural_table
+		user $user
 	)
 	{
 		$this->cache = $cache;
 		$this->config = $config;
+		$this->config_text = $config_text;
 		$this->db = $db;
 		$this->user = $user;
-		$this->cc_currency_plural_table = $cc_currency_plural_table;
 		$this->lang_table = LANG_TABLE;   // no parameter in core is defined for this table;
    }
 
@@ -73,33 +77,30 @@ class currency_plural
 	/**
 	 * @return array
 	 */
-	public function get()
+	public function get_all()
 	{
+		if ($this->local_cache)
+		{
+			return $this->local_cache;
+		}
+		
 		if ($this->cache->_exists('ccurrency_plural'))
 		{
-			return $this->cache->get('ccurrency_plural');
+			return $this->local_cache = $this->cache->get('ccurrency_plural');
 		}
 
-		$ary = array();
-
-		$sql_ary = array(
-			'SELECT'	=> 'cp.*',
-			'FROM'		=> array(
-				$this->cc_currency_plural_table => 'cp',
-			),
-			'SORT BY'	=> 'cp.lang_iso, ASC',
-		);
-
-		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
-		$result = $this->db->sql_query($sql);
-		while($row = $this->db->sql_fetchrow($result))
-		{
-			$ary[$row['lang_dir']] = (isset($ary[$row['lang_dir']])) ? $ary[$row['lang_dir']] : array();
-			$ary[$row['lang_dir']][$row['form']] = $row['name'];
-		}
-		$this->db->sql_freeresult($result);
+		$ary = unserialize($this->config_text->get('marttiphpbb_ccurrency_plural_forms'));
+		$this->local_cache = $ary;
 		$this->cache->put('ccurrency_plural', $ary);
 		return $ary;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function get()
+	{
+		return $this->get_all()[$this->user->lang_dir];
 	}
 
 	/**
@@ -108,37 +109,10 @@ class currency_plural
 	 */
 	public function set($ary)
 	{
-		$this->cache->destroy('ccurrency_plural');
-		$select = $this->get_all();
-		foreach ($ary as $lang_dir => $forms)
-		{
-			foreach ($forms as $form => $name)
-			{
-				if (isset($select[$lang_dir][$form]))
-				{
-					if ($select[$lang_dir][$form] == $name)
-					{
-						continue;
-					}
-					$sql_ary = array('name'	=> $name);
-					$sql = 'UPDATE ' . $this->cc_currency_plural_table . '
-						SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . '
-						WHERE lang_dir = \'' . $this->db->sql_escape($lang_dir) . '\'
-							AND form = ' . $form;
-					$this->db->sql_query($sql);
-					continue;
-				}
-				$sql_ary = array(
-					'lang_dir'	=> $lang_dir,
-					'form'		=> $form,
-					'name'		=> $name,
-				);
-				$sql = 'INSERT INTO ' . $this->cc_currency_plural_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary);
-				$this->db->sql_query($sql);
-			}
-		}
+		$this->config_text->set('marttiphpbb_ccurrency_plural_forms', serialize($ary));
 		$this->cache->put('ccurrency_plural', $ary);
 		return $this;
 	}
 
+	
 }

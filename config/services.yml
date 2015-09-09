@@ -68,9 +68,9 @@ services:
         arguments:
             - @cache
             - @config
+            - @config_text
             - @dbal.conn
             - @user
-            - %tables.cc_currency_plural%
 
     marttiphpbb.ccurrency.datatransformer.currency_transformer:
         class: marttiphpbb\ccurrency\datatransformer\currency_transformer

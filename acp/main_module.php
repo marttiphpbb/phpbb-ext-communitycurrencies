@@ -70,8 +70,9 @@ class main_module
 					}
 
 					$config->set('cc_time_banking_granularity', $request->variable('cc_time_banking_granularity', 900));
+					$config->set('ccurrency_rate', $request->variable('ccurrency_rate', 60));
 
-					$currency_plural_ary = $request->variable('cc_currency_name', array('' => array('')), true);
+					$currency_plural_ary = $request->variable('ccurrency_currency_name', array('' => array('')), true);
 
 					$currency_plural_operator->set($currency_plural_ary);
 
@@ -89,9 +90,7 @@ class main_module
 					$granularity_options .= '>'.$option.'</option>';
 				}
 
-				$currency_name_ary = unserialize($config['cc_currency_name']);
-
-				$currency_name_ary = $currency_plural_operator->get();
+				$currency_name_ary = $currency_plural_operator->get_all();
 
 				foreach ($language_ary as $lang)
 				{
@@ -111,17 +110,20 @@ class main_module
 
 					include $lang_file;
 
-					$placeholder_ary = $lang['ACP_CCURRENCY_NAME_PLURAL_FORMS_PLACEHOLDERS'];
-					$plural_forms = $lang['ACP_CCURRENCY_NAME_PLURAL_FORMS'];
+					$placeholder_ary = $lang['ACP_CCURRENCY_CURRENCY_NAME_PLURAL_FORMS_PLACEHOLDERS'];
+					$plural_forms = $lang['ACP_CCURRENCY_CURRENCY_NAME_PLURAL_FORMS'];
 
-					foreach ($plural_forms as $key => $name)
+					if (is_array($plural_forms))
 					{
-						$template->assign_block_vars('lang.plural_forms', array(
-							'KEY'			=> $key,
-							'NAME'			=> $name,
-							'VALUE'			=> (isset($currency_name_ary[$lang_dir][$key])) ? $currency_name_ary[$lang_dir][$key] : '',
-							'PLACEHOLDER'	=> isset($placeholder_ary[$key]) ? $placeholder_ary[$key] : '',
-						));
+						foreach ($plural_forms as $key => $name)
+						{
+							$template->assign_block_vars('lang.plural_forms', array(
+								'KEY'			=> $key,
+								'NAME'			=> $name,
+								'VALUE'			=> (isset($currency_name_ary[$lang_dir][$key])) ? $currency_name_ary[$lang_dir][$key] : '',
+								'PLACEHOLDER'	=> isset($placeholder_ary[$key]) ? $placeholder_ary[$key] : '',
+							));
+						}
 					}
 
 					unset($lang);

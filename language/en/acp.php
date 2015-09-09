@@ -56,6 +56,7 @@ $lang = array_merge($lang, array(
 
 // acp currency
 
+	'ACP_CCURRENCY_CURRENCY'				=> 'Currency',
 	'ACP_CCURRENCY_CURRENCY_NAME' 			=> 'Currency name',
 	'ACP_CCURRENCY_CURRENCY_NAME_PLURAL_FORMS_PLACEHOLDERS'	=> array(
 		1 => 'bean',
@@ -67,10 +68,10 @@ $lang = array_merge($lang, array(
 	),
 	'ACP_CCURRENCY_LANGUAGE_FILE_NOT_AVAILABLE' => 'Translation in this language is not available (yet). You can help the Community Currency extension by feeding back translation files.',
 
-	'ACP_CCURRENCY_CURRENCY_NAME_EXPLAIN'	=> 'The currency name is not in use when Time Banking',
+	'ACP_CCURRENCY_CURRENCY_NAME_EXPLAIN'	=> 'The currency name is not in use when Time Banking is enabled',
 	'ACP_CCURRENCY_CURRENCY_RATE' 			=> 'Currency rate in seconds',
 	'ACP_CCURRENCY_TIME_BANKING'			=> 'Time banking',
-	'ACP_CCURRENCY_CURRENCY_RATE_EXPLAIN'	=> 'Set to zero when Time Banking',
+	'ACP_CCURRENCY_CURRENCY_RATE_EXPLAIN'	=> 'Set to zero to enable Time Banking',
 	'ACP_CCURRENCY_TIME_BANKING_GRANULARITY'	=> 'Time Banking granularity',
 	'ACP_CCURRENCY_TB_GRANULARITY_OPTIONS' => array(
 		60		=> '1 min.',
