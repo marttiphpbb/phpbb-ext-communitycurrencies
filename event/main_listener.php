@@ -104,7 +104,7 @@ class main_listener implements EventSubscriberInterface
 
 	public function core_page_header($event)
 	{
-		if (true || $this->auth->acl_get('u_cc_viewtransactions'))
+		if ($this->auth->acl_get('u_cc_viewtransactions'))
 		{
 			$this->links->assign_template_vars();
 			$this->template->assign_vars(array(
