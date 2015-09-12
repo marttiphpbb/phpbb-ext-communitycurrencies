@@ -9,7 +9,7 @@ namespace marttiphpbb\ccurrency\migrations;
 
 use phpbb\db\migration\migration;
 
-class v_1_0_0 extends migration
+class v_0_1_0 extends migration
 {
 
 	public function update_data()
