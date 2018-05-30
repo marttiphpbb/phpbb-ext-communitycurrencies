@@ -1,10 +1,10 @@
 {
-	"name": "marttiphpbb/ccurrency",
+	"name": "marttiphpbb/communitycurrencies",
 	"type": "phpbb-extension",
-	"description": "Community Currency Extension for phpBB 3.1",
-	"homepage": "https://github.com/marttiphpbb/phpbb-ext-ccurrency",
+	"description": "Community Currencies Extension for phpBB 3.2",
+	"homepage": "https://github.com/marttiphpbb/phpbb-ext-communitycurrencies",
 	"version": "0.1.0",
-	"time": "2015-07-24",
+	"time": "2018-05-30",
 	"license": "GPL-2.0",
 	"authors": [{
 			"name": "martti",
@@ -17,14 +17,14 @@
 
 	},
 	"extra": {
-		"display-name": "Community Currency",
+		"display-name": "Community Currencies",
 		"soft-require": {
-			"phpbb/phpbb": ">=3.1.0-RC2,<3.2.*@dev"
+			"phpbb/phpbb": ">=3.2,<3.3"
 		},
 			"version-check": {
 			"host": "marttiphpbb.github.io",
 			"directory": "/version",
-			"filename": "ccurrency.json"
+			"filename": "communitycurrencies.json"
 		}
 	}
 }

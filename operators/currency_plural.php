@@ -1,12 +1,12 @@
 <?php
 
 /**
-* phpBB Extension - marttiphpbb community currency
-* @copyright (c) 2015 marttiphpbb <info@martti.be>
+* phpBB Extension - marttiphpbb Community Currencies
+* @copyright (c) 2015 - 2018 marttiphpbb <info@martti.be>
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace marttiphpbb\ccurrency\operators;
+namespace marttiphpbb\communitycurrencies\operators;
 
 use phpbb\cache\service as cache;
 use phpbb\config\db as config;
@@ -84,14 +84,14 @@ class currency_plural
 			return $this->local_cache;
 		}
 		
-		if ($this->cache->_exists('ccurrency_plural'))
+		if ($this->cache->_exists('communitycurrencies_plural'))
 		{
-			return $this->local_cache = $this->cache->get('ccurrency_plural');
+			return $this->local_cache = $this->cache->get('communitycurrencies_plural');
 		}
 
-		$ary = unserialize($this->config_text->get('marttiphpbb_ccurrency_plural_forms'));
+		$ary = unserialize($this->config_text->get('marttiphpbb_communitycurrencies_plural_forms'));
 		$this->local_cache = $ary;
-		$this->cache->put('ccurrency_plural', $ary);
+		$this->cache->put('communitycurrencies_plural', $ary);
 		return $ary;
 	}
 
@@ -109,8 +109,8 @@ class currency_plural
 	 */
 	public function set($ary)
 	{
-		$this->config_text->set('marttiphpbb_ccurrency_plural_forms', serialize($ary));
-		$this->cache->put('ccurrency_plural', $ary);
+		$this->config_text->set('marttiphpbb_communitycurrencies_plural_forms', serialize($ary));
+		$this->cache->put('communitycurrencies_plural', $ary);
 		return $this;
 	}
 

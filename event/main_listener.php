@@ -1,11 +1,11 @@
 <?php
 /**
-* phpBB Extension - marttiphpbb community currency
-* @copyright (c) 2015 marttiphpbb <info@martti.be>
+* phpBB Extension - marttiphpbb Community Currencies
+* @copyright (c) 2015 - 2018 marttiphpbb <info@martti.be>
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace marttiphpbb\ccurrency\event;
+namespace marttiphpbb\communitycurrencies\event;
 
 use phpbb\auth\auth;
 use phpbb\config\db as config;
@@ -13,8 +13,8 @@ use phpbb\controller\helper;
 use phpbb\template\twig\twig as template;
 use phpbb\user;
 
-use marttiphpbb\ccurrency\datatransformer\currency_transformer;
-use marttiphpbb\ccurrency\model\links;
+use marttiphpbb\communitycurrencies\datatransformer\currency_transformer;
+use marttiphpbb\communitycurrencies\model\links;
 
 /**
 * @ignore
@@ -96,7 +96,7 @@ class main_listener implements EventSubscriberInterface
 		$lang_set_ext = $event['lang_set_ext'];
 
 		$lang_set_ext[] = array(
-			'ext_name' => 'marttiphpbb/ccurrency',
+			'ext_name' => 'marttiphpbb/communitycurrencies',
 			'lang_set' => 'common',
 		);
 		$event['lang_set_ext'] = $lang_set_ext;
@@ -108,8 +108,8 @@ class main_listener implements EventSubscriberInterface
 		{
 			$this->links->assign_template_vars();
 			$this->template->assign_vars(array(
-				'U_CCURRENCY_TRANSACTIONS'		=> $this->helper->route('marttiphpbb_cc_transactionlist_controller'),
-				'CCURRENCY_REPO_LINK'			=> sprintf($this->user->lang['CCURRENCY_EXTENSION'], '<a href="http://github.com/marttiphpbb/phpbb-ext-ccurrency">', '</a>'),
+				'U_MARTTIPHPBB_COMMUNITYCURRENCIES_TRANSACTIONS'		=> $this->helper->route('marttiphpbb_cc_transactionlist_controller'),
+				'MARTTIPHPBB_COMMUNITYCURRENCIES_REPO_LINK'			=> sprintf($this->user->lang['MARTTIPHPBB_COMMUNITYCURRENCIES_EXTENSION'], '<a href="http://github.com/marttiphpbb/phpbb-ext-communitycurrencies">', '</a>'),
 			));
 		}
 	}

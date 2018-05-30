@@ -1,12 +1,12 @@
 <?php
 
 /**
-* phpBB Extension - marttiphpbb community currency
-* @copyright (c) 2015 marttiphpbb <info@martti.be>
+* phpBB Extension - marttiphpbb Community Currencies
+* @copyright (c) 2015 - 2018 marttiphpbb <info@martti.be>
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace marttiphpbb\ccurrency\dataconverter;
+namespace marttiphpbb\communitycurrencies\dataconverter;
 
 use phpbb\config\db as config;
 
@@ -69,7 +69,7 @@ class currency_converter
             return 0;
         }
 
-        return round($seconds / $this->config['cc_currency_rate'];
+        return round($seconds / $this->config['cc_currency_rate']);
 	}
 
     private function custom_reverse_transform($amount)

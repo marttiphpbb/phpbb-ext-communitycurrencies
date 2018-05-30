@@ -1,11 +1,11 @@
 <?php
 /**
-* phpBB Extension - marttiphpbb community currency
-* @copyright (c) 2015 marttiphpbb <info@martti.be>
+* phpBB Extension - marttiphpbb Community Currencies
+* @copyright (c) 2015 - 2018 marttiphpbb <info@martti.be>
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace marttiphpbb\ccurrency\migrations;
+namespace marttiphpbb\communitycurrencies\migrations;
 
 use phpbb\db\migration\migration;
 
@@ -14,117 +14,117 @@ class v_0_1_0 extends migration
 
 	public function update_data()
 	{
-		return array(
-			array('config_text.add', array('marttiphpbb_ccurrency_plural_forms', '')),
+		return [
+			['config_text.add', ['marttiphpbb_communitycurrencies_plural_forms', '']],
 
-			array('config.add', array('ccurrency_links', 3)),			
+			['config.add', ['communitycurrencies_links', 3]],			
 
-			array('config.add', array('cc_transactions_per_page', 25)),
-			array('config.add', array('ccurrency_symbol', '')),
-			array('config.add', array('ccurrency_symbol_before', 1)),
+			['config.add', ['cc_transactions_per_page', 25]],
+			['config.add', ['communitycurrencies_symbol', '']],
+			['config.add', ['communitycurrencies_symbol_before', 1]],
 
-			array('config.add', array('ccurrency_rate', 60)),
-			array('config.add', array('cc_time_banking_granularity', 900)),
+			['config.add', ['communitycurrencies_rate', 60]],
+			['config.add', ['cc_time_banking_granularity', 900]],
 
-			array('config.add', array('cc_transaction_count', 0, true)),
+			['config.add', ['cc_transaction_count', 0, true]],
 
-			array('permission.add', array('u_cc_viewtransactions')),
-			array('permission.add', array('u_cc_createtransactions')),
-			array('permission.add', array('m_cc_createtransactions')),
+			['permission.add', ['u_cc_viewtransactions']],
+			['permission.add', ['u_cc_createtransactions']],
+			['permission.add', ['m_cc_createtransactions']],
 
-			array('module.add', array(
+			['module.add', [
 				'acp',
 				'ACP_CAT_DOT_MODS',
-				'ACP_CCURRENCY'
-			)),
-			array('module.add', array(
+				'ACP_MARTTIPHPBB_COMMUNITYCURRENCIES'
+			]],
+			['module.add', [
 				'acp',
-				'ACP_CCURRENCY',
-				array(
-					'module_basename'	=> '\marttiphpbb\ccurrency\acp\main_module',
-					'modes'				=> array(
+				'ACP_MARTTIPHPBB_COMMUNITYCURRENCIES',
+				[
+					'module_basename'	=> '\marttiphpbb\communitycurrencies\acp\main_module',
+					'modes'				=> [
 						'rendering',
 						'currency',
-					),
-				),
-			)),
+					],
+				],
+			]],
 
-			array('module.add', array(
+			['module.add', [
 				'mcp',
 				'',
-				'MCP_CCURRENCY_TRANSACTIONS'
-			)),
-			array('module.add', array(
+				'MCP_MARTTIPHPBB_COMMUNITYCURRENCIES_TRANSACTIONS'
+			]],
+			['module.add', [
 				'mcp',
-				'MCP_CCURRENCY_TRANSACTIONS',
-				array(
-					'module_basename'	=> '\marttiphpbb\ccurrency\mcp\transactions_module',
-					'modes'				=> array(
+				'MCP_MARTTIPHPBB_COMMUNITYCURRENCIES_TRANSACTIONS',
+				[
+					'module_basename'	=> '\marttiphpbb\communitycurrencies\mcp\transactions_module',
+					'modes'				=> [
 						'new_transaction',
-					),
-				),
-			)),
-		);
+					],
+				],
+			]],
+		];
 	}
 
 	public function update_schema()
 	{
-		return array(
+		return [
 
-			'add_tables'    => array(
-				$this->table_prefix . 'cc_transactions'		=> array(
-					'COLUMNS'        => array(
-						'id'                => array('UINT', NULL, 'auto_increment'),
-						'unique_id' 		=> array('VCHAR', ''),
-						'from_user_id'		=> array('UINT', NULL),
-						'to_user_id'		=> array('UINT', NULL),
-						'description' 		=> array('VCHAR_UNI', ''),
-						'amount'			=> array('UINT', NULL),
-						'confirmed_at'		=> array('TIMESTAMP', NULL),
-						'created_by'		=> array('UINT', NULL),
-						'created_at'		=> array('TIMESTAMP', NULL),
-						'parent_id'			=> array('UINT', NULL),
-						'child_count'		=> array('UINT', 0),
-					),
+			'add_tables'    => [
+				$this->table_prefix . 'cc_transactions'		=> [
+					'COLUMNS'        => [
+						'id'                => ['UINT', NULL, 'auto_increment'],
+						'unique_id' 		=> ['VCHAR', ''],
+						'from_user_id'		=> ['UINT', NULL],
+						'to_user_id'		=> ['UINT', NULL],
+						'description' 		=> ['VCHAR_UNI', ''],
+						'amount'			=> ['UINT', NULL],
+						'confirmed_at'		=> ['TIMESTAMP', NULL],
+						'created_by'		=> ['UINT', NULL],
+						'created_at'		=> ['TIMESTAMP', NULL],
+						'parent_id'			=> ['UINT', NULL],
+						'child_count'		=> ['UINT', 0],
+					],
 					'PRIMARY_KEY'  	=> 'id',
-					'KEYS' 		=> array(
-						'tuid' 		=> array('UNIQUE', 'unique_id'),
-						'ufid'		=> array('INDEX', 'from_user_id'),
-						'utid'		=> array('INDEX', 'to_user_id'),
-						'crby'		=> array('INDEX', 'created_by'),
-					),
-				),
-			),
+					'KEYS' 		=> [
+						'tuid' 		=> ['UNIQUE', 'unique_id'],
+						'ufid'		=> ['INDEX', 'from_user_id'],
+						'utid'		=> ['INDEX', 'to_user_id'],
+						'crby'		=> ['INDEX', 'created_by'],
+					],
+				],
+			],
 
-			'add_columns'        => array(
-				$this->table_prefix . 'users'        => array(
-					'user_cc_balance'    				=> array('INT:11', 0),
-					'user_cc_transaction_count'			=> array('INT:11', 0),
-					'user_cc_status'					=> array('UINT', 0),
-					'user_cc_leaving_time'				=> array('TIMESTAMP', NULL),
-					'user_cc_active_time'				=> array('TIMESTAMP', NULL),
-					'user_cc_inactive_time'				=> array('TIMESTAMP', NULL),
-				),
-			),
-		);
+			'add_columns'        => [
+				$this->table_prefix . 'users'        => [
+					'user_cc_balance'    				=> ['INT:11', 0],
+					'user_cc_transaction_count'			=> ['INT:11', 0],
+					'user_cc_status'					=> ['UINT', 0],
+					'user_cc_leaving_time'				=> ['TIMESTAMP', NULL],
+					'user_cc_active_time'				=> ['TIMESTAMP', NULL],
+					'user_cc_inactive_time'				=> ['TIMESTAMP', NULL],
+				],
+			],
+		];
 	}
 
 	public function revert_schema()
 	{
-		return array(
-			'drop_columns'        => array(
-				$this->table_prefix . 'users'        => array(
+		return [
+			'drop_columns'        => [
+				$this->table_prefix . 'users'        => [
 					'user_cc_balance',
 					'user_cc_transaction_count',
 					'user_cc_status',
 					'user_cc_leaving_time',
 					'user_cc_active_time',
 					'user_cc_inactive_time',
-				),
-			),
-			'drop_tables'			=> array(
+				],
+			],
+			'drop_tables'			=> [
 				$this->table_prefix . 'cc_transactions',
-			),
-	   );
+			],
+	   ];
 	}
 }

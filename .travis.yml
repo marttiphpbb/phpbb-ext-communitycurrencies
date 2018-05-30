@@ -28,7 +28,7 @@ matrix:
 
 env:
   global:
-    - EXTNAME="marttiphpbb/ccurrency"
+    - EXTNAME="marttiphpbb/communitycurrencies"
     - SNIFF="1"           
     - IMAGE_ICC="1"        
     - PHPBB_BRANCH="develop-ascraeus"

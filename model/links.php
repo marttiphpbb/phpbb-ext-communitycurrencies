@@ -1,11 +1,11 @@
 <?php
 /**
-* phpBB Extension - marttiphpbb ccurrency
-* @copyright (c) 2015 marttiphpbb <info@martti.be>
+* phpBB Extension - marttiphpbb communitycurrencies
+* @copyright (c) 2015 - 2018 marttiphpbb <info@martti.be>
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace marttiphpbb\ccurrency\model;
+namespace marttiphpbb\communitycurrencies\model;
 
 use phpbb\config\config;
 use phpbb\template\template;
@@ -59,14 +59,14 @@ class links
 	 */
 	public function assign_template_vars()
 	{
-		$links_enabled = $this->config['ccurrency_links'];
+		$links_enabled = $this->config['communitycurrencies_links'];
 		$template_vars = array();
 
 		foreach ($this->links as $key => $value)
 		{
 			if ($key & $links_enabled)
 			{
-				$template_vars['S_CCURRENCY_' . $value] = true;
+				$template_vars['S_MARTTIPHPBB_COMMUNITYCURRENCIES_' . $value] = true;
 			}
 		}
 
@@ -79,9 +79,9 @@ class links
 	 */
 	public function assign_acp_select_template_vars()
 	{
-		$links_enabled = $this->config['ccurrency_links'];
+		$links_enabled = $this->config['communitycurrencies_links'];
 
-		$this->template->assign_var('S_CCURRENCY_REPO_LINK', ($links_enabled & 1) ? true : false);
+		$this->template->assign_var('S_MARTTIPHPBB_COMMUNITYCURRENCIES_REPO_LINK', ($links_enabled & 1) ? true : false);
 
 		$return_ary = array();
 		$links = $this->links;
@@ -92,7 +92,7 @@ class links
 			$this->template->assign_block_vars('links', array(
 				'VALUE'			=> $key,
 				'S_SELECTED'	=> ($key & $links_enabled) ? true : false,
-				'LANG'			=> $this->user->lang('ACP_CCURRENCY_' . $value),
+				'LANG'			=> $this->user->lang('ACP_MARTTIPHPBB_COMMUNITYCURRENCIES_' . $value),
 			));
 		}
 		return $this;
@@ -103,9 +103,9 @@ class links
 	 * @param int		$repo_link
 	 * @return links
 	 */
-	public function set($links, $ccurrency_repo_link)
+	public function set($links, $communitycurrencies_repo_link)
 	{
-		$this->config->set('ccurrency_links', array_sum($links) + $ccurrency_repo_link);
+		$this->config->set('communitycurrencies_links', array_sum($links) + $communitycurrencies_repo_link);
 		return $this;
 	}
 }

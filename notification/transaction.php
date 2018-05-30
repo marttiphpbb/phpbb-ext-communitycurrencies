@@ -1,12 +1,12 @@
 <?php
 
 /**
-* phpBB Extension - marttiphpbb ccurrency
-* @copyright (c) 2015 marttiphpbb <info@martti.be>
+* phpBB Extension - marttiphpbb communitycurrencies
+* @copyright (c) 2015 - 2018 marttiphpbb <info@martti.be>
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace marttiphpbb\ccurrency\notification;
+namespace marttiphpbb\communitycurrencies\notification;
 
 use phpbb\notification\type\base;
 
@@ -91,7 +91,7 @@ class transaction extends base
 	*/
 	public function get_type()
 	{
-		return 'marttiphpbb.ccurrency.notification.type.transaction';
+		return 'marttiphpbb.communitycurrencies.notification.type.transaction';
 	}
 
 	/**

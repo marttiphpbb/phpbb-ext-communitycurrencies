@@ -1,20 +1,20 @@
 <?php
 /**
-* phpBB Extension - marttiphpbb ccurrency
-* @copyright (c) 2015 marttiphpbb <info@martti.be>
+* phpBB Extension - marttiphpbb communitycurrencies
+* @copyright (c) 2015 - 2018 marttiphpbb <info@martti.be>
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace marttiphpbb\ccurrency\tests\functional;
+namespace marttiphpbb\communitycurrencies\tests\functional;
 
 /**
 * @group functional
 */
-class ccurrency_test extends \phpbb_functional_test_case
+class communitycurrencies_test extends \phpbb_functional_test_case
 {
 	static protected function setup_extensions()
 	{
-		return array('marttiphpbb/ccurrency');
+		return array('marttiphpbb/communitycurrencies');
 	}
 
 	public function test_demo_acme()
@@ -22,7 +22,7 @@ class ccurrency_test extends \phpbb_functional_test_case
 		$crawler = self::request('GET', 'app.php/demo/acme');
 		$this->assertContains('acme', $crawler->filter('h2')->text());
 
-		$this->add_lang_ext('marttiphpbb/ccurrency', 'common');
+		$this->add_lang_ext('marttiphpbb/communitycurrencies', 'common');
 		$this->assertContains($this->lang('DEMO_HELLO', 'marttiphpbb'), $crawler->filter('h2')->text());
 		$this->assertNotContains($this->lang('DEMO_GOODBYE', 'marttiphpbb'), $crawler->filter('h2')->text());
 

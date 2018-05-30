@@ -2,8 +2,8 @@ imports:
     - { resource: tables.yml }
 
 services:
-    marttiphpbb.ccurrency.main_listener:
-        class: marttiphpbb\ccurrency\event\main_listener
+    marttiphpbb.communitycurrencies.main_listener:
+        class: marttiphpbb\communitycurrencies\event\main_listener
         arguments:
             - @auth
             - @config
@@ -11,13 +11,13 @@ services:
             - %core.php_ext%
             - @template
             - @user
-            - @marttiphpbb.ccurrency.datatransformer.currency_transformer
-            - @marttiphpbb.ccurrency.model.links
+            - @marttiphpbb.communitycurrencies.datatransformer.currency_transformer
+            - @marttiphpbb.communitycurrencies.model.links
         tags:
             - { name: event.listener }
 
-    marttiphpbb.ccurrency.show_balance_listener:
-        class: marttiphpbb\ccurrency\event\show_balance_listener
+    marttiphpbb.communitycurrencies.show_balance_listener:
+        class: marttiphpbb\communitycurrencies\event\show_balance_listener
         arguments:
             - @auth
             - @config
@@ -25,12 +25,12 @@ services:
             - %core.php_ext%
             - @template
             - @user
-            - @marttiphpbb.ccurrency.datatransformer.currency_transformer
+            - @marttiphpbb.communitycurrencies.datatransformer.currency_transformer
         tags:
             - { name: event.listener }
 
-    marttiphpbb.ccurrency.transaction.controller:
-        class: marttiphpbb\ccurrency\controller\transaction
+    marttiphpbb.communitycurrencies.transaction.controller:
+        class: marttiphpbb\communitycurrencies\controller\transaction
         arguments:
             - @auth
             - @cache
@@ -43,15 +43,15 @@ services:
             - @template
             - @user
             - @controller.helper
-            - @marttiphpbb.ccurrency.datatransformer.currency_transformer
-            - @marttiphpbb.ccurrency.transaction.operator
+            - @marttiphpbb.communitycurrencies.datatransformer.currency_transformer
+            - @marttiphpbb.communitycurrencies.transaction.operator
             - %core.root_path%
             - %tables.cc_transactions%
             - %tables.topics%
             - %tables.users%
 
-    marttiphpbb.ccurrency.transaction.operator:
-        class: marttiphpbb\ccurrency\operators\transaction
+    marttiphpbb.communitycurrencies.transaction.operator:
+        class: marttiphpbb\communitycurrencies\operators\transaction
         arguments:
             - @cache
             - @config
@@ -63,8 +63,8 @@ services:
             - %tables.topics%
             - %tables.users%
 
-    marttiphpbb.ccurrency.currency_plural.operator:
-        class: marttiphpbb\ccurrency\operators\currency_plural
+    marttiphpbb.communitycurrencies.currency_plural.operator:
+        class: marttiphpbb\communitycurrencies\operators\currency_plural
         arguments:
             - @cache
             - @config
@@ -72,19 +72,19 @@ services:
             - @dbal.conn
             - @user
 
-    marttiphpbb.ccurrency.datatransformer.currency_transformer:
-        class: marttiphpbb\ccurrency\datatransformer\currency_transformer
+    marttiphpbb.communitycurrencies.datatransformer.currency_transformer:
+        class: marttiphpbb\communitycurrencies\datatransformer\currency_transformer
         arguments:
             - @config
 
-    marttiphpbb.ccurrency.transaction.entity:
-        class: marttiphpbb\ccurrency\entity\transaction
+    marttiphpbb.communitycurrencies.transaction.entity:
+        class: marttiphpbb\communitycurrencies\entity\transaction
         arguments:
             - @dbal.conn
             - %tables.cc_transactions%
 
-    marttiphpbb.ccurrency.notification.type.transaction:
-        class: marttiphpbb\ccurrency\notification\transaction
+    marttiphpbb.communitycurrencies.notification.type.transaction:
+        class: marttiphpbb\communitycurrencies\notification\transaction
         scope: prototype
         arguments:
             - @user_loader
@@ -103,8 +103,8 @@ services:
         tags:
             - { name: notification.type }
 
-    marttiphpbb.ccurrency.model.links:
-        class: marttiphpbb\ccurrency\model\links
+    marttiphpbb.communitycurrencies.model.links:
+        class: marttiphpbb\communitycurrencies\model\links
         arguments:
             - @config
             - @template

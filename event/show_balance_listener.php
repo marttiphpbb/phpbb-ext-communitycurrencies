@@ -1,11 +1,11 @@
 <?php
 /**
-* phpBB Extension - marttiphpbb community currency
-* @copyright (c) 2015 marttiphpbb <info@martti.be>
+* phpBB Extension - marttiphpbb Community Currencies
+* @copyright (c) 2015 - 2018 marttiphpbb <info@martti.be>
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace marttiphpbb\ccurrency\event;
+namespace marttiphpbb\communitycurrencies\event;
 
 use phpbb\auth\auth;
 use phpbb\config\db as config;
@@ -13,7 +13,7 @@ use phpbb\controller\helper;
 use phpbb\template\twig\twig as template;
 use phpbb\user;
 
-use marttiphpbb\ccurrency\datatransformer\currency_transformer;
+use marttiphpbb\communitycurrencies\datatransformer\currency_transformer;
 
 /**
 * @ignore

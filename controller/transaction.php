@@ -1,12 +1,12 @@
 <?php
 
 /**
-* phpBB Extension - marttiphpbb community currency
-* @copyright (c) 2015 marttiphpbb <info@martti.be>
+* phpBB Extension - marttiphpbb Community Currencies
+* @copyright (c) 2015 - 2018 marttiphpbb <info@martti.be>
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace marttiphpbb\ccurrency\controller;
+namespace marttiphpbb\communitycurrencies\controller;
 
 use phpbb\auth\auth;
 use phpbb\cache\service as cache;
@@ -21,11 +21,11 @@ use phpbb\controller\helper;
 
 use Symfony\Component\HttpFoundation\Response;
 
-use marttiphpbb\ccurrency\datatransformer\currency_transformer;
-use marttiphpbb\ccurrency\operators\transaction as transaction_operator;
+use marttiphpbb\communitycurrencies\datatransformer\currency_transformer;
+use marttiphpbb\communitycurrencies\operators\transaction as transaction_operator;
 
-use marttiphpbb\ccurrency\util\uuid_generator;
-use marttiphpbb\ccurrency\util\uuid_validator;
+use marttiphpbb\communitycurrencies\util\uuid_generator;
+use marttiphpbb\communitycurrencies\util\uuid_validator;
 
 class transaction
 {
@@ -399,7 +399,7 @@ class transaction
 
 		$this->template->assign_vars(array(
 			'PAGE_NUMBER'			=> $page,
-			'TOTAL_TRANSACTIONS'	=> $this->user->lang('CCURRENCY_TRANSACTION_COUNT', $transaction_count),
+			'TOTAL_TRANSACTIONS'	=> $this->user->lang('MARTTIPHPBB_COMMUNITYCURRENCIES_TRANSACTION_COUNT', $transaction_count),
 		));
 
 		$transactions = $this->transaction_operator->get_transactions($search_query, $sort_by, $sort_dir, $start, $limit);
@@ -519,7 +519,7 @@ class transaction
 
 		$this->template->assign_vars(array(
 			'PAGE_NUMBER'			=> $page,
-			'TOTAL_TRANSACTIONS'	=> $this->user->lang('CCURRENCY_TRANSACTION_COUNT', $transaction_count),
+			'TOTAL_TRANSACTIONS'	=> $this->user->lang('MARTTIPHPBB_COMMUNITYCURRENCIES_TRANSACTION_COUNT', $transaction_count),
 		));
 
 		$sql_ary = array(

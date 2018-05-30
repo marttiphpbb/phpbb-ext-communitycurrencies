@@ -3,45 +3,45 @@
 <!-- IF S_AUTH_CREATE_TRANSACTION -->
 <div class="panel" id="new_transaction"<!-- IF not S_DISPLAY_NEW_TRANSACTION --> style="display: none;"<!-- ENDIF -->>
 
-<h2 class="solo">{L_CCURRENCY_NEW_TRANSACTION}</h2>
+<h2 class="solo">{L_MARTTIPHPBB_COMMUNITYCURRENCIES_NEW_TRANSACTION}</h2>
 
 <form method="post" action="{U_ACTION}">
 <div class="panel">
 <div class="inner">
 <fieldset class="fields1">
 	<!-- IF ERROR --><p class="error">{ERROR}</p><!-- ENDIF -->
-	<!-- EVENT marttiphpbb_ccurrency_new_transaction_prepend -->
+	<!-- EVENT marttiphpbb_communitycurrencies_new_transaction_prepend -->
 
 	<dl>
-		<dt><label for="to_user">{L_CCURRENCY_TO_USER}</label></dt>
+		<dt><label for="to_user">{L_MARTTIPHPBB_COMMUNITYCURRENCIES_TO_USER}</label></dt>
 		<dd><input type="text" tabindex="1" name="to_user" id="to_user" size="65" value="{TO_USER}" class="inputbox" /></dd>
 	</dl>
 
 	<dl>
 		<!-- IF S_TIME_BANKING -->
-		<dt><label for="amount">{L_CCURRENCY_TIME}</label></dt>
+		<dt><label for="amount">{L_MARTTIPHPBB_COMMUNITYCURRENCIES_TIME}</label></dt>
 		<dd>
 			<input type="number" min="<!-- IF S_MINUTES_OPTIONS-->0<!-- ELSE -->1<!-- ENDIF -->" name="hours" size="2" maxlength="2" tabindex="2" value="{HOURS}" class="inputbox autowidth" />
-			{L_CCURRENCY_HOURS}
+			{L_MARTTIPHPBB_COMMUNITYCURRENCIES_HOURS}
 			<!-- IF S_MINUTES_OPTIONS -->
 			<select name="minutes" tabindex="3">{S_MINUTES_OPTIONS}</select>
-			{L_CCURRENCY_MINUTES}
+			{L_MARTTIPHPBB_COMMUNITYCURRENCIES_MINUTES}
 			<!-- ENDIF -->
 		<!-- ELSE -->
-		<dt><label for="amount">{L_CCURRENCY_AMOUNT}</label></dt>
+		<dt><label for="amount">{L_MARTTIPHPBB_COMMUNITYCURRENCIES_AMOUNT}</label></dt>
 		<dd>
 			<input type="number" min="1" name="amount" size="6" maxlength="6" tabindex="2" value="{AMOUNT}" class="inputbox amount" />
-			{CCURRENCY_CURRENCY_NAME}
+			{MARTTIPHPBB_COMMUNITYCURRENCIES_CURRENCY_NAME}
 		<!-- ENDIF -->
 		</dd>
 	</dl>
 
 	<dl>
-		<dt><label for="description">{L_CCURRENCY_DESCRIPTION}</label></dt>
+		<dt><label for="description">{L_MARTTIPHPBB_COMMUNITYCURRENCIES_DESCRIPTION}</label></dt>
 		<dd><input type="text" name="description" id="description" size="65" maxlength="120" tabindex="4" value="{DESCRIPTION}" class="inputbox" /></dd>
 	</dl>
 
-	<!-- EVENT marttiphpbb_ccurrency_new_transaction_append -->
+	<!-- EVENT marttiphpbb_communitycurrencies_new_transaction_append -->
 
 	<input type="hidden" name="show_panel" value="options-panel" />
 	<input type="hidden" name="unique_id" value="{UNIQUE_ID}" />
@@ -63,7 +63,7 @@
 </div>
 <!-- ENDIF -->
 
-<h2><a href="{U_CCURRENCY_TRANSACTIONS}">{L_CCURRENCY_TRANSACTIONS}</a>
+<h2><a href="{U_MARTTIPHPBB_COMMUNITYCURRENCIES_TRANSACTIONS}">{L_MARTTIPHPBB_COMMUNITYCURRENCIES_TRANSACTIONS}</a>
 <!-- IF SEARCH -->{L_COLON} {SEARCH}<!-- ENDIF --></h2>
 
 <div class="action-bar top">
@@ -71,12 +71,12 @@
 	<!-- IF S_AUTH_CREATE_TRANSACTION -->
 		<div class="buttons">
 			<!-- IF S_DISPLAY_NEW_TRANSACTION -->
-			<a href="#new_transaction" id="new_transaction_button" class="button icon-button post-icon" data-alt-text="{L_CCURRENCY_NEW_TRANSACTION}">
-				{L_CCURRENCY_HIDE_NEW_TRANSACTION}
+			<a href="#new_transaction" id="new_transaction_button" class="button icon-button post-icon" data-alt-text="{L_MARTTIPHPBB_COMMUNITYCURRENCIES_NEW_TRANSACTION}">
+				{L_MARTTIPHPBB_COMMUNITYCURRENCIES_HIDE_NEW_TRANSACTION}
 			</a>
 			<!-- ELSE -->
-			<a href="#new_transaction" id="new_transaction_button" class="button icon-button post-icon" data-alt-text="{L_CCURRENCY_HIDE_NEW_TRANSACTION}">
-				{L_CCURRENCY_NEW_TRANSACTION}
+			<a href="#new_transaction" id="new_transaction_button" class="button icon-button post-icon" data-alt-text="{L_MARTTIPHPBB_COMMUNITYCURRENCIES_HIDE_NEW_TRANSACTION}">
+				{L_MARTTIPHPBB_COMMUNITYCURRENCIES_NEW_TRANSACTION}
 			</a>
 			<!-- ENDIF -->
 		</div>
@@ -85,7 +85,7 @@
 	<div class="search-box">
 		<form method="get" id="transactions-search" action="{U_ACTION}">
 		<fieldset>
-			<input class="inputbox search tiny" type="search" name="q" size="20" value="{SEARCH}" placeholder="{L_CCURRENCY_SEARCH_TRANSACTIONS}" />
+			<input class="inputbox search tiny" type="search" name="q" size="20" value="{SEARCH}" placeholder="{L_MARTTIPHPBB_COMMUNITYCURRENCIES_SEARCH_TRANSACTIONS}" />
 			<button type="submit" class="button icon-button search-icon" title="{L_SEARCH}">{L_SEARCH}</a>
 		{S_SEARCH_LOCAL_HIDDEN_FIELDS}
 		</fieldset>
@@ -108,19 +108,19 @@
 	<table class="table1 transactionlist">
 	<thead>
 	<tr>
-		<th class="from-user"><a href="{U_FROM_USERNAME_SORT}">{L_CCURRENCY_FROM_USER}</a>
+		<th class="from-user"><a href="{U_FROM_USERNAME_SORT}">{L_MARTTIPHPBB_COMMUNITYCURRENCIES_FROM_USER}</a>
 		<!-- IF FROM_USERNAME_SORT == 'DESC' -->&#9660; <!-- ELSE IF FROM_USERNAME_SORT == 'ASC' -->&#9650;<!-- ENDIF -->
 		</th>
-		<th class="to-user"><a href="{U_TO_USERNAME_SORT}">{L_CCURRENCY_TO_USER}</a>
+		<th class="to-user"><a href="{U_TO_USERNAME_SORT}">{L_MARTTIPHPBB_COMMUNITYCURRENCIES_TO_USER}</a>
 		<!-- IF TO_USERNAME_SORT == 'DESC' -->&#9660; <!-- ELSE IF TO_USERNAME_SORT == 'ASC' -->&#9650;<!-- ENDIF -->
 		</th>
-		<th class="amount"><a href="{U_AMOUNT_SORT}"><!-- IF S_TIME_BANKING -->{L_CCURRENCY_TIME}<!-- ELSE -->{CCURRENCY_CURRENCY_NAME}<!-- ENDIF --></a>
+		<th class="amount"><a href="{U_AMOUNT_SORT}"><!-- IF S_TIME_BANKING -->{L_MARTTIPHPBB_COMMUNITYCURRENCIES_TIME}<!-- ELSE -->{MARTTIPHPBB_COMMUNITYCURRENCIES_CURRENCY_NAME}<!-- ENDIF --></a>
 		<!-- IF AMOUNT_SORT == 'DESC' -->&#9660; <!-- ELSE IF AMOUNT_SORT == 'ASC' -->&#9650;<!-- ENDIF -->
 		</th>
-		<th class="description"><a href="{U_DESCRIPTION_SORT}">{L_CCURRENCY_DESCRIPTION}</a>
+		<th class="description"><a href="{U_DESCRIPTION_SORT}">{L_MARTTIPHPBB_COMMUNITYCURRENCIES_DESCRIPTION}</a>
 		<!-- IF DESCRIPTION_SORT == 'DESC' -->&#9660; <!-- ELSE IF DESCRIPTION_SORT == 'ASC' -->&#9650;<!-- ENDIF -->
 		</th>
-		<th class="time"><a href="{U_CREATED_AT_SORT}">{L_CCURRENCY_CREATED_AT}</a>
+		<th class="time"><a href="{U_CREATED_AT_SORT}">{L_MARTTIPHPBB_COMMUNITYCURRENCIES_CREATED_AT}</a>
 		<!-- IF CREATED_AT_SORT == 'DESC' -->&#9660; <!-- ELSE IF CREATED_AT_SORT == 'ASC' -->&#9650;<!-- ENDIF -->
 		</th>
 	</tr>
@@ -139,7 +139,7 @@
 <!-- BEGINELSE -->
 
 <tr class="bg1">
-	<td colspan="5">{L_CCURRENCY_NO_TRANSACTIONS}</td>
+	<td colspan="5">{L_MARTTIPHPBB_COMMUNITYCURRENCIES_NO_TRANSACTIONS}</td>
 </tr>
 	<!-- END transactionrow -->
 </tbody>

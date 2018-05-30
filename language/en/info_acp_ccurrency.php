@@ -1,8 +1,8 @@
 <?php
 
 /**
-* phpBB Extension - marttiphpbb community currency
-* @copyright (c) 2015 marttiphpbb <info@martti.be>
+* phpBB Extension - marttiphpbb Community Currencies
+* @copyright (c) 2015 - 2018 marttiphpbb <info@martti.be>
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
@@ -30,7 +30,7 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 
-	'ACP_CCURRENCY'					=> 'Community Currency',
-	'ACP_CCURRENCY_RENDERING'		=> 'Rendering',
-	'ACP_CCURRENCY_CURRENCY'		=> 'Currency',
+	'ACP_MARTTIPHPBB_COMMUNITYCURRENCIES'					=> 'Community Currencies',
+	'ACP_MARTTIPHPBB_COMMUNITYCURRENCIES_RENDERING'		=> 'Rendering',
+	'ACP_MARTTIPHPBB_COMMUNITYCURRENCIES_CURRENCY'		=> 'Currency',
 ));

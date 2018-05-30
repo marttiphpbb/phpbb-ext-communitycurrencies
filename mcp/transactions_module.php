@@ -1,11 +1,11 @@
 <?php
 /**
-* phpBB Extension - marttiphpbb community currency
-* @copyright (c) 2015 marttiphpbb <info@martti.be>
+* phpBB Extension - marttiphpbb Community Currencies
+* @copyright (c) 2015 - 2018 marttiphpbb <info@martti.be>
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace marttiphpbb\ccurrency\mcp;
+namespace marttiphpbb\communitycurrencies\mcp;
 
 class transactions_module
 {
@@ -22,8 +22,8 @@ class transactions_module
 		global $db, $user, $auth, $template, $cache, $request;
 		global $config, $phpbb_root_path, $phpbb_admin_path, $phpEx;
 
-		$user->add_lang_ext('marttiphpbb/ccurrency', 'common');
-		add_form_key('marttiphpbb/ccurrency');
+		$user->add_lang_ext('marttiphpbb/communitycurrencies', 'common');
+		add_form_key('marttiphpbb/communitycurrencies');
 
 		switch ($mode)
 		{
@@ -33,7 +33,7 @@ class transactions_module
 
 				if ($request->is_set_post('submit'))
 				{
-					if (!check_form_key('marttiphpbb/ccurrency'))
+					if (!check_form_key('marttiphpbb/communitycurrencies'))
 					{
 						trigger_error('FORM_INVALID');
 					}

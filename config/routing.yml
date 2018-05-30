@@ -1,19 +1,19 @@
 marttiphpbb_cc_transactionlist_controller:
     path: /transactions
-    defaults: { _controller: marttiphpbb.ccurrency.transaction.controller:listAction }
+    defaults: { _controller: marttiphpbb.communitycurrencies.transaction.controller:listAction }
     requirements:
         _method: GET|POST
 
 marttiphpbb_cc_transactionlistpage_controller:
     path: /transactions/page/{page}
-    defaults: { _controller: marttiphpbb.ccurrency.transaction.controller:listAction }
+    defaults: { _controller: marttiphpbb.communitycurrencies.transaction.controller:listAction }
     requirements:
         _method: GET|POST
         page: ^[2-9]|[1-9]\d+
 
 marttiphpbb_cc_transactionshow_controller:
     path: /transactions/{id}
-    defaults: { _controller: marttiphpbb.ccurrency.transaction.controller:showAction }
+    defaults: { _controller: marttiphpbb.communitycurrencies.transaction.controller:showAction }
     requirements:
         id:  \d+
         _method: GET
