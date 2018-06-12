@@ -15,5 +15,6 @@ class cnst
 	const L = 'MARTTIPHPBB_COMMUNITYCURRENCIES';
 	const L_ACP = 'ACP_' . self::L;
 	const L_MCP = 'MCP_' . self::L;
+	const L_UCP = 'UCP_' . self::L;
 	const TPL = '@' . self::ID . '/';
 }
