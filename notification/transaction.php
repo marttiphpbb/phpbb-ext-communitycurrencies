@@ -34,10 +34,10 @@ class transaction extends base
 	* @var bool|array False if the service should use it's default data
 	* 					Array of data (including keys 'id', 'lang', and 'group')
 	*/
-	public static $notification_option = array(
+	public static $notification_option = [
 		'lang'	=> 'NOTIFICATION_TYPE_TRANSACTION',
 		'group'	=> 'NOTIFICATION_GROUP_MISCELLANEOUS',
-	);
+	];
 
 	/**
 	* @param \phpbb\user_loader $user_loader
@@ -134,7 +134,7 @@ class transaction extends base
 	* @param array $options Options for finding users for notification
 	* @return array
 	*/
-	public function find_users_for_notification($data, $options = array())
+	public function find_users_for_notification($data, $options = [])
 	{
 		return $this->check_user_notification_options($users, $options);
 	}
@@ -146,7 +146,7 @@ class transaction extends base
 	*/
 	public function users_to_query()
 	{
-		return array();
+		return [];
 	}
 
 	/**
@@ -188,7 +188,7 @@ class transaction extends base
 	*/
 	public function get_email_template_variables()
 	{
-		return array();
+		return [];
 	}
 
 	/**
@@ -196,11 +196,11 @@ class transaction extends base
 	* (The service handles insertion)
 	*
 	* @param array $data The data for the updated rules
-	* @param array $pre_create_data Data from pre_create_insert_array()
+	* @param array $pre_create_data
 	*
 	* @return array Array of data ready to be inserted into the database
 	*/
-	public function create_insert_array($data, $pre_create_data = array())
+	public function create_insert_array($data, $pre_create_data = [])
 	{
 		$this->set_data('rule_id', $data['rule_id']);
 

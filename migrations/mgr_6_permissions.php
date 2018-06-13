@@ -10,35 +10,21 @@ namespace marttiphpbb\communitycurrencies\migrations;
 use phpbb\db\migration\migration;
 use marttiphpbb\communitycurrencies\util\cnst;
 
-class mgr_1_acp extends migration
+class mgr_6_permissions extends migration
 {
 	static public function depends_on()
 	{
 		return [
-			'\phpbb\db\migration\data\v32x\v321',
+			'\marttiphpbb\communitycurrencies\migrations\mgr_5_permissions',
 		];
 	}
 
 	public function update_data()
 	{
 		return [
-			['module.add', [
-				'acp',
-				'ACP_CAT_DOT_MODS',
-				cnst::L_ACP
-			]],
-	
-			['module.add', [
-				'acp',
-				cnst::L_ACP,
-				[
-					'module_basename'	=> '\marttiphpbb\communitycurrencies\acp\main_module',
-					'modes'				=> [
-						'rendering',
-						'currency',
-					],
-				],
-			]],
+			['permission.add', ['u_cc_viewtransactions']],
+			['permission.add', ['u_cc_createtransactions']],
+			['permission.add', ['m_cc_createtransactions']],
 		];
 	}
 }

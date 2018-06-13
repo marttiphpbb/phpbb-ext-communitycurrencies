@@ -10,7 +10,7 @@ namespace marttiphpbb\communitycurrencies\migrations;
 use phpbb\db\migration\migration;
 use marttiphpbb\communitycurrencies\util\cnst;
 
-class mgr_1_schema extends migration
+class mgr_4_schema extends migration
 {
 	static public function depends_on()
 	{
@@ -30,6 +30,7 @@ class mgr_1_schema extends migration
 						'data'		=> ['TEXT', NULL],
 						'ts'		=> ['TIMESTAMP', NULL],
 					],
+					'PRIMARY_KEY' 	=> 'id',
 				],
 				$this->table_prefix . 'cc_transactions'		=> [
 					'COLUMNS'        => [
@@ -42,7 +43,7 @@ class mgr_1_schema extends migration
 						'created_by'		=> ['UINT', NULL],
 						'created_at'		=> ['TIMESTAMP', NULL],
 					],
-					'PRIMARY_KEY'  	=> 'id',
+					'PRIMARY_KEY'  	=> ['id', 'currency_id'],
 					'KEYS' 		=> [
 						'cfid'		=> ['INDEX', 'from_account_id'],
 						'ctid'		=> ['INDEX', 'to_account_id'],
@@ -55,6 +56,7 @@ class mgr_1_schema extends migration
 						'group_id'		=> ['UINT', NULL],
 						'created_at' 	=> ['TIMESTAMP', NULL],
 						'owner_id'		=> ['UINT', NULL],
+						'name'			=> ['VCHAR_UNI', ''],
 					],
 				],
 				$this->table_prefix . 'cc_accounts'	=> [
@@ -62,7 +64,6 @@ class mgr_1_schema extends migration
 						'id'				=> ['UINT', NULL, 'auto_increment'],
 						'balance'			=> ['INT', 0],
 						'owner'				=> ['UINT', NULL],
-					
 					],
 					'PRIMARY_KEY' => 'id',
 				],
@@ -80,7 +81,11 @@ class mgr_1_schema extends migration
 	{
 		return [
 			'drop_tables'			=> [
+				$this->table_prefix . 'cc_events',
 				$this->table_prefix . 'cc_transactions',
+				$this->table_prefix . 'cc_currencies',
+				$this->table_prefix . 'cc_accounts',
+				$this->table_prefix . 'cc_accounts_users',
 			],
 	   ];
 	}

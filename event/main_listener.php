@@ -84,21 +84,21 @@ class main_listener implements EventSubscriberInterface
 
 	static public function getSubscribedEvents()
 	{
-		return array(
+		return [
 			'core.user_setup'						=> 'core_user_setup',
 			'core.page_header'						=> 'core_page_header',
 			'core.viewonline_overwrite_location'	=> 'core_viewonline_overwrite_location',
-		);
+		];
 	}
 
 	public function core_user_setup($event)
 	{
 		$lang_set_ext = $event['lang_set_ext'];
 
-		$lang_set_ext[] = array(
+		$lang_set_ext[] = [
 			'ext_name' => 'marttiphpbb/communitycurrencies',
 			'lang_set' => 'common',
-		);
+		];
 		$event['lang_set_ext'] = $lang_set_ext;
 	}
 
@@ -107,10 +107,10 @@ class main_listener implements EventSubscriberInterface
 		if ($this->auth->acl_get('u_cc_viewtransactions'))
 		{
 			$this->links->assign_template_vars();
-			$this->template->assign_vars(array(
+			$this->template->assign_vars([
 				'U_MARTTIPHPBB_COMMUNITYCURRENCIES_TRANSACTIONS'		=> $this->helper->route('marttiphpbb_cc_transactionlist_controller'),
 				'MARTTIPHPBB_COMMUNITYCURRENCIES_REPO_LINK'			=> sprintf($this->user->lang['MARTTIPHPBB_COMMUNITYCURRENCIES_EXTENSION'], '<a href="http://github.com/marttiphpbb/phpbb-ext-communitycurrencies">', '</a>'),
-			));
+			]);
 		}
 	}
 

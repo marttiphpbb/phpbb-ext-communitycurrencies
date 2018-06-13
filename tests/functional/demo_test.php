@@ -14,7 +14,7 @@ class communitycurrencies_test extends \phpbb_functional_test_case
 {
 	static protected function setup_extensions()
 	{
-		return array('marttiphpbb/communitycurrencies');
+		return ['marttiphpbb/communitycurrencies'];
 	}
 
 	public function test_demo_acme()

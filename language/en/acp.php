@@ -13,22 +13,10 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
-// DEVELOPERS PLEASE NOTE
-//
-// All language files should use UTF-8 as their encoding and the files must not contain a BOM.
-//
-// Placeholders can now contain order information, e.g. instead of
-// 'Page %s of %s' you can (and should) write 'Page %1$s of %2$s', this allows
-// translators to re-order the output of data while ensuring it remains correct
-//
-// You do not need this where single placeholders are used, e.g. 'Message %d' is fine
-// equally where a string contains only two placeholders which are used to wrap text
-// in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
-
-$lang = array_merge($lang, array(
+$lang = array_merge($lang, [
 
 	'LOG_MARTTIPHPBB_COMMUNITYCURRENCIES_TRANSACTION'	=> 'Transaction posted from to by',
 
@@ -58,14 +46,14 @@ $lang = array_merge($lang, array(
 
 	'ACP_MARTTIPHPBB_COMMUNITYCURRENCIES_CURRENCY'				=> 'Currency',
 	'ACP_MARTTIPHPBB_COMMUNITYCURRENCIES_CURRENCY_NAME' 			=> 'Currency name',
-	'ACP_MARTTIPHPBB_COMMUNITYCURRENCIES_CURRENCY_NAME_PLURAL_FORMS_PLACEHOLDERS'	=> array(
+	'ACP_MARTTIPHPBB_COMMUNITYCURRENCIES_CURRENCY_NAME_PLURAL_FORMS_PLACEHOLDERS'	=> [
 		1 => 'bean',
 		2 => 'beans',
-	),
-	'ACP_MARTTIPHPBB_COMMUNITYCURRENCIES_CURRENCY_NAME_PLURAL_FORMS'	=> array(
+	],
+	'ACP_MARTTIPHPBB_COMMUNITYCURRENCIES_CURRENCY_NAME_PLURAL_FORMS'	=> [
 		1 => 'Singular',
 		2 => 'Plural',
-	),
+	],
 	'ACP_MARTTIPHPBB_COMMUNITYCURRENCIES_LANGUAGE_FILE_NOT_AVAILABLE' => 'Translation in this language is not available (yet). You can help the Community Currencies extension by feeding back translation files.',
 
 	'ACP_MARTTIPHPBB_COMMUNITYCURRENCIES_CURRENCY_NAME_EXPLAIN'	=> 'The currency name is not in use when Time Banking is enabled',
@@ -73,12 +61,12 @@ $lang = array_merge($lang, array(
 	'ACP_MARTTIPHPBB_COMMUNITYCURRENCIES_TIME_BANKING'			=> 'Time banking',
 	'ACP_MARTTIPHPBB_COMMUNITYCURRENCIES_CURRENCY_RATE_EXPLAIN'	=> 'Set to zero to enable Time Banking',
 	'ACP_MARTTIPHPBB_COMMUNITYCURRENCIES_TIME_BANKING_GRANULARITY'	=> 'Time Banking granularity',
-	'ACP_MARTTIPHPBB_COMMUNITYCURRENCIES_TB_GRANULARITY_OPTIONS' => array(
+	'ACP_MARTTIPHPBB_COMMUNITYCURRENCIES_TB_GRANULARITY_OPTIONS' => [
 		60		=> '1 min.',
 		300		=> '5 min.',
 		600		=> '10 min.',
 		900		=> '15 min.',
 		1800	=> '30 min.',
 		3600	=> '1 hour',
-	),
-));
+	],
+]);

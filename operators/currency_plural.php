@@ -58,14 +58,14 @@ class currency_plural
 	*/
 	public function get_languages()
 	{
-		$sql_ary = array(
+		$sql_ary = [
 			'SELECT'	=> 'l.lang_id, l.lang_iso, l.lang_dir, l.lang_local_name',
-			'FROM'		=> array(
+			'FROM'		=> [
 				$this->lang_table => 'l',
-			),
+			],
 			'SORT BY'		=> 'l.lang_iso, ASC',
 
-		);
+		];
 
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 		$result = $this->db->sql_query($sql);

@@ -33,15 +33,15 @@ class currency_transformer
      */
     public function transform($amount)
     {
-		$minutes = round($amount / 60);
-		$hours = floor($minutes / 60);
-		$minutes = $minutes - ($hours * 60);
+      $minutes = round($amount / 60);
+      $hours = floor($minutes / 60);
+      $minutes = $minutes - ($hours * 60);
 
-		return array(
-			'hours'		=> $hours,
-			'minutes' 	=> $minutes,
-			'local' 	=> ($this->is_time_banking) ? 0 : round($amount / $this->config['cc_currency_rate']),
-		);
+      return [
+        'hours'		=> $hours,
+        'minutes' 	=> $minutes,
+        'local' 	=> $this->is_time_banking ? 0 : round($amount / $this->config['cc_currency_rate']),
+      ];
     }
 
     /**

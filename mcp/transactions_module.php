@@ -21,6 +21,9 @@ class transactions_module
 	{
 		global $db, $user, $auth, $template, $cache, $request;
 		global $config, $phpbb_root_path, $phpbb_admin_path, $phpEx;
+		global $phpbb_container;
+
+		$language = $phpbb_container->get('language');
 
 		$user->add_lang_ext('marttiphpbb/communitycurrencies', 'common');
 		add_form_key('marttiphpbb/communitycurrencies');
@@ -41,9 +44,9 @@ class transactions_module
 					trigger_error($user->lang('MCP_CC_SETTING_SAVED') . adm_back_link($this->u_action));
 				}
 
-				$template->assign_vars(array(
-					'U_ACTION'							=> $this->u_action,
-				));
+				$template->assign_vars([
+					'U_ACTION'	=> $this->u_action,
+				]);
 
 				break;
 		}

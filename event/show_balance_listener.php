@@ -77,11 +77,11 @@ class show_balance_listener implements EventSubscriberInterface
 
 	static public function getSubscribedEvents()
 	{
-		return array(
+		return [
 			'core.memberlist_view_profile'			=> 'core_memberlist_view_profile',
 			'core.viewtopic_cache_user_data'		=> 'core_viewtopic_cache_user_data',
 			'core.viewtopic_modify_post_row'		=> 'core_viewtopic_modify_post_row',
-		);
+		];
 	}
 
 	public function core_memberlist_view_profile($event)
@@ -95,11 +95,11 @@ class show_balance_listener implements EventSubscriberInterface
 
 		$amount = $this->currency_transformer->transform($member['user_cc_balance']);
 
-		$this->template->assign_vars(array(
+		$this->template->assign_vars([
 			'CC_USER_TRANSACTION_COUNT'	=> $member['user_cc_transaction_count'],
-			'U_CC_USER_TRANSACTIONS' 	=> ($this->auth->acl_get('u_cc_viewtransactions')) ? $this->helper->route('marttiphpbb_cc_transactionlist_controller', array('user_id' => $member['user_id'])) : '',
+			'U_CC_USER_TRANSACTIONS' 	=> ($this->auth->acl_get('u_cc_viewtransactions')) ? $this->helper->route('marttiphpbb_cc_transactionlist_controller', ['user_id' => $member['user_id']]) : '',
 			'CC_USER_AMOUNT_CURRENCY'	=> $this->user->lang('CC_AMOUNT_CURRENCY', $amount['local']),
-		));
+		]);
 	}
 
 	public function core_viewtopic_cache_user_data($event)
@@ -111,7 +111,7 @@ class show_balance_listener implements EventSubscriberInterface
 		$amount = $this->currency_transformer->transform($row['user_cc_balance']);
 
 		$user_cache_data['cc_user_amount_currency'] =  $this->user->lang('CC_AMOUNT_CURRENCY', $amount['local']);
-		$user_cache_data['cc_user_transaction_search'] = ($this->auth->acl_get('u_cc_viewtransactions')) ? $this->helper->route('marttiphpbb_cc_transactionlist_controller', array('user_id' => $poster_id)) : '';
+		$user_cache_data['cc_user_transaction_search'] = ($this->auth->acl_get('u_cc_viewtransactions')) ? $this->helper->route('marttiphpbb_cc_transactionlist_controller', ['user_id' => $poster_id]) : '';
 
 		$event['user_cache_data'] = $user_cache_data;
 	}

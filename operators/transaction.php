@@ -75,14 +75,14 @@ class transaction
 	*/
 	public function get_user_by_username($username = '')
 	{
-		$sql_ary = array(
+		$sql_ary = [
 			'SELECT'	=> 'u.user_id, u.username, u.user_colour',
-			'FROM'		=> array(
+			'FROM'		=> [
 				$this->users_table => 'u',
-			),
+			],
 			'WHERE'		=> 'u.username = \'' . $this->db->sql_escape($username) . '\'',
 
-		);
+		];
 
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 		$result = $this->db->sql_query($sql);
@@ -97,18 +97,18 @@ class transaction
 	*/
 	public function transaction_unique_id_exists($unique_id = '')
 	{
-		$sql_ary = array(
+		$sql_ary = [
 			'SELECT'	=> 'tr.unique_id',
-			'FROM'		=> array(
+			'FROM'		=> [
 				$this->cc_transactions_table => 'tr',
-			),
+			],
 			'WHERE'		=> 'tr.unique_id = \'' . $this->db->sql_escape($unique_id) . '\'',
-		);
+		];
 
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 		$result = $this->db->sql_query($sql);
 
-		return ($this->db->sql_fetchfield('unique_id') == $unique_id) ? true : false;
+		return $this->db->sql_fetchfield('unique_id') == $unique_id ? true : false;
 	}
 
 	/**
@@ -123,7 +123,7 @@ class transaction
 	{
 		$now = time();
 
-		$sql_ary = array(
+		$sql_ary = [
 			'unique_id'			=> $unique_id,
 			'from_user_id'		=> $from_user_id,
 			'to_user_id'		=> $to_user_id,
@@ -132,7 +132,7 @@ class transaction
 			'confirmed_at'		=> $now,
 			'created_by'		=> $from_user_ary['user_id'],
 			'created_at'		=> $now,
-		);
+		];
 
 		$this->db->sql_transaction('begin');
 
@@ -174,13 +174,13 @@ class transaction
 			$sql_where .= ' AND tr.description ' . $this->db->sql_like_expression(str_replace('*', $this->db->get_any_char(), utf8_clean_string($search_query)));
 		}
 
-		$sql_ary = array(
+		$sql_ary = [
 			'SELECT' => 'count(*) as num',
-			'FROM' => array(
+			'FROM' => [
 				$this->cc_transactions_table => 'tr',
-			),
+			],
 			'WHERE' => $sql_where,
-		);
+		];
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 		$result = $this->db->sql_query($sql);
 		$transaction_count = $this->db->sql_fetchfield('num');
@@ -205,13 +205,13 @@ class transaction
 		$limit = 25
 	)
 	{
-		$sort_map = array(
+		$sort_map = [
 			'from_username' => 'uf.username',
 			'to_username'	=> 'ut.username',
 			'description'	=> 'tr.description',
 			'amount'		=> 'tr.amount',
 			'created_at'	=> 'tr.created_at',
-		);
+		];
 
 		$sql_where = 'tr.parent_id IS NULL';
 
@@ -264,13 +264,13 @@ class transaction
 	*/
 	public function get_child_transaction_count($id)
 	{
-		$sql_ary = array(
+		$sql_ary = [
 			'SELECT' => 'count(*) as num',
-			'FROM' => array(
+			'FROM' => [
 				$this->cc_transactions_table => 'tr',
-			),
+			],
 			'WHERE' => 'tr.parent_id = ' . $id,
-		);
+		];
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 		$result = $this->db->sql_query($sql);
 		$transaction_count = $this->db->sql_fetchfield('num');

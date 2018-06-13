@@ -13,22 +13,10 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
-// DEVELOPERS PLEASE NOTE
-//
-// All language files should use UTF-8 as their encoding and the files must not contain a BOM.
-//
-// Placeholders can now contain order information, e.g. instead of
-// 'Page %s of %s' you can (and should) write 'Page %1$s of %2$s', this allows
-// translators to re-order the output of data while ensuring it remains correct
-//
-// You do not need this where single placeholders are used, e.g. 'Message %d' is fine
-// equally where a string contains only two placeholders which are used to wrap text
-// in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
-
-$lang = array_merge($lang, array(
+$lang = array_merge($lang, [
 
 // acl
 
@@ -73,18 +61,18 @@ $lang = array_merge($lang, array(
 	'MARTTIPHPBB_COMMUNITYCURRENCIES_TRANSACTION_NOT_UNIQUE'	 		=> 'Your transaction was already submitted.',
 	'MARTTIPHPBB_COMMUNITYCURRENCIES_NO_TRANSACTION_TO_YOURSELF'	 	=> 'You cannot create a transaction to yourself.',
 
-	'MARTTIPHPBB_COMMUNITYCURRENCIES_CONFIRM_TRANSACTION'	=> array(
+	'MARTTIPHPBB_COMMUNITYCURRENCIES_CONFIRM_TRANSACTION'	=> [
 		1 => 'Transfer <strong>%1s</strong> %2s to %3s with description <strong>`%4s`</strong> ?',
-	),
+	],
 
 	'MARTTIPHPBB_COMMUNITYCURRENCIES_TRANSACTION_CREATED'			=> 'The transaction was successfully created.',
 	'MARTTIPHPBB_COMMUNITYCURRENCIES_RETURN_TRANSACTION'			=> 'Return to newly created %1s transaction %2s.',
 	'MARTTIPHPBB_COMMUNITYCURRENCIES_RETURN_TRANSACTION_LIST'		=> 'Return to the %1s transaction list %2s.',
 
-	'MARTTIPHPBB_COMMUNITYCURRENCIES_TRANSACTION_COUNT'			=> array(
+	'MARTTIPHPBB_COMMUNITYCURRENCIES_TRANSACTION_COUNT'			=> [
 		1 => '%s transaction',
 		2 => '%s transactions',
-	),
+	],
 
 	'MARTTIPHPBB_COMMUNITYCURRENCIES_SEARCH_TRANSACTIONS'		=> 'Search transactions ...',
 
@@ -114,4 +102,4 @@ $lang = array_merge($lang, array(
 
 	'MARTTIPHPBB_COMMUNITYCURRENCIES_EXTENSION'			=> '%1$sCommunity Currencies%2$s extension for phpBB',
 
-));
+]);

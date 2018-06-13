@@ -121,7 +121,7 @@ class transaction
 		}
 
 		add_form_key('new_transaction');
-		$error = array();
+		$error = [];
 
 		$to_user = utf8_normalize_nfc($this->request->variable('to_user', '', true));
 		$description = utf8_normalize_nfc($this->request->variable('description', '', true));
@@ -210,7 +210,7 @@ class transaction
 
 					if ($id)
 					{
-						$url_transaction = $this->helper->route('marttiphpbb_cc_transactionshow_controller', array('id' => $id));
+						$url_transaction = $this->helper->route('marttiphpbb_cc_transactionshow_controller', ['id' => $id]);
 
 						meta_refresh(3, $url_transactions);
 
@@ -227,13 +227,13 @@ class transaction
 				}
 				else
 				{
-					$s_hidden_fields = array(
+					$s_hidden_fields = [
 						'create_transaction'	=> 1,
 						'unique_id'				=> $unique_id,
 						'amount_seconds'		=> $amount_seconds,
 						'description'			=> $description,
 						'to_user'				=> $to_user,
-					);
+					];
 
 					$to_username_string = get_username_string('no_profile', $to_user_ary['user_id'], $to_user_ary['username'], $to_user_ary['user_colour']);
 
@@ -303,20 +303,20 @@ class transaction
 		{
 			$amount = round($amount_seconds / $this->config['cc_currency_rate']);
 			$hours = $minutes = 0;
-			$minutes_options = array();
+			$minutes_options = [];
 		}
 
 		$uuid_generator = new uuid_generator();
 
-		$sort_keys = array(
+		$sort_keys = [
 			'from_username',
 			'to_username',
 			'amount',
 			'description',
 			'created_at',
-		);
+		];
 
-		$route = ($page == 1) ? '' : 'page';
+		$route = $page == 1 ? '' : 'page';
 		$route = 'marttiphpbb_cc_transactionlist' . $route . '_controller';
 
 		foreach ($sort_keys as $sort_key)
@@ -325,26 +325,29 @@ class transaction
 			$dir = ($sort_key == $sort_by) ? $opposite_dir : 'asc';
 
 			$sort = strtoupper($sort_key) . '_SORT';
-			$params = array(
+	
+			$params = [
 				'sort_dir' => $dir,
 				'sort_by' => $sort_key,
-			);
+			];
+
 			if ($page > 1)
 			{
 				$params['page'] = $page;
 			}
+	
 			if ($search_query)
 			{
 				$params['q'] = $search_query;
 			}
 
-			$this->template->assign_vars(array(
+			$this->template->assign_vars([
 				'U_' . $sort  => $this->helper->route($route, $params),
-				$sort => ($sort_key == $sort_by) ? strtoupper($sort_dir) : '',
-			));
+				$sort => $sort_key == $sort_by ? strtoupper($sort_dir) : '',
+			]);
 		}
 
-		$this->template->assign_vars(array(
+		$this->template->assign_vars([
 			'ERROR'					=> (sizeof($error)) ? implode('<br />', $error) : '',
 			'U_ACTION'				=> $this->helper->route('marttiphpbb_cc_transactionlist_controller'),
 			'S_AUTH_CREATE_TRANSACTION'	=> $this->auth->acl_get('u_cc_createtransactions'),
@@ -357,7 +360,7 @@ class transaction
 			'DESCRIPTION'			=> $description,
 			'UNIQUE_ID'				=> $uuid_generator->generate(),
 			'SEARCH'				=> $search_query,
-		));
+		]);
 
 		// get transactions
 
@@ -365,7 +368,7 @@ class transaction
 
 		$start = ($page - 1) * $limit;
 
-		$params = array();
+		$params = [];
 
 		if ($sort_by != 'created_at')
 		{
@@ -383,13 +386,13 @@ class transaction
 		}
 
 		$this->pagination->generate_template_pagination(
-			array(
-				'routes' => array(
+			[
+				'routes' => [
 					'marttiphpbb_cc_transactionlist_controller',
 					'marttiphpbb_cc_transactionlistpage_controller',
-				),
+				],
 				'params' => $params,
-			),
+			],
 			'pagination',
 			'page',
 			$transaction_count,
@@ -397,10 +400,10 @@ class transaction
 			$start
 		);
 
-		$this->template->assign_vars(array(
+		$this->template->assign_vars([
 			'PAGE_NUMBER'			=> $page,
 			'TOTAL_TRANSACTIONS'	=> $this->user->lang('MARTTIPHPBB_COMMUNITYCURRENCIES_TRANSACTION_COUNT', $transaction_count),
-		));
+		]);
 
 		$transactions = $this->transaction_operator->get_transactions($search_query, $sort_by, $sort_dir, $start, $limit);
 
@@ -408,7 +411,7 @@ class transaction
 		{
 			$amount = $this->currency_transformer->transform($row['amount']);
 
-			$this->template->assign_block_vars('transactionrow', array(
+			$this->template->assign_block_vars('transactionrow', [
 				'FROM_USER_FULL'	=> get_username_string('full', $row['from_user_id'], $row['from_username'], $row['from_user_colour']),
 				'FROM_USER_COLOUR'	=> get_username_string('colour', $row['from_user_id'], $row['from_username'], $row['from_user_colour']),
 				'FROM_USER'			=> get_username_string('username', $row['from_user_id'], $row['from_username'], $row['from_user_colour']),
@@ -426,10 +429,10 @@ class transaction
 				'CREATED_BY'		=> $row['created_by'],
 				'CONFIRMED'			=> ($row['confirmed_at']) ? true : false,
 				'CONFIRMDED_AT'		=> $this->user->format_date($row['confirmed_at']),
-				'U_TRANSACTION'		=> $this->helper->route('marttiphpbb_cc_transactionshow_controller', array('id' => $row['id'])),
+				'U_TRANSACTION'		=> $this->helper->route('marttiphpbb_cc_transactionshow_controller', ['id' => $row['id']]),
 				'UNIQUE_ID'			=> $row['unique_id'],
 				'CHILD_COUNT'		=> $row['child_count'],
-			));
+			]);
 		}
 
 		make_jumpbox(append_sid($this->root_path . 'viewforum.' . $this->php_ext));
@@ -470,14 +473,14 @@ class transaction
 
 			$amount = $this->currency_transformer->transform($row['amount']);
 
-			$this->template->assign_vars(array(
+			$this->template->assign_vars([
 				'S_TIME_BANKING'		=> $this->is_time_banking,
 				'AMOUNT_HOURS'			=> $amount['hours'],
 				'AMOUNT_MINUTES'		=> $amount['minutes'],
 				'AMOUNT_LOCAL'			=> $amount['local'],
 				'TO_USER'				=> $to_user,
 				'DESCRIPTION'			=> $description,
-			));
+			]);
 
 		}
 
@@ -492,7 +495,7 @@ class transaction
 
 		$start = ($page - 1) * $limit;
 
-		$params = array();
+		$params = [];
 
 		if ($sort_by != 'created_at')
 		{
@@ -504,33 +507,33 @@ class transaction
 			$params['sort_dir'] = $sort_dir;
 		}
 
-		$this->pagination->generate_template_pagination(array(
-			'routes' => array(
+		$this->pagination->generate_template_pagination([
+			'routes' => [
 				'marttiphpbb_cc_transactionlist_controller',
 				'marttiphpbb_cc_transactionlistpage_controller',
-			),
+			],
 			'params' => $params,
-			),
+			],
 			'pagination',
 			'page',
 			$transaction_count,
 			$limit,
 			$start);
 
-		$this->template->assign_vars(array(
+		$this->template->assign_vars([
 			'PAGE_NUMBER'			=> $page,
 			'TOTAL_TRANSACTIONS'	=> $this->user->lang('MARTTIPHPBB_COMMUNITYCURRENCIES_TRANSACTION_COUNT', $transaction_count),
-		));
+		]);
 
-		$sql_ary = array(
+		$sql_ary = [
 			'SELECT'	=> 'tr.*',
-			'FROM'		=> array(
+			'FROM'		=> [
 				$this->cc_transactions_table => 'tr',
-			),
+			],
 			'WHERE'		=> $sql_where,
 			'ORDER_BY'	=> 'tr.' . $sort_by . ' ' . (($sort_dir == 'desc') ? 'DESC' : 'ASC'),
 			'LIMIT'		=> $limit . ', ' . $start,
-		);
+		];
 
 		$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 		$result = $this->db->sql_query_limit($sql, $limit, $start);
@@ -539,7 +542,7 @@ class transaction
 		{
 			$transaction_list[] = $row;
 
-			$this->template->assign_block_vars('transactionrow', array(
+			$this->template->assign_block_vars('transactionrow', [
 				'FROM_USER_FULL'	=> get_username_string('full', $row['from_user_id'], $row['from_username'], $row['from_user_colour']),
 				'FROM_USER_COLOUR'	=> get_username_string('colour', $row['from_user_id'], $row['from_username'], $row['from_user_colour']),
 				'FROM_USER'			=> get_username_string('username', $row['from_user_id'], $row['from_username'], $row['from_user_colour']),
@@ -555,9 +558,9 @@ class transaction
 				'CREATED_BY'		=> $row['created_by'],
 				'CONFIRMED'			=> ($row['confirmed']) ? true : false,
 				'CONFIRMDED_AT'		=> $this->user->format_date($row['confirmed_at']),
-				'U_TRANSACTION'		=> $this->helper->route('marttiphpbb_cc_transactionshow_controller', array('id' => $row['id'])),
-				'UNIQUE_ID'				=> $row['unique_id'],
-			));
+				'U_TRANSACTION'		=> $this->helper->route('marttiphpbb_cc_transactionshow_controller', ['id' => $row['id']]),
+				'UNIQUE_ID'			=> $row['unique_id'],
+			]);
 		}
 		$this->db->sql_freeresult($result);
 
