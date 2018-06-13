@@ -25,7 +25,7 @@ class mgr_4_schema extends migration
 
 			'add_tables'    => [
 				$this->table_prefix . 'cc_events' => [
-					'COLUMS'	=> [
+					'COLUMNS'	=> [
 						'id'		=> ['UINT', NULL, 'auto_increment'],
 						'data'		=> ['TEXT', NULL],
 						'ts'		=> ['TIMESTAMP', NULL],
@@ -43,8 +43,9 @@ class mgr_4_schema extends migration
 						'created_by'		=> ['UINT', NULL],
 						'created_at'		=> ['TIMESTAMP', NULL],
 					],
-					'PRIMARY_KEY'  	=> ['id', 'currency_id'],
+					'PRIMARY_KEY'  	=> 'id',
 					'KEYS' 		=> [
+						'ccid'		=> ['INDEX', ['id', 'currency_id']],
 						'cfid'		=> ['INDEX', 'from_account_id'],
 						'ctid'		=> ['INDEX', 'to_account_id'],
 						'crby'		=> ['INDEX', 'created_by'],
@@ -68,7 +69,7 @@ class mgr_4_schema extends migration
 					'PRIMARY_KEY' => 'id',
 				],
 				$this->table_prefix . 'cc_accounts_users' => [
-					'COLUMS'	=> [
+					'COLUMNS'	=> [
 						'user_id'		=> ['UINT', NULL],
 						'account_id'	=> ['UINT', NULL],
 					]

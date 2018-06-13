@@ -27,7 +27,7 @@ class main_module
 		$config = $phpbb_container->get('config');
 		$language = $phpbb_container->get('language');
 
-		$language->add_lang_ext('acp', 'marttiphpbb/communitycurrencies');
+		$language->add_lang('acp', 'marttiphpbb/communitycurrencies');
 		add_form_key('marttiphpbb/communitycurrencies');
 
 		$links = new links($config, $template, $user);

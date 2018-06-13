@@ -5,9 +5,9 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 */
 
-namespace marttiphpbb\communitycurrencies\mcp;
+namespace marttiphpbb\communitycurrencies\ucp;
 
-class transactions_module
+class main_module
 {
 	var $p_master;
 	var $u_action;

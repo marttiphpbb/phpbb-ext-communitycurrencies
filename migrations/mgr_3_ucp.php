@@ -32,7 +32,7 @@ class mgr_3_ucp extends migration
 				'ucp',
 				cnst::L_UCP,
 				[
-					'module_basename'	=> '\marttiphpbb\communitycurrencies\mcp\transactions_module',
+					'module_basename'	=> '\marttiphpbb\communitycurrencies\ucp\main_module',
 					'modes'				=> [
 						'new_transaction',
 						'transactions',

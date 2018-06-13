@@ -32,7 +32,7 @@ class mgr_2_mcp extends migration
 				'mcp',
 				cnst::L_MCP . '_TRANSACTIONS',
 				[
-					'module_basename'	=> '\marttiphpbb\communitycurrencies\mcp\transactions_module',
+					'module_basename'	=> '\marttiphpbb\communitycurrencies\mcp\main_module',
 					'modes'				=> [
 						'new_transaction',
 					],
