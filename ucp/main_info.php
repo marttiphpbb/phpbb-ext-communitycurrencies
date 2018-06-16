@@ -7,18 +7,20 @@
 
 namespace marttiphpbb\communitycurrencies\ucp;
 
+use marttiphpbb\communitycurrencies\util\cnst;
+
 class main_info
 {
 	function module()
 	{
 		return [
 			'filename'	=> '\marttiphpbb\communitycurrencies\ucp\main_module',
-			'title'		=> 'MCP_CC_TRANSACTIONS',
+			'title'		=> cnst::L_MCP . '_TRANSACTIONS',
 			'modes'		=> [
 				'new_transaction'	=> [
-					'title' => 'MCP_CC_NEW_TRANSACTION',
+					'title' => cnst::L_MCP . '_NEW_TRANSACTION',
 					'auth' => 'ext_marttiphpbb/communitycurrencies && acl_u_', //cc_createtransaction',
-					'cat' => ['ACP_CC_TRANSACTIONS'],
+					'cat' => [cnst::L_MCP . '_TRANSACTIONS'],
 				],
 			],
 		];

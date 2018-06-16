@@ -7,70 +7,37 @@
 
 namespace marttiphpbb\communitycurrencies\event;
 
+use phpbb\event\data as event;
 use phpbb\auth\auth;
 use phpbb\config\db as config;
 use phpbb\controller\helper;
 use phpbb\template\twig\twig as template;
 use phpbb\user;
-
 use marttiphpbb\communitycurrencies\datatransformer\currency_transformer;
 use marttiphpbb\communitycurrencies\model\links;
-
-/**
-* @ignore
-*/
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-/**
-* Event listener
-*/
 class main_listener implements EventSubscriberInterface
 {
-
-	/* @var auth */
 	protected $auth;
-
-	/* @var config */
 	protected $config;
-
-	/* @var helper */
 	protected $helper;
-
-	/* @var string */
 	protected $php_ext;
-
-	/* @var template */
 	protected $template;
-
-	/* @var user */
 	protected $user;
-
-	/* @var currency_transformer */
 	protected $currency_transformer;
-
-	/* @var links */
 	protected $links;
 
-	/**
-	* @param auth				$auth
-	* @param config				$config
-	* @param helper				$helper
-	* @param string				$php_ext
-	* @param template			$template
-	* @param user				$user
-	* @param currency_transformer				$currency_transformer
-	* @param links				$links
-	*/
 	public function __construct(
-			auth $auth,
-			config $config,
-			helper $helper,
-			$php_ext,
-			template $template,
-			user $user,
-			currency_transformer $currency_transformer,
-			links $links
-		)
+		auth $auth,
+		config $config,
+		helper $helper,
+		string $php_ext,
+		template $template,
+		user $user,
+		currency_transformer $currency_transformer,
+		links $links
+	)
 	{
 		$this->auth = $auth;
 		$this->config = $config;
@@ -91,7 +58,7 @@ class main_listener implements EventSubscriberInterface
 		];
 	}
 
-	public function core_user_setup($event)
+	public function core_user_setup(event $event)
 	{
 		$lang_set_ext = $event['lang_set_ext'];
 
@@ -102,7 +69,7 @@ class main_listener implements EventSubscriberInterface
 		$event['lang_set_ext'] = $lang_set_ext;
 	}
 
-	public function core_page_header($event)
+	public function core_page_header(event $event)
 	{
 		if ($this->auth->acl_get('u_cc_viewtransactions'))
 		{
@@ -114,7 +81,7 @@ class main_listener implements EventSubscriberInterface
 		}
 	}
 
-	public function core_viewonline_overwrite_location($event)
+	public function core_viewonline_overwrite_location(event $event)
 	{
 		if (strrpos($event['row']['session_page'], 'app.' . $this->php_ext . '/transactions') === 0)
 		{

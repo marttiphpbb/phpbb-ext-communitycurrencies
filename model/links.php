@@ -13,14 +13,8 @@ use phpbb\user;
 
 class links
 {
-
-	/* @var config */
 	protected $config;
-
-	/* @var template */
 	protected $template;
-
-	/* @var user */
 	protected $user;
 
 	protected $links = [
@@ -37,12 +31,6 @@ class links
 		1024	=> 'OVERALL_FOOTER_TEAMLINK_AFTER',
 	];
 
-	/**
-	* @param config		$config
-	* @param template	$template
-	* @param user		$user
-	* @return links
-	*/
 	public function __construct(
 		config $config,
 		template $template,
@@ -54,9 +42,6 @@ class links
 		$this->user = $user;
 	}
 
-	/*
-	 * @return links
-	 */
 	public function assign_template_vars()
 	{
 		$links_enabled = $this->config['communitycurrencies_links'];
@@ -74,9 +59,6 @@ class links
 		return $this;
 	}
 
-	/*
-	 * @return links
-	 */
 	public function assign_acp_select_template_vars()
 	{
 		$links_enabled = $this->config['communitycurrencies_links'];
@@ -98,11 +80,6 @@ class links
 		return $this;
 	}
 
-	/*
-	 * @param array		$links
-	 * @param int		$repo_link
-	 * @return links
-	 */
 	public function set($links, $communitycurrencies_repo_link)
 	{
 		$this->config->set('communitycurrencies_links', array_sum($links) + $communitycurrencies_repo_link);

@@ -20,7 +20,6 @@ use marttiphpbb\communitycurrencies\util\uuid_validator;
 
 class transaction
 {
-
 	protected $cache;
 	protected $config;
 	protected $content_visibility;
@@ -32,28 +31,16 @@ class transaction
 	protected $users_table;
 	protected $is_time_banking;
 
-   /**
-   * @param cache $cache
-   * @param config   $config
-   * @param content_visibility $content_visibility
-   * @param db   $db
-   * @param user   $user
-   * @param helper $helper
-   * @param string $cc_transactions_table
-   * @param string $cc_topics_table
-   * @param string $cc_users_table
-   */
-
-   public function __construct(
+   	public function __construct(
 		cache $cache,
 		config $config,
 		content_visibility $content_visibility,
 		db $db,
 		user $user,
 		helper $helper,
-		$cc_transactions_table,
-		$topics_table,
-		$users_table
+		string $cc_transactions_table,
+		string $topics_table,
+		string $users_table
 	)
 	{
 		$this->cache = $cache;
@@ -67,13 +54,13 @@ class transaction
 		$this->users_table = $users_table;
 
 		$this->is_time_banking = ($this->config['cc_currency_rate'] > 0) ? false : true;
-   }
+   	}
 
 	/**
 	* @param string $username
 	* @return array
 	*/
-	public function get_user_by_username($username = '')
+	public function get_user_by_username(string $username)
 	{
 		$sql_ary = [
 			'SELECT'	=> 'u.user_id, u.username, u.user_colour',
@@ -91,11 +78,7 @@ class transaction
 		return $user_ary;
 	}
 
-	/**
-	* @param string $unique_id
-	* @return array
-	*/
-	public function transaction_unique_id_exists($unique_id = '')
+	public function transaction_unique_id_exists(string $unique_id):array
 	{
 		$sql_ary = [
 			'SELECT'	=> 'tr.unique_id',
@@ -111,15 +94,13 @@ class transaction
 		return $this->db->sql_fetchfield('unique_id') == $unique_id ? true : false;
 	}
 
-	/**
-	* @param string $unique_id
-	* @param int $from_user_id
-	* @param int $to_user_id
-	* @param int $amount (seconds)
-	* @param string $description
-	* @return int|false id
-	*/
-	public function insert_transaction($unique_id, $from_user_id, $to_user_id, $amount, $description)
+	public function insert_transaction(
+		string $unique_id,
+		int $from_user_id,
+		int $to_user_id,
+		int $amount,
+		string $description
+	)
 	{
 		$now = time();
 
@@ -161,11 +142,7 @@ class transaction
 		return false;
 	}
 
-	/**
-	 * @param string $search_query
-	 * @return int
-	*/
-	public function get_transaction_count($search_query)
+	public function get_transaction_count(string $search_query):int
 	{
 		$sql_where = 'tr.parent_id IS NULL';
 
@@ -189,21 +166,13 @@ class transaction
 		return $transaction_count;
 	}
 
-	/**
-	 * @param string $search_query
-	 * @param string $sort_by
-	 * @param string $sort_dir
-	 * @param int $start
-	 * @param int $limit
-	 * @return array
-	*/
 	public function get_transactions(
-		$search_query = '',
-		$sort_by = 'created_at',
-		$sort_dir = 'desc',
-		$start = 0,
-		$limit = 25
-	)
+		string $search_query = '',
+		string $sort_by = 'created_at',
+		string $sort_dir = 'desc',
+		int $start = 0,
+		int $limit = 25
+	):array
 	{
 		$sort_map = [
 			'from_username' => 'uf.username',
@@ -241,7 +210,7 @@ class transaction
 	 * @param int $id
 	 * @return array
 	*/
-	public function get_transaction($id)
+	public function get_transaction(int $id):array
 	{
 		$sql = 'SELECT tr.*,
 				uf.username as from_username, uf.user_colour as from_user_colour,
@@ -258,11 +227,7 @@ class transaction
 		return $row;
 	}
 
-	/**
-	 * @param int $id
-	 * @return int
-	*/
-	public function get_child_transaction_count($id)
+	public function get_child_transaction_count(int $id):int
 	{
 		$sql_ary = [
 			'SELECT' => 'count(*) as num',

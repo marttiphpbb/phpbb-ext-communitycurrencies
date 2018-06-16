@@ -12,19 +12,16 @@ use phpbb\config\db as config;
 
 class currency_converter
 {
-    /**
-     * @var config
-     */
-    private $config;
 
-    private $transform_func;
-    private $reverse_transform_func;
-    private $is_time_banking;
+    protected $config;
+    protected $transform_func;
+    protected $reverse_transform_func;
+    protected $is_time_banking;
 
     /**
      * @param config $config
      */
-    public function __construct($config)
+    public function __construct(config $config)
     {
         $this->config = $config;
         if ($this->config['cc_currency_rate']
@@ -79,5 +76,4 @@ class currency_converter
         }
         return $amount * $this->config['cc_currency_rate'];
 	}
-
 }

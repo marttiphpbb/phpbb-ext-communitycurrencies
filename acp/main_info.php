@@ -6,6 +6,7 @@
 */
 
 namespace marttiphpbb\communitycurrencies\acp;
+use marttiphpbb\communitycurrencies\util\cnst;
 
 class main_info
 {
@@ -13,17 +14,17 @@ class main_info
 	{
 		return [
 			'filename'	=> '\marttiphpbb\communitycurrencies\acp\main_module',
-			'title'		=> 'ACP_MARTTIPHPBB_COMMUNITYCURRENCIES',
+			'title'		=> cnst::L_ACP,
 			'modes'		=> [
 				'rendering'	=> [
-					'title' => 'ACP_MARTTIPHPBB_COMMUNITYCURRENCIES_RENDERING',
+					'title' => cnst::L_ACP . '_RENDERING',
 					'auth' => 'ext_marttiphpbb/communitycurrencies && acl_a_board',
-					'cat' => ['ACP_MARTTIPHPBB_COMMUNITYCURRENCIES'],
+					'cat' => [cnst::L_ACP],
 				],
 				'currency'	=> [
-					'title' => 'ACP_MARTTIPHPBB_COMMUNITYCURRENCIES_CURRENCY',
+					'title' => cnst::L_ACP . '_CURRENCY',
 					'auth' => 'ext_marttiphpbb/communitycurrencies && acl_a_board',
-					'cat' => ['ACP_MARTTIPHPBB_COMMUNITYCURRENCIES'],
+					'cat' => [cnst::L_ACP],
 				],
 			],
 		];

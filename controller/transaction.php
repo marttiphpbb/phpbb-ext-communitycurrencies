@@ -48,26 +48,6 @@ class transaction
 	protected $users_table;
 	protected $is_time_banking;
 
-   /**
-   * @param auth $auth
-   * @param cache $cache
-   * @param config   $config
-   * @param content_visibility $content_visibility
-   * @param db   $db
-   * @param pagination $pagination
-   * @param string $php_ext
-   * @param request   $request
-   * @param template   $template
-   * @param user   $user
-   * @param helper $helper
-   * @param currency_transformer $currency_transformer
-   * @param transaction_operator $transaction_operator
-   * @param string $root_path
-   * @param string $cc_transactions_table
-   * @param string $cc_topics_table
-   * @param string $cc_users_table
-   */
-
    public function __construct(
 		auth $auth,
 		cache $cache,
@@ -75,17 +55,17 @@ class transaction
 		content_visibility $content_visibility,
 		db $db,
 		pagination $pagination,
-		$php_ext,
+		string $php_ext,
 		request $request,
 		template $template,
 		user $user,
 		helper $helper,
 		currency_transformer $currency_transformer,
 		transaction_operator $transaction_operator,
-		$root_path,
-		$cc_transactions_table,
-		$topics_table,
-		$users_table
+		string $root_path,
+		string $cc_transactions_table,
+		string $topics_table,
+		string $users_table
 	)
 	{
 		$this->auth = $auth;
@@ -109,10 +89,6 @@ class transaction
 		$this->is_time_banking = ($this->config['cc_currency_rate'] > 0) ? false : true;
    }
 
-	/**
-	* @param int $page
-	* @return Response
-	*/
 	public function listAction($page = 1)
 	{
 		if (!$this->auth->acl_get('u_cc_viewtransactions'))
@@ -325,7 +301,7 @@ class transaction
 			$dir = ($sort_key == $sort_by) ? $opposite_dir : 'asc';
 
 			$sort = strtoupper($sort_key) . '_SORT';
-	
+
 			$params = [
 				'sort_dir' => $dir,
 				'sort_by' => $sort_key,
@@ -335,7 +311,7 @@ class transaction
 			{
 				$params['page'] = $page;
 			}
-	
+
 			if ($search_query)
 			{
 				$params['q'] = $search_query;
@@ -441,10 +417,6 @@ class transaction
 
 	/**
 	 * returns one transaction or all transactions from a mass-transaction
-	 *
-	* @param int $id
-	* @param int $page
-	* @return Response
 	*/
 	public function showAction($id, $page = 1)
 	{

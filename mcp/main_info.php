@@ -7,6 +7,8 @@
 
 namespace marttiphpbb\communitycurrencies\mcp;
 
+//use marttiphpbb\communitycurrencies\util\cnst;
+
 class main_info
 {
 	function module()

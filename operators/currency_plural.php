@@ -52,11 +52,7 @@ class currency_plural
 		$this->lang_table = LANG_TABLE;   // no parameter in core is defined for this table;
    }
 
-	/**
-	* @param string $username
-	* @return array
-	*/
-	public function get_languages()
+	public function get_languages():array
 	{
 		$sql_ary = [
 			'SELECT'	=> 'l.lang_id, l.lang_iso, l.lang_dir, l.lang_local_name',
@@ -74,16 +70,13 @@ class currency_plural
 		return $lang_ary;
 	}
 
-	/**
-	 * @return array
-	 */
-	public function get_all()
+	public function get_all():array
 	{
 		if ($this->local_cache)
 		{
 			return $this->local_cache;
 		}
-		
+
 		if ($this->cache->_exists('communitycurrencies_plural'))
 		{
 			return $this->local_cache = $this->cache->get('communitycurrencies_plural');
@@ -95,10 +88,7 @@ class currency_plural
 		return $ary;
 	}
 
-	/**
-	 * @return array
-	 */
-	public function get()
+	public function get():array
 	{
 		return $this->get_all()[$this->user->lang_dir];
 	}
@@ -114,5 +104,5 @@ class currency_plural
 		return $this;
 	}
 
-	
+
 }

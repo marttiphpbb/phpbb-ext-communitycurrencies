@@ -12,14 +12,10 @@ use phpbb\config\db as config;
 
 class currency_transformer
 {
+    protected $config;
+    protected $is_time_banking;
 
-    private $config;
-    private $is_time_banking;
-
-    /**
-     * @param config $config
-     */
-    public function __construct($config)
+    public function __construct(config $config)
     {
         $this->config = $config;
         $this->is_time_banking = ($this->config['cc_currency_rate'] && $this->config['cc_currency_rate'] > 0) ? false : true;
@@ -31,7 +27,7 @@ class currency_transformer
      * @param  integer|null $seconds
      * @return array
      */
-    public function transform($amount)
+    public function transform($amount):array
     {
       $minutes = round($amount / 60);
       $hours = floor($minutes / 60);
@@ -52,15 +48,15 @@ class currency_transformer
      * @param  integer $local
      * @return integer
      */
-    public function reverse_transform($hours = 0, $minutes = 0, $local = 0)
+    public function reverse_transform($hours = 0, $minutes = 0, $local = 0):int
     {
-		return ($this->is_time_banking) ? ($hours * 3600) + ($minutes * 60) : $amount * $this->config['cc_currency_rate'];
+		return $this->is_time_banking ? ($hours * 3600) + ($minutes * 60) : $amount * $this->config['cc_currency_rate'];
     }
 
     /*
      * @return bool
      */
-    public function is_time_banking()
+    public function is_time_banking():bool
     {
 		return $this->is_time_banking;
 	}

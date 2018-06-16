@@ -7,6 +7,8 @@
 
 namespace marttiphpbb\communitycurrencies\ucp;
 
+use marttiphpbb\communitycurrencies\util\cnst;
+
 class main_module
 {
 	var $p_master;
@@ -25,23 +27,23 @@ class main_module
 
 		$language = $phpbb_container->get('language');
 
-		$user->add_lang_ext('marttiphpbb/communitycurrencies', 'common');
-		add_form_key('marttiphpbb/communitycurrencies');
+		$language->add_lang_ext('mcp', cnst::FOLDER);
+		add_form_key(cnst::FOLDER);
 
 		switch ($mode)
 		{
 			case 'new_transaction':
 				$this->tpl_name = 'mcp_new_transaction';
-				$this->page_title = $user->lang('MCP_CC_NEW_TRANSACTION');
+				$this->page_title = $language->lang(cnst::L_MCP . '_NEW_TRANSACTION');
 
 				if ($request->is_set_post('submit'))
 				{
-					if (!check_form_key('marttiphpbb/communitycurrencies'))
+					if (!check_form_key(cnst::FOLDER))
 					{
 						trigger_error('FORM_INVALID');
 					}
 
-					trigger_error($user->lang('MCP_CC_SETTING_SAVED') . adm_back_link($this->u_action));
+					trigger_error($language->lang(cnst::L_MCP . '_SETTING_SAVED') . adm_back_link($this->u_action));
 				}
 
 				$template->assign_vars([

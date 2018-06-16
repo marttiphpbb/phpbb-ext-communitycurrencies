@@ -19,11 +19,14 @@ class main_module
 
 	function main($id, $mode)
 	{
-		global $db, $user, $auth, $template, $cache, $request;
-		global $config, $phpbb_root_path, $phpbb_admin_path, $phpEx;
+		global $db, $user, $auth, $cache;
+		global $phpbb_root_path, $phpbb_admin_path, $phpEx;
 		global $phpbb_container;
 
 		$language = $phpbb_container->get('language');
+		$template = $phpbb_container->get('template');
+		$request = $phpbb_container->get('request');
+		$config = $phpbb_container->get('config');
 
 		$user->add_lang_ext('marttiphpbb/communitycurrencies', 'common');
 		add_form_key('marttiphpbb/communitycurrencies');

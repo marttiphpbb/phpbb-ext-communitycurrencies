@@ -7,64 +7,34 @@
 
 namespace marttiphpbb\communitycurrencies\event;
 
+use phpbb\event\data as event;
 use phpbb\auth\auth;
 use phpbb\config\db as config;
 use phpbb\controller\helper;
 use phpbb\template\twig\twig as template;
 use phpbb\user;
-
 use marttiphpbb\communitycurrencies\datatransformer\currency_transformer;
-
-/**
-* @ignore
-*/
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-/**
-* Event listener
-*/
 class show_balance_listener implements EventSubscriberInterface
 {
-
-	/* @var auth */
 	protected $auth;
-
-	/* @var config */
 	protected $config;
-
-	/* @var helper */
 	protected $helper;
-
-	/* @var string */
 	protected $php_ext;
-
-	/* @var template */
 	protected $template;
-
-	/* @var user */
 	protected $user;
-
-	/* @var currency_transformer */
 	protected $currency_transformer;
 
-	/**
-	* @param auth				$auth
-	* @param config				$config
-	* @param helper				$helper
-	* @param string				$php_ext
-	* @param template			$template
-	* @param user				$user
-	* @param currency_transformer				$currency_transformer
-	*/
 	public function __construct(
-			auth $auth,
-			config $config,
-			helper $helper,
-			$php_ext,
-			template $template,
-			user $user,
-			currency_transformer $currency_transformer
-		)
+		auth $auth,
+		config $config,
+		helper $helper,
+		string $php_ext,
+		template $template,
+		user $user,
+		currency_transformer $currency_transformer
+	)
 	{
 		$this->auth = $auth;
 		$this->config = $config;
@@ -84,7 +54,7 @@ class show_balance_listener implements EventSubscriberInterface
 		];
 	}
 
-	public function core_memberlist_view_profile($event)
+	public function core_memberlist_view_profile(event $event)
 	{
 		if (!$this->auth->acl_get('u_cc_viewtransactions'))
 		{
@@ -102,7 +72,7 @@ class show_balance_listener implements EventSubscriberInterface
 		]);
 	}
 
-	public function core_viewtopic_cache_user_data($event)
+	public function core_viewtopic_cache_user_data(event $event)
 	{
 		$row = $event['row'];
 		$user_cache_data = $event['user_cache_data'];
@@ -116,7 +86,7 @@ class show_balance_listener implements EventSubscriberInterface
 		$event['user_cache_data'] = $user_cache_data;
 	}
 
-	public function core_viewtopic_modify_post_row($event)
+	public function core_viewtopic_modify_post_row(event $event)
 	{
 		$user_poster_data = $event['user_poster_data'];
 		$post_row = $event['post_row'];

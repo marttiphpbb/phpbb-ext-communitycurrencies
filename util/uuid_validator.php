@@ -10,11 +10,6 @@ namespace marttiphpbb\communitycurrencies\util;
 // uuid v4 - only validates to lower case hex
 class uuid_validator
 {
-
-    public function __construct()
-    {
-    }
-
 	/**
 	 * @param string $uuid
 	 * @return boolean

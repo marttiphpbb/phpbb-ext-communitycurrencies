@@ -8,6 +8,7 @@
 namespace marttiphpbb\communitycurrencies\acp;
 
 use marttiphpbb\communitycurrencies\model\links;
+use marttiphpbb\communtiycurrencies\util\cnst;
 
 class main_module
 {
@@ -27,8 +28,8 @@ class main_module
 		$config = $phpbb_container->get('config');
 		$language = $phpbb_container->get('language');
 
-		$language->add_lang('acp', 'marttiphpbb/communitycurrencies');
-		add_form_key('marttiphpbb/communitycurrencies');
+		$language->add_lang('acp', cnst::FOLDER);
+		add_form_key(cnst::FOLDER);
 
 		$links = new links($config, $template, $user);
 
@@ -36,11 +37,11 @@ class main_module
 		{
 			case 'rendering':
 				$this->tpl_name = 'rendering';
-				$this->page_title = $user->lang('ACP_MARTTIPHPBB_COMMUNITYCURRENCIES_RENDERING');
+				$this->page_title = $user->lang(cnst::L_ACP . '_RENDERING');
 
 				if ($request->is_set_post('submit'))
 				{
-					if (!check_form_key('marttiphpbb/communitycurrencies'))
+					if (!check_form_key(cnst::FOLDER))
 					{
 						trigger_error('FORM_INVALID');
 					}
@@ -48,7 +49,7 @@ class main_module
 					$links->set($request->variable('links', [0 => 0]), $request->variable('communitycurrencies_repo_link', 0));
 					$config->set('cc_transactions_per_page', $request->variable('cc_transactions_per_page', 25));
 
-					trigger_error($user->lang('ACP_MARTTIPHPBB_COMMUNITYCURRENCIES_SETTING_SAVED') . adm_back_link($this->u_action));
+					trigger_error($user->lang(cnst::L_ACP . '_SETTING_SAVED') . adm_back_link($this->u_action));
 				}
 
 				$links->assign_acp_select_template_vars();
@@ -61,18 +62,18 @@ class main_module
 
 			case 'currency':
 				$this->tpl_name = 'currency';
-				$this->page_title = $user->lang('ACP_MARTTIPHPBB_COMMUNITYCURRENCIES_CURRENCY');
+				$this->page_title = $user->lang(cnst::L_ACP . '_CURRENCY');
 
 				$currency_plural_operator = $phpbb_container->get('marttiphpbb.communitycurrencies.currency_plural.operator');
 				$ext_manager = $phpbb_container->get('ext.manager');
-				$language_dir = $ext_manager->get_extension_path('marttiphpbb/communitycurrencies', true) . 'language';
+				$language_dir = $ext_manager->get_extension_path(cnst::FOLDER, true) . 'language';
 
 				$language_ary = $currency_plural_operator->get_languages();
 
 				if ($request->is_set_post('submit'))
 				{
 
-					if (!check_form_key('marttiphpbb/communitycurrencies'))
+					if (!check_form_key(cnst::FOLDER))
 					{
 						trigger_error('FORM_INVALID');
 					}
@@ -84,10 +85,10 @@ class main_module
 
 					$currency_plural_operator->set($currency_plural_ary);
 
-					trigger_error($user->lang('ACP_MARTTIPHPBB_COMMUNITYCURRENCIES_SETTING_SAVED') . adm_back_link($this->u_action));
+					trigger_error($user->lang(cnst::L_ACP . '_SETTING_SAVED') . adm_back_link($this->u_action));
 				}
 
-				$granularity_ary = $user->lang['ACP_MARTTIPHPBB_COMMUNITYCURRENCIES_TB_GRANULARITY_OPTIONS'];
+				$granularity_ary = $user->lang[cnst::L_ACP . '_TB_GRANULARITY_OPTIONS'];
 				$granularity_ary = (is_array($granularity_ary)) ? $granularity_ary : [];
 				$granularity_options = '';
 
@@ -118,8 +119,8 @@ class main_module
 
 					include $lang_file;
 
-					$placeholder_ary = $lang['ACP_MARTTIPHPBB_COMMUNITYCURRENCIES_CURRENCY_NAME_PLURAL_FORMS_PLACEHOLDERS'];
-					$plural_forms = $lang['ACP_MARTTIPHPBB_COMMUNITYCURRENCIES_CURRENCY_NAME_PLURAL_FORMS'];
+					$placeholder_ary = $lang[cnst::L_ACP . '_CURRENCY_NAME_PLURAL_FORMS_PLACEHOLDERS'];
+					$plural_forms = $lang[cnst::L_ACP . '_CURRENCY_NAME_PLURAL_FORMS'];
 
 					if (is_array($plural_forms))
 					{
