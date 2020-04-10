@@ -1,10 +1,17 @@
-# phpBB 3.2 Extension - marttiphpbb Community Currencies
+# phpBB Extension - marttiphpbb Community Currencies
 
-## Attention: this is still in the stage of early development (do not install)
+[Topic on phpBB.com](#)
+
+## Attention: this is still in the stage of early development. DO NOT INSTALL.
+
+## Requirements
+
+* PHP 7.1+
+* phpBB 3.3+
 
 ## Quick Install
 
-You can install this on the latest release of phpBB 3.2 by following the steps below:
+You can install this on the latest release of phpBB by following the steps below:
 
 * Create `marttiphpbb/communitycurrencies` in the `ext` directory.
 * Download and unpack the repository into `ext/marttiphpbb/communitycurrencies`
